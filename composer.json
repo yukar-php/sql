@@ -1,0 +1,35 @@
+{
+    "name": "yukar-php/sql",
+    "description": "Yukar Database Object-Relational Mapping Library",
+    "license": "MIT",
+    "keywords": [
+        "Yukar O/R Mapping",
+        "ORM For PHP",
+        "O/R Mapping",
+        "PHP ORM",
+        "ORM",
+        "SQL",
+        "Database"
+    ],
+    "homepage": "https://github.com/yukar-php/sql",
+    "authors": [
+        {
+            "name" : "Yukar Sql Contributors",
+            "homepage": "https://github.com/yukar-php/sql/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.0",
+        "squizlabs/php_codesniffer": "~2.0"
+    },
+    "require-dependencies": true,
+    "autoload": {
+        "psr-4": {
+            "Yukar\\Sql\\": "src/",
+            "Yukar\\Sql\\Tests\\": "tests/src/"
+        }
+    }
+}
