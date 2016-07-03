@@ -1,0 +1,107 @@
+<?php
+namespace Yukar\Sql\Builder\Functions;
+
+use Yukar\Sql\Interfaces\Builder\Functions\IFunction;
+
+/**
+ * テーブルの任意の列のソートを表します。
+ *
+ * @author hiroki sugawara
+ */
+class Order implements IFunction
+{
+    const ASCENDING = 1;
+    const DESCENDING = 2;
+
+    private $column_name = null;
+    private $order_type = null;
+
+    /**
+     * Order クラスの新しいインスタンスを初期化します。
+     *
+     * @param string $column_name
+     * @param int $order_type
+     */
+    public function __construct(string $column_name, int $order_type = self::ASCENDING)
+    {
+        $this->setColumnName($column_name);
+        $this->setOrderType($order_type);
+    }
+
+    /**
+     * SQLの関数や計算式の書式を取得します。
+     *
+     * @return string SQLの関数や計算式の書式
+     */
+    public function getFunctionFormat(): string
+    {
+        return '%s %s';
+    }
+
+    /**
+     * ソートするテーブルの列の名前を取得します。
+     *
+     * @throws \BadMethodCallException ソートするテーブルの列の名前が未指定の場合
+     *
+     * @return string ソートするテーブルの列の名前
+     */
+    public function getColumnName()
+    {
+        if (empty($this->column_name) === true) {
+            throw new \BadMethodCallException();
+        }
+
+        return $this->column_name;
+    }
+
+    /**
+     * ソートするテーブルの列の名前を設定します。
+     *
+     * @param string $column_name ソートするテーブルの列の名前
+     *
+     * @throws \InvalidArgumentException 引数 $column_name に渡した値が空文字列の場合
+     */
+    public function setColumnName(string $column_name)
+    {
+        if (empty($column_name) === true) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->column_name = $column_name;
+    }
+
+    /**
+     * ソートの種類を取得します。
+     *
+     * @return string ソートの種類
+     */
+    public function getOrderType(): string
+    {
+        return $this->order_type ?? 'ASC';
+    }
+
+    /**
+     * ソートの種類を設定します。
+     *
+     * @param int $order_type ソートの種類。<br/>
+     *                        昇順の場合は、Order::ASCENDING。降順の場合は、Order::DESCENDING。
+     *
+     * @return Order ソートの種類を設定した状態の Order クラスのオブジェクトのインスタンス
+     */
+    public function setOrderType(int $order_type): Order
+    {
+        $this->order_type = ($order_type === Order::DESCENDING) ? 'DESC' : 'ASC';
+
+        return $this;
+    }
+
+    /**
+     * SQLの関数や計算式を文字列として取得します。
+     *
+     * @return string SQLの関数や計算式
+     */
+    public function __toString(): string
+    {
+        return sprintf($this->getFunctionFormat(), $this->getColumnName(), $this->getOrderType());
+    }
+}
