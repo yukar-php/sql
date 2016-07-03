@@ -19,7 +19,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.0",
+        "yukar-php/linq": "~0.9"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.0",
