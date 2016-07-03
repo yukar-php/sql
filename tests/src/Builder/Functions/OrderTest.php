@@ -147,14 +147,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetOrderType()
     {
-        $hash = [ Order::ASCENDING => 'ASC', Order::DESCENDING => 'DESC' ];
-
         return [
             [ 'ASC', null ],
-            [ 'ASC', $hash[Order::ASCENDING] ],
-            [ 'ASC', $hash[1] ],
-            [ 'DESC', $hash[Order::DESCENDING] ],
-            [ 'DESC', $hash[2] ],
+            [ 'ASC', Order::SORTS[Order::ASCENDING] ],
+            [ 'ASC', Order::SORTS[1] ],
+            [ 'DESC', Order::SORTS[Order::DESCENDING] ],
+            [ 'DESC', Order::SORTS[2] ],
         ];
     }
 

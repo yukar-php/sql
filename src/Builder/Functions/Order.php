@@ -12,6 +12,7 @@ class Order implements IFunction
 {
     const ASCENDING = 1;
     const DESCENDING = 2;
+    const SORTS = [ self::ASCENDING => 'ASC', self::DESCENDING => 'DESC' ];
 
     private $column_name = null;
     private $order_type = null;
@@ -77,7 +78,7 @@ class Order implements IFunction
      */
     public function getOrderType(): string
     {
-        return $this->order_type ?? 'ASC';
+        return $this->order_type ?? self::SORTS[self::ASCENDING];
     }
 
     /**
@@ -90,7 +91,7 @@ class Order implements IFunction
      */
     public function setOrderType(int $order_type): Order
     {
-        $this->order_type = ($order_type === Order::DESCENDING) ? 'DESC' : 'ASC';
+        $this->order_type = self::SORTS[$order_type] ?? self::SORTS[self::ASCENDING];
 
         return $this;
     }

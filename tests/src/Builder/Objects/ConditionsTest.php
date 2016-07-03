@@ -17,13 +17,11 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetOperation()
     {
-        $hash = [ Conditions::OPERATION_AND => 'AND', Conditions::OPERATION_OR => 'OR' ];
-
         return [
-            [ 'AND', $hash[1] ],
-            [ 'AND', $hash[Conditions::OPERATION_AND] ],
-            [ 'OR', $hash[2] ],
-            [ 'OR', $hash[Conditions::OPERATION_OR] ],
+            [ 'AND', Conditions::OPERATORS[1] ],
+            [ 'AND', Conditions::OPERATORS[Conditions::OPERATION_AND] ],
+            [ 'OR', Conditions::OPERATORS[2] ],
+            [ 'OR', Conditions::OPERATORS[Conditions::OPERATION_OR] ],
             [ 'AND', null ],
         ];
     }

@@ -12,6 +12,7 @@ class Conditions implements ICondition
 {
     const OPERATION_AND = 1;
     const OPERATION_OR = 2;
+    const OPERATORS = [ self::OPERATION_AND => 'AND', self::OPERATION_OR => 'OR' ];
 
     private $operator = null;
     private $conditions = [];
@@ -34,7 +35,7 @@ class Conditions implements ICondition
      */
     public function getOperation(): string
     {
-        return $this->operator ?? 'AND';
+        return $this->operator ?? self::OPERATORS[self::OPERATION_AND];
     }
 
     /**
@@ -45,7 +46,7 @@ class Conditions implements ICondition
      */
     public function setOperation(int $operate_type)
     {
-        $this->operator = ($operate_type === self::OPERATION_OR) ? 'OR' : 'AND';
+        $this->operator = self::OPERATORS[$operate_type] ?? self::OPERATORS[self::OPERATION_AND];
     }
 
     /**
