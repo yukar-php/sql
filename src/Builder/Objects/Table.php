@@ -26,16 +26,10 @@ class Table implements ITable
     /**
      * テーブルの名前を取得します。
      *
-     * @throws \BadMethodCallException テーブルの名前が未定義の場合
-     *
      * @return string テーブルの名前
      */
     public function getTableName(): string
     {
-        if (empty($this->table_name) === true) {
-            throw new \BadMethodCallException();
-        }
-
         return $this->table_name;
     }
 

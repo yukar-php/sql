@@ -40,16 +40,10 @@ class GroupBy implements IPhrases
     /**
      * GroupBy句に指定するテーブルの任意の列のリストを取得します。
      *
-     * @throws \BadMethodCallException GroupBy句に指定するテーブルの任意の列のリストが未指定の場合
-     *
      * @return Columns GroupBy句に指定するテーブルの任意の列のリスト
      */
     public function getGroupBy(): Columns
     {
-        if ($this->group_by_list instanceof Columns === false) {
-            throw new \BadMethodCallException();
-        }
-
         return $this->group_by_list;
     }
 

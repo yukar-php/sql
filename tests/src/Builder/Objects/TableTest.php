@@ -41,36 +41,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetTableNameFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetTableNameFailure()
-    {
-        return [
-            [ '\BadMethodCallException', null ],
-            [ '\BadMethodCallException', '' ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerGetTableNameFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $table_name    プロパティ table_name の値
-     */
-    public function testGetTableNameFailure($expected, $table_name)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getTableInstance();
-        $this->getTableNameProperty(new \ReflectionClass($object))->setValue($object, $table_name);
-        $object->getTableName();
-    }
-
-    /**
      * メソッド testSetTableName のデータプロバイダー
      *
      * @return array

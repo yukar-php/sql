@@ -49,35 +49,6 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetGroupByFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetGroupByFailure()
-    {
-        return [
-            [ '\BadMethodCallException', null ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerGetGroupByFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ group_by_list の値
-     */
-    public function testGetGroupByFailure($expected, $prop_value)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getGroupByInstance();
-        $this->getGroupByListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
-        $object->getGroupBy();
-    }
-
-    /**
      * メソッド testSetGroupBy のデータプロバイダー
      *
      * @return array

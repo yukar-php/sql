@@ -42,16 +42,10 @@ class Order implements IFunction
     /**
      * ソートするテーブルの列の名前を取得します。
      *
-     * @throws \BadMethodCallException ソートするテーブルの列の名前が未指定の場合
-     *
      * @return string ソートするテーブルの列の名前
      */
     public function getColumnName()
     {
-        if (empty($this->column_name) === true) {
-            throw new \BadMethodCallException();
-        }
-
         return $this->column_name;
     }
 

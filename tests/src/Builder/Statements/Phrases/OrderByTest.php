@@ -49,35 +49,6 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetOrderByFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetOrderByFailure()
-    {
-        return [
-            [ '\BadMethodCallException', null ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerGetOrderByFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ order_by_list の値
-     */
-    public function testGetOrderByFailure($expected, $prop_value)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getOrderByInstance();
-        $this->getOrderByListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
-        $object->getOrderBy();
-    }
-
-    /**
      * メソッド testSetOrderBy のデータプロバイダー
      *
      * @return array

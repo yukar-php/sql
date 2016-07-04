@@ -36,16 +36,10 @@ class OrderBy implements IPhrases
     /**
      * OrderBy句に指定するテーブルの任意の列のリストを取得します。
      *
-     * @throws \BadMethodCallException OrderBy句に指定するテーブルの任意の列のリストが未指定の場合
-     *
      * @return Columns OrderBy句に指定するテーブルの任意の列のリスト
      */
     public function getOrderBy(): Columns
     {
-        if ($this->order_by_list instanceof Columns === false) {
-            throw new \BadMethodCallException();
-        }
-
         return $this->order_by_list;
     }
 

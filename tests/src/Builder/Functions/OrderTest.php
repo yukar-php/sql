@@ -48,36 +48,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetColumnNameFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetColumnNameFailure()
-    {
-        return [
-            [ '\BadMethodCallException', null ],
-            [ '\BadMethodCallException', '' ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerGetColumnNameFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ column_name の値
-     */
-    public function testGetColumnNameFailure($expected, $prop_value)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getOrderInstance();
-        $this->getColumnNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
-        $object->getColumnName();
-    }
-
-    /**
      * メソッド testSetColumnName のデータプロバイダー
      *
      * @return array
