@@ -44,7 +44,7 @@ class Order implements IFunction
      *
      * @return string ソートするテーブルの列の名前
      */
-    public function getColumnName()
+    public function getColumnName(): string
     {
         return $this->column_name;
     }

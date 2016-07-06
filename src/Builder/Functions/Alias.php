@@ -40,7 +40,7 @@ class Alias implements IFunction
      *
      * @return string テーブルや列の本来の名前
      */
-    public function getOriginName()
+    public function getOriginName(): string
     {
         return $this->origin_name;
     }
@@ -66,7 +66,7 @@ class Alias implements IFunction
      *
      * @return string テーブルや列の別名
      */
-    public function getAliasName()
+    public function getAliasName(): string
     {
         return $this->alias_name;
     }
