@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Operators;
 
-use Yukar\Sql\Builder\Functions\Alias;
+use Yukar\Sql\Builder\Operators\Alias;
 
 /**
  * クラス Alias の単体テスト
@@ -13,9 +13,9 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetFunctionFormat()
+    public function testGetOperatorFormat()
     {
-        $this->assertSame('%s AS %s', $this->getAliasInstance()->getFunctionFormat());
+        $this->assertSame('%s AS %s', $this->getAliasInstance()->getOperatorFormat());
     }
 
     /**
@@ -207,7 +207,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     private function getAliasInstance(): Alias
     {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Functions\Alias'))->newInstanceWithoutConstructor();
+        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Alias'))->newInstanceWithoutConstructor();
     }
 
     /**

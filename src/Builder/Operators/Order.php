@@ -1,14 +1,14 @@
 <?php
-namespace Yukar\Sql\Builder\Functions;
+namespace Yukar\Sql\Builder\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Functions\IFunction;
+use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
 
 /**
  * テーブルの任意の列のソートを表します。
  *
  * @author hiroki sugawara
  */
-class Order implements IFunction
+class Order implements IOperator
 {
     const ASCENDING = 1;
     const DESCENDING = 2;
@@ -20,8 +20,9 @@ class Order implements IFunction
     /**
      * Order クラスの新しいインスタンスを初期化します。
      *
-     * @param string $column_name
-     * @param int $order_type
+     * @param string $column_name ソートするテーブルの列の名前
+     * @param int $order_type     ソートの種類。<br/>
+     *                            昇順の場合は、Order::ASCENDING。降順の場合は、Order::DESCENDING。
      */
     public function __construct(string $column_name, int $order_type = self::ASCENDING)
     {
@@ -30,11 +31,11 @@ class Order implements IFunction
     }
 
     /**
-     * SQLの関数や計算式の書式を取得します。
+     * SQLの演算子の書式を取得します。
      *
-     * @return string SQLの関数や計算式の書式
+     * @return string SQLの演算子の書式
      */
-    public function getFunctionFormat(): string
+    public function getOperatorFormat(): string
     {
         return '%s %s';
     }
@@ -91,12 +92,12 @@ class Order implements IFunction
     }
 
     /**
-     * SQLの関数や計算式を文字列として取得します。
+     * SQLの演算子を文字列として取得します。
      *
-     * @return string SQLの関数や計算式
+     * @return string SQLの演算子
      */
     public function __toString(): string
     {
-        return sprintf($this->getFunctionFormat(), $this->getColumnName(), $this->getOrderType());
+        return sprintf($this->getOperatorFormat(), $this->getColumnName(), $this->getOrderType());
     }
 }

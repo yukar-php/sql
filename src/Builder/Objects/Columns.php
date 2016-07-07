@@ -2,8 +2,8 @@
 namespace Yukar\Sql\Builder\Objects;
 
 use Yukar\Linq\Collections\ListObject;
-use Yukar\Sql\Interfaces\Builder\Functions\IFunction;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
 
 /**
  * テーブルの列のリストを表します。
@@ -81,6 +81,6 @@ class Columns implements IColumns
      */
     private function isAcceptableColumnValue($column): bool
     {
-        return (is_string($column) === true || $column instanceof IFunction);
+        return (is_string($column) === true || $column instanceof IOperator);
     }
 }

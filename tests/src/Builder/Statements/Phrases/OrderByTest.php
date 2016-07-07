@@ -1,7 +1,7 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 
-use Yukar\Sql\Builder\Functions\Order;
+use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 

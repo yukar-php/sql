@@ -1,14 +1,14 @@
 <?php
-namespace Yukar\Sql\Builder\Functions;
+namespace Yukar\Sql\Builder\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Functions\IFunction;
+use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
 
 /**
  * テーブルや列の別名を表します。
  *
  * @author hiroki sugawara
  */
-class Alias implements IFunction
+class Alias implements IOperator
 {
     private $origin_name = null;
     private $alias_name = null;
@@ -16,8 +16,8 @@ class Alias implements IFunction
     /**
      * Alias クラスの新しいインスタンスを初期化します。
      *
-     * @param string $origin_name
-     * @param string $alias_name
+     * @param string $origin_name テーブルや列の本来の名前
+     * @param string $alias_name  テーブルや列の別名
      */
     public function __construct(string $origin_name, string $alias_name)
     {
@@ -26,11 +26,11 @@ class Alias implements IFunction
     }
 
     /**
-     * SQLの関数や計算式の書式を取得します。
+     * SQLの演算子の書式を取得します。
      *
-     * @return string SQLの関数や計算式の書式
+     * @return string SQLの演算子の書式
      */
-    public function getFunctionFormat(): string
+    public function getOperatorFormat(): string
     {
         return '%s AS %s';
     }
@@ -88,12 +88,12 @@ class Alias implements IFunction
     }
 
     /**
-     * SQLの関数や計算式を文字列として取得します。
+     * SQLの演算子を文字列として取得します。
      *
-     * @return string SQLの関数や計算式
+     * @return string SQLの演算子
      */
     public function __toString(): string
     {
-        return sprintf($this->getFunctionFormat(), $this->getOriginName(), $this->getAliasName());
+        return sprintf($this->getOperatorFormat(), $this->getOriginName(), $this->getAliasName());
     }
 }

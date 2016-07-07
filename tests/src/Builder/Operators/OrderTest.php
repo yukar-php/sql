@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Operators;
 
-use Yukar\Sql\Builder\Functions\Order;
+use Yukar\Sql\Builder\Operators\Order;
 
 /**
  * クラス Order の単体テスト
@@ -13,9 +13,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetFunctionFormat()
+    public function testGetOperatorFormat()
     {
-        $this->assertSame('%s %s', $this->getOrderInstance()->getFunctionFormat());
+        $this->assertSame('%s %s', $this->getOrderInstance()->getOperatorFormat());
     }
 
     /**
@@ -190,7 +190,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     private function getOrderInstance(): Order
     {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Functions\Order'))->newInstanceWithoutConstructor();
+        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Order'))->newInstanceWithoutConstructor();
     }
 
     /**
