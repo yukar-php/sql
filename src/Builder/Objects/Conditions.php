@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Builder\Objects;
 
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
 
 /**
  * SQLクエリの条件式を定義します。
@@ -131,7 +132,7 @@ class Conditions implements ICondition
      */
     private function isAcceptableCondition($condition): bool
     {
-        return (is_string($condition) === true || $condition instanceof ICondition);
+        return (is_string($condition) === true || $condition instanceof ICondition || $condition instanceof IConditionContainable);
     }
 
     /**

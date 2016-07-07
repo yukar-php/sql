@@ -1,6 +1,8 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Objects;
 
+use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\Expression;
 use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Objects\Columns;
 
@@ -87,6 +89,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
             [ '\InvalidArgumentException', [ 'a', 'b' ], [] ],
             [ '\DomainException', [], [ 0 ] ],
             [ '\DomainException', [ '1', '2' ], [ 0, 1 ] ],
+            [ '\DomainException', [ '1', '2' ], [ new Expression('a', 1) ] ],
         ];
     }
 
@@ -143,6 +146,8 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
         return [
             [ "*", [] ],
             [ "a, b, c", [ 'a', 'b', 'c' ] ],
+            [ 'a AS alias_a, b AS alias_b', [ new Alias('a', 'alias_a'), new Alias('b', 'alias_b') ] ],
+            [ 'o ASC, p DESC', [ new Order('o'), new Order('p', Order::DESCENDING) ] ],
         ];
     }
 

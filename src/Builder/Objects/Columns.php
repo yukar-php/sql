@@ -3,6 +3,7 @@ namespace Yukar\Sql\Builder\Objects;
 
 use Yukar\Linq\Collections\ListObject;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
 use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
 
 /**
@@ -81,6 +82,6 @@ class Columns implements IColumns
      */
     private function isAcceptableColumnValue($column): bool
     {
-        return (is_string($column) === true || $column instanceof IOperator);
+        return (is_string($column) === true || ($column instanceof IConditionContainable === false && $column instanceof IOperator));
     }
 }

@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Builder\Operators\Expression;
 
 /**
  * クラス Conditions の単体テスト
@@ -308,7 +309,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function providerToString()
     {
         $condition = new Conditions(Conditions::OPERATION_AND);
-        $condition->setConditions('sa = 1', 'sb = 2');
+        $condition->setConditions('sa = 1', new Expression('sb', 2));
         $condition_2 = new Conditions(Conditions::OPERATION_OR);
         $condition_2->setConditions('oa = 1', $condition);
 
