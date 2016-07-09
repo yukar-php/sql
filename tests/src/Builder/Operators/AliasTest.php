@@ -10,6 +10,35 @@ use Yukar\Sql\Builder\Operators\Alias;
  */
 class AliasTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_ORIGIN_NAME = 'origin_name';
+    const PROP_NAME_ALIAS_NAME = 'alias_name';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Alias コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getAliasInstance(): Alias
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Alias'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Alias $object         単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Alias $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * 正常系テスト
      */
@@ -41,7 +70,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function testGetOriginName($expected, $prop_value)
     {
         $object = $this->getAliasInstance();
-        $this->getOriginNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getOriginName());
     }
@@ -71,7 +100,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function testSetOriginName($expected, $prop_value, $origin_name)
     {
         $object = $this->getAliasInstance();
-        $reflector = $this->getOriginNameProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setOriginName($origin_name);
 
@@ -105,7 +134,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getAliasInstance();
-        $this->getOriginNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME)->setValue($object, $prop_value);
         $object->setOriginName($origin_name);
     }
 
@@ -132,7 +161,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function testGetAliasName($expected, $prop_value)
     {
         $object = $this->getAliasInstance();
-        $this->getAliasNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_ALIAS_NAME)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getAliasName());
     }
@@ -162,7 +191,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function testSetAliasName($expected, $prop_value, $alias_name)
     {
         $object = $this->getAliasInstance();
-        $reflector = $this->getAliasNameProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_ALIAS_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setAliasName($alias_name);
 
@@ -196,48 +225,8 @@ class AliasTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getAliasInstance();
-        $this->getAliasNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_ALIAS_NAME)->setValue($object, $prop_value);
         $object->setAliasName($alias_name);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Alias クラスの新しいインスタンスを取得します。
-     *
-     * @return Alias コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getAliasInstance(): Alias
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Alias'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ origin_name のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Alias のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ origin_name のリフレクションを持つインスタンス
-     */
-    private function getOriginNameProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('origin_name');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ alias_name のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Alias のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ alias_name のリフレクションを持つインスタンス
-     */
-    private function getAliasNameProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('alias_name');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

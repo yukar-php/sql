@@ -10,6 +10,35 @@ use Yukar\Sql\Builder\Operators\Order;
  */
 class OrderTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_COLUMN_NAME = 'column_name';
+    const PROP_NAME_ORDER_TYPE = 'order_type';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Order コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getOrderInstance(): Order
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Order'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Order $object         単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Order $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * 正常系テスト
      */
@@ -42,7 +71,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testGetColumnName($expected, $prop_value)
     {
         $object = $this->getOrderInstance();
-        $this->getColumnNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getColumnName());
     }
@@ -72,7 +101,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testSetColumnName($expected, $prop_value, $column_name)
     {
         $object = $this->getOrderInstance();
-        $reflector = $this->getColumnNameProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setColumnName($column_name);
 
@@ -106,7 +135,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getOrderInstance();
-        $this->getColumnNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
         $object->setColumnName($column_name);
     }
 
@@ -137,7 +166,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testGetOrderType($expected, $prop_value)
     {
         $object = $this->getOrderInstance();
-        $this->getOrderTypeProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_ORDER_TYPE)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getOrderType());
     }
@@ -176,51 +205,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testSetOrderType($expected, $prop_value, $order_type)
     {
         $object = $this->getOrderInstance();
-        $reflector = $this->getOrderTypeProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_TYPE);
         $reflector->setValue($object, $prop_value);
 
         $this->assertInstanceOf(get_class($object), $object->setOrderType($order_type));
         $this->assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Order クラスの新しいインスタンスを取得します。
-     *
-     * @return Order コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getOrderInstance(): Order
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Order'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ column_name のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Order のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ column_name のリフレクションを持つインスタンス
-     */
-    private function getColumnNameProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('column_name');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ order_type のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Order のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ order_type のリフレクションを持つインスタンス
-     */
-    private function getOrderTypeProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('order_type');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

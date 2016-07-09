@@ -12,6 +12,35 @@ use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
  */
 class GroupByTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_GROUP_BY_LIST = 'group_by_list';
+    const PROP_NAME_HAVING_COND = 'having_cond';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return GroupBy コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getGroupByInstance(): GroupBy
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Statements\Phrases\GroupBy'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param GroupBy $object       単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(GroupBy $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * 正常系テスト
      */
@@ -43,7 +72,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function testGetGroupBy($expected, $prop_value)
     {
         $object = $this->getGroupByInstance();
-        $this->getGroupByListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getGroupBy()->getColumns());
     }
@@ -73,7 +102,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function testSetGroupBy($expected, $prop_value, $group_by)
     {
         $object = $this->getGroupByInstance();
-        $reflector = $this->getGroupByListProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setGroupBy($group_by);
 
@@ -107,7 +136,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getGroupByInstance();
-        $reflector = $this->getGroupByListProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setGroupBy($group_by);
     }
@@ -138,7 +167,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function testGetHaving($expected, $prop_value)
     {
         $object = $this->getGroupByInstance();
-        $this->getHavingCondProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
         $having = $object->getHaving();
 
         $this->assertSame($expected, empty($having) ? $having : $having->getConditions());
@@ -173,7 +202,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function testSetHaving($expected, $prop_value, $having)
     {
         $object = $this->getGroupByInstance();
-        $reflector = $this->getHavingCondProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_HAVING_COND);
         $reflector->setValue($object, $prop_value);
         $object->setHaving($having);
 
@@ -209,48 +238,8 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getGroupByInstance();
-        $this->getHavingCondProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
         $object->setHaving($having);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した GroupBy クラスの新しいインスタンスを取得します。
-     *
-     * @return GroupBy コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getGroupByInstance(): GroupBy
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Statements\Phrases\GroupBy'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ group_by_list のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス GroupBy のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ group_by_list のリフレクションを持つインスタンス
-     */
-    private function getGroupByListProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('group_by_list');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ having_cond のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス GroupBy のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ having_cond のリフレクションを持つインスタンス
-     */
-    private function getHavingCondProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('having_cond');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

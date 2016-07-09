@@ -13,6 +13,34 @@ use Yukar\Sql\Builder\Objects\Columns;
  */
 class ColumnsTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_COLUMN_LIST = 'column_list';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Columns コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getColumnsInstance(): Columns
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Columns'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Columns $object       単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Columns $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * メソッド testGetColumns のデータプロバイダー
      *
@@ -39,7 +67,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     public function testGetColumns($expected, $base_list)
     {
         $object = $this->getColumnsInstance();
-        $this->getColumnListProperty(new \ReflectionClass($object))->setValue($object, $base_list);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $base_list);
 
         $this->assertSame($expected, $object->getColumns());
     }
@@ -70,7 +98,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     public function testSetColumns($expected, $prop_value, $set_list)
     {
         $object = $this->getColumnsInstance();
-        $reflector = $this->getColumnListProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setColumns($set_list);
 
@@ -107,33 +135,8 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getColumnsInstance();
-        $this->getColumnListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setColumns($set_list);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Columns クラスの新しいインスタンスを取得します。
-     *
-     * @return Columns コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getColumnsInstance(): Columns
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Columns'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ column_list のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Columns のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ column_list のリフレクションを持つインスタンス
-     */
-    private function getColumnListProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('column_list');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

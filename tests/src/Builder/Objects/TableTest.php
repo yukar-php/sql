@@ -11,6 +11,35 @@ use Yukar\Sql\Builder\Objects\Table;
  */
 class TableTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_TABLE_NAME = 'table_name';
+    const PROP_NAME_COLUMN_LIST = 'column_list';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Table コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getTableInstance(): Table
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Table'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Table $object         単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Table $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * メソッド testGetTableName のデータプロバイダー
      *
@@ -35,7 +64,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testGetTableName($expected, $table_name)
     {
         $object = $this->getTableInstance();
-        $this->getTableNameProperty(new \ReflectionClass($object))->setValue($object, $table_name);
+        $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $table_name);
 
         $this->assertSame($expected, $object->getTableName());
     }
@@ -65,7 +94,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testSetTableName($expected, $prop_value, $table_name)
     {
         $object = $this->getTableInstance();
-        $reflector = $this->getTableNameProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_TABLE_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setTableName($table_name);
 
@@ -99,7 +128,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getTableInstance();
-        $this->getTableNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $prop_value);
         $object->setTableName($table_name);
     }
 
@@ -126,7 +155,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testGetDefinedColumns($expected, $prop_value)
     {
         $object = $this->getTableInstance();
-        $this->getColumnListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getDefinedColumns());
     }
@@ -157,7 +186,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getTableInstance();
-        $this->getColumnListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->getDefinedColumns();
     }
 
@@ -186,7 +215,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testSetDefinedColumns($expected, $prop_value, $columns)
     {
         $object = $this->getTableInstance();
-        $reflector = $this->getColumnListProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
 
         $this->assertInstanceOf(get_class($object), $object->setDefinedColumns($columns));
@@ -220,48 +249,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getTableInstance();
-        $this->getColumnListProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setDefinedColumns($columns);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Table クラスの新しいインスタンスを取得します。
-     *
-     * @return Table コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getTableInstance(): Table
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Table'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ table_name のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Table のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ table_name のリフレクションを持つインスタンス
-     */
-    private function getTableNameProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('table_name');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ column_list のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Table のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ column_list のリフレクションを持つインスタンス
-     */
-    private function getColumnListProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('column_list');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

@@ -10,6 +10,36 @@ use Yukar\Sql\Builder\Operators\Expression;
  */
 class ExpressionTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_NAME = 'name';
+    const PROP_NAME_VALUE = 'value';
+    const PROP_NAME_SIGN = 'sign';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Expression コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getExpressionInstance(): Expression
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Expression'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Expression $object    単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Expression $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * 正常系テスト
      */
@@ -41,7 +71,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testGetName($expected, $prop_value)
     {
         $object = $this->getExpressionInstance();
-        $this->getNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getName());
     }
@@ -71,7 +101,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testSetName($expected, $prop_value, $name)
     {
         $object = $this->getExpressionInstance();
-        $reflector = $this->getNameProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setName($name);
 
@@ -105,7 +135,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getExpressionInstance();
-        $this->getNameProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
         $object->setName($name);
     }
 
@@ -132,7 +162,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testGetValue($expected, $prop_value)
     {
         $object = $this->getExpressionInstance();
-        $this->getValueProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getValue());
     }
@@ -162,7 +192,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testSetValue($expected, $prop_value, $value)
     {
         $object = $this->getExpressionInstance();
-        $reflector = $this->getValueProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setValue($value);
 
@@ -178,7 +208,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ '\InvalidArgumentException', null, '' ],
+            [ '\InvalidArgumentException', null, 0 ],
+            [ '\InvalidArgumentException', null, 0.0 ],
             [ '\InvalidArgumentException', 'value', '' ],
+            [ '\InvalidArgumentException', 'value', '0' ],
         ];
     }
 
@@ -196,7 +229,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getExpressionInstance();
-        $this->getValueProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
         $object->setValue($value);
     }
 
@@ -234,7 +267,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testGetSign($expected, $prop_value)
     {
         $object = $this->getExpressionInstance();
-        $this->getSignProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getSign());
     }
@@ -268,7 +301,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function testSetSign($expected, $prop_value, $sign)
     {
         $object = $this->getExpressionInstance();
-        $reflector = $this->getSignProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
         $reflector->setValue($object, $prop_value);
 
         $this->assertInstanceOf(get_class($object), $object->setSign($sign));
@@ -304,63 +337,8 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getExpressionInstance();
-        $this->getSignProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
         $object->setSign($sign);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Expression クラスの新しいインスタンスを取得します。
-     *
-     * @return Expression コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getExpressionInstance(): Expression
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Expression'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ name のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Expression のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ name のリフレクションを持つインスタンス
-     */
-    private function getNameProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('name');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ value のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Expression のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ value のリフレクションを持つインスタンス
-     */
-    private function getValueProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('value');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ sign のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Expression のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ sign のリフレクションを持つインスタンス
-     */
-    private function getSignProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('sign');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**

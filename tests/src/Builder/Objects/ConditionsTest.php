@@ -11,6 +11,35 @@ use Yukar\Sql\Builder\Operators\Expression;
  */
 class ConditionsTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_OPERATOR = 'operator';
+    const PROP_NAME_CONDITIONS = 'conditions';
+
+    /**
+     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     *
+     * @return Conditions コンストラクタを通さずに作成した新しいインスタンス
+     */
+    private function getConditionsInstance(): Conditions
+    {
+        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Conditions'))->newInstanceWithoutConstructor();
+    }
+
+    /**
+     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
+     *
+     * @param Conditions $object    単体テスト対象となるクラスのインスタンス
+     * @param string $property_name リフレクションを取得するプロパティの名前
+     *
+     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
+     */
+    private function getProperty(Conditions $object, string $property_name): \ReflectionProperty
+    {
+        $property = (new \ReflectionClass($object))->getProperty($property_name);
+        $property->setAccessible(true);
+
+        return $property;
+    }
+
     /**
      * testGetOperation のデータプロバイダー
      *
@@ -38,7 +67,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function testGetOperation($expected, $prop_value)
     {
         $object = $this->getConditionsInstance();
-        $this->getOperatorProperty(new \ReflectionClass($object))->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_OPERATOR)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getOperation());
     }
@@ -71,7 +100,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function testSetOperation($expected, $prop_value)
     {
         $object = $this->getConditionsInstance();
-        $property = $this->getOperatorProperty(new \ReflectionClass($object));
+        $property = $this->getProperty($object, self::PROP_NAME_OPERATOR);
         $object->setOperation($prop_value);
 
         $this->assertSame($expected, $property->getValue($object));
@@ -102,7 +131,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function testGetConditions($expected, $conditions)
     {
         $object = $this->getConditionsInstance();
-        $this->getConditionsProperty(new \ReflectionClass($object))->setValue($object, $conditions);
+        $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $conditions);
 
         $this->assertSame($expected, $object->getConditions());
     }
@@ -137,7 +166,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function testAddConditions($expected, $base_cond, $add_cond)
     {
         $object = $this->getConditionsInstance();
-        $reflector = $this->getConditionsProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
 
         $reflector->setValue($object, $base_cond);
         $object->addCondition($add_cond);
@@ -186,7 +215,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getConditionsInstance();
-        $this->getConditionsProperty(new \ReflectionClass($object))->setValue($object, $base_cond);
+        $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $base_cond);
         $object->addCondition($add_cond);
     }
 
@@ -216,7 +245,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function testSetConditions($expected, $base_cond, $first, $second)
     {
         $object = $this->getConditionsInstance();
-        $reflector = $this->getConditionsProperty(new \ReflectionClass($object));
+        $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
         $reflector->setValue($object, $base_cond);
         $object->setConditions($first, $second);
 
@@ -257,48 +286,8 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $this->expectException($expected);
 
         $object = $this->getConditionsInstance();
-        $this->getConditionsProperty(new \ReflectionClass($object))->setValue($object, $base_cond);
+        $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $base_cond);
         $object->setConditions($first, $second);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した Conditions クラスの新しいインスタンスを取得します。
-     *
-     * @return Conditions コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getConditionsInstance(): Conditions
-    {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Objects\Conditions'))->newInstanceWithoutConstructor();
-    }
-
-    /**
-     * プロパティ operator のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Conditions のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ operator のリフレクションを持つインスタンス
-     */
-    private function getOperatorProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('operator');
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * プロパティ conditions のリフレクションを持つインスタンスを取得します。
-     *
-     * @param \ReflectionClass $reflector クラス Conditions のオブジェクトのリフレクション
-     *
-     * @return \ReflectionProperty プロパティ conditions のリフレクションを持つインスタンス
-     */
-    private function getConditionsProperty(\ReflectionClass $reflector): \ReflectionProperty
-    {
-        $property = $reflector->getProperty('conditions');
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**
