@@ -4,6 +4,7 @@ namespace Yukar\Sql\Tests\Builder\Objects;
 use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Operators\Between;
 use Yukar\Sql\Builder\Operators\Expression;
+use Yukar\Sql\Builder\Operators\IsNull;
 
 /**
  * クラス Conditions の単体テスト
@@ -352,6 +353,12 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 Conditions::OPERATION_AND,
                 new Expression('a', 2, Expression::SIGN_AO),
                 new Between('b', 10, 20)
+            ],
+            [
+                'c IS NULL OR d IS NOT NULL',
+                Conditions::OPERATION_OR,
+                new IsNull('c'),
+                new IsNull('d', true)
             ],
         ];
     }
