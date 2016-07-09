@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Builder\Operators\Between;
 use Yukar\Sql\Builder\Operators\Expression;
 
 /**
@@ -344,6 +345,13 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 Conditions::OPERATION_OR,
                 $condition_2,
                 $condition_2
+            ],
+            // 演算子入り
+            [
+                'a >= 2 AND b BETWEEN 10 AND 20',
+                Conditions::OPERATION_AND,
+                new Expression('a', 2, Expression::SIGN_AO),
+                new Between('b', 10, 20)
             ],
         ];
     }

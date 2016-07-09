@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\Between;
 use Yukar\Sql\Builder\Operators\Expression;
 use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Objects\Columns;
@@ -117,7 +118,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
             [ '\InvalidArgumentException', [ 'a', 'b' ], [] ],
             [ '\DomainException', [], [ 0 ] ],
             [ '\DomainException', [ '1', '2' ], [ 0, 1 ] ],
-            [ '\DomainException', [ '1', '2' ], [ new Expression('a', 1) ] ],
+            [ '\DomainException', [ '1', '2' ], [ new Expression('a', 1), new Between('b', 1, 2) ] ],
         ];
     }
 
