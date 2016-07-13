@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Operators\Between;
 use Yukar\Sql\Builder\Operators\Expression;
 use Yukar\Sql\Builder\Operators\IsNull;
+use Yukar\Sql\Builder\Operators\Like;
 
 /**
  * クラス Conditions の単体テスト
@@ -359,6 +360,12 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 Conditions::OPERATION_OR,
                 new IsNull('c'),
                 new IsNull('d', true)
+            ],
+            [
+                "e LIKE 'patter%' AND f NOT LIKE '_eed%'",
+                Conditions::OPERATION_AND,
+                new Like('e', 'patter%'),
+                new Like('f', '_eed%', true)
             ],
         ];
     }
