@@ -16,22 +16,22 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return Alias コンストラクタを通さずに作成した新しいインスタンス
+     * @return object コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getAliasInstance(): Alias
+    private function getAliasInstance()
     {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Operators\Alias'))->newInstanceWithoutConstructor();
+        return (new \ReflectionClass(Alias::class))->newInstanceWithoutConstructor();
     }
 
     /**
      * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
      *
-     * @param Alias $object         単体テスト対象となるクラスのインスタンス
+     * @param object $object        単体テスト対象となるクラスのインスタンス
      * @param string $property_name リフレクションを取得するプロパティの名前
      *
      * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
      */
-    private function getProperty(Alias $object, string $property_name): \ReflectionProperty
+    private function getProperty($object, string $property_name): \ReflectionProperty
     {
         $property = (new \ReflectionClass($object))->getProperty($property_name);
         $property->setAccessible(true);

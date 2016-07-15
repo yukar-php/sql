@@ -17,22 +17,22 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return OrderBy コンストラクタを通さずに作成した新しいインスタンス
+     * @return object コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getOrderByInstance(): OrderBy
+    private function getOrderByInstance()
     {
-        return (new \ReflectionClass('Yukar\Sql\Builder\Statements\Phrases\OrderBy'))->newInstanceWithoutConstructor();
+        return (new \ReflectionClass(OrderBy::class))->newInstanceWithoutConstructor();
     }
 
     /**
      * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
      *
-     * @param OrderBy $object       単体テスト対象となるクラスのインスタンス
+     * @param object $object        単体テスト対象となるクラスのインスタンス
      * @param string $property_name リフレクションを取得するプロパティの名前
      *
      * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
      */
-    private function getProperty(OrderBy $object, string $property_name): \ReflectionProperty
+    private function getProperty($object, string $property_name): \ReflectionProperty
     {
         $property = (new \ReflectionClass($object))->getProperty($property_name);
         $property->setAccessible(true);
