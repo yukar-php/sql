@@ -10,7 +10,6 @@ use Yukar\Sql\Builder\Operators\Like;
  */
 class LikeTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_COLUMN = 'column';
     const PROP_NAME_PATTERN = 'pattern';
     const PROP_NAME_IS_NOT = 'is_not';
 
@@ -41,105 +40,6 @@ class LikeTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         return $property;
-    }
-
-    /**
-     * 正常系テスト
-     */
-    public function testGetOperatorFormat()
-    {
-        self::assertSame('%s %sLIKE \'%s\'', $this->getNewInstance()->getOperatorFormat());
-    }
-
-    /**
-     * メソッド testGetColumn のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetColumn()
-    {
-        return [
-            [ 'column', 'column' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerGetColumn
-     *
-     * @param string $expected   期待値
-     * @param string $prop_value プロパティ column の値
-     */
-    public function testGetColumn($expected, $prop_value)
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getColumn());
-    }
-
-    /**
-     * メソッド testSetColumn のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetColumn()
-    {
-        return [
-            [ 'column', null, 'column' ],
-            [ 'set', 'column', 'set' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetColumn
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ column の値
-     * @param string $column    メソッド setColumn の引数 column に渡す値
-     */
-    public function testSetColumn($expected, $prop_value, $column)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
-        $reflector->setValue($object, $prop_value);
-        $object->setColumn($column);
-
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetColumnFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetColumnFailure()
-    {
-        return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'column', '' ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetColumnFailure
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ column の値
-     * @param string $column    メソッド setColumn の引数 column に渡す値
-     */
-    public function testSetColumnFailure($expected, $prop_value, $column)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
-        $object->setColumn($column);
     }
 
     /**
@@ -231,69 +131,6 @@ class LikeTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_PATTERN)->setValue($object, $prop_value);
         $object->setPattern($pattern);
-    }
-
-    /**
-     * メソッド testIsNot のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerIsNot()
-    {
-        return [
-            [ true, true ],
-            [ false, false ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerIsNot
-     *
-     * @param bool $expected   期待値
-     * @param bool $prop_value プロパティ is_not の値
-     */
-    public function testIsNot($expected, $prop_value)
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_IS_NOT)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->isNot());
-    }
-
-    /**
-     * メソッド testSetIsNot のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetIsNot()
-    {
-        return [
-            [ true, false, true ],
-            [ false, false, false ],
-            [ true, true, true ],
-            [ false, true, false ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetIsNot
-     *
-     * @param bool $expected   期待値
-     * @param bool $prop_value プロパティ is_not の値
-     * @param bool $is_not     メソッド setIsNot の引数 is_not に渡す値
-     */
-    public function testSetIsNot($expected, $prop_value, $is_not)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_IS_NOT);
-        $reflector->setValue($object, $prop_value);
-        $object->setIsNot($is_not);
-
-        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**

@@ -207,7 +207,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
         $reflector->setValue($object, $prop_value);
 
-        $this->assertInstanceOf(get_class($object), $object->setOperator($sign));
+        self::assertInstanceOf(get_class($object), $object->setOperator($sign));
         self::assertSame($expected, $reflector->getValue($object));
     }
 

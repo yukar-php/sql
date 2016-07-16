@@ -1,18 +1,14 @@
 <?php
 namespace Yukar\Sql\Builder\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
-
 /**
  * LIKE 演算子または NOT LIKE 演算子を表します。
  *
  * @author hiroki sugawara
  */
-class Like implements IConditionContainable
+class Like extends BaseDeniableOperator
 {
-    private $column = null;
-    private $pattern = null;
-    private $is_not = false;
+    private $pattern = '';
 
     /**
      * Like クラスの新しいインスタンスを初期化します。
@@ -23,45 +19,29 @@ class Like implements IConditionContainable
      */
     public function __construct(string $column, string $pattern, bool $is_not = false)
     {
-        $this->setColumn($column);
+        $this->setName($column);
         $this->setPattern($pattern);
         $this->setIsNot($is_not);
     }
 
     /**
-     * SQLの演算子の書式を取得します。
+     * 演算子の名前を取得します。
      *
-     * @return string SQLの演算子の書式
+     * @return string 演算子の名前
      */
-    public function getOperatorFormat(): string
+    public function getOperator(): string
     {
-        return '%s %sLIKE \'%s\'';
+        return 'LIKE';
     }
 
     /**
-     * LIKE 演算子の対象となる列の名前を取得します。
+     * 演算子の対象となる表や列の値と比較する値を取得します。
      *
-     * @return string LIKE 演算子の対象となる列の名前
+     * @return string 演算子の対象となる表や列の値と比較する値
      */
-    public function getColumn(): string
+    public function getValue(): string
     {
-        return $this->column;
-    }
-
-    /**
-     * LIKE 演算子の対象となる列の名前を取得します。
-     *
-     * @param string $column LIKE 演算子の対象となる列の名前
-     *
-     * @throws \InvalidArgumentException 引数 column に渡した値が空文字列の場合
-     */
-    public function setColumn(string $column)
-    {
-        if (empty($column) === true) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->column = $column;
+        return sprintf('\'%s\'', $this->getPattern());
     }
 
     /**
@@ -88,40 +68,5 @@ class Like implements IConditionContainable
         }
 
         $this->pattern = $pattern;
-    }
-
-    /**
-     * NOT演算子を付与するかどうかを取得します。
-     *
-     * @return bool NOT演算子を付与するかどうか
-     */
-    public function isNot(): bool
-    {
-        return $this->is_not;
-    }
-
-    /**
-     * NOT演算子を付与するかどうかを設定します。
-     *
-     * @param bool $is_not NOT演算子を付与するかどうか
-     */
-    public function setIsNot(bool $is_not)
-    {
-        $this->is_not = $is_not;
-    }
-
-    /**
-     * SQLの演算子を文字列として取得します。
-     *
-     * @return string SQLの演算子
-     */
-    public function __toString(): string
-    {
-        return sprintf(
-            $this->getOperatorFormat(),
-            $this->getColumn(),
-            $this->isNot() ? 'NOT ' : '',
-            $this->getPattern()
-        );
     }
 }

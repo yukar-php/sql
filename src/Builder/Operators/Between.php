@@ -1,67 +1,50 @@
 <?php
 namespace Yukar\Sql\Builder\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
-
 /**
- * BETWEEN演算子を表現します。
+ * BETWEEN 演算子または NOT BETWEEN 演算子を表現します。
  *
  * @author hiroki sugawara
  */
-class Between implements IConditionContainable
+class Between extends BaseDeniableOperator
 {
-    private $column = null;
-    private $from_value = null;
-    private $to_value = null;
+    private $from_value = '';
+    private $to_value = '';
 
     /**
      * Between クラスの新しいインスタンスを初期化します。
      *
-     * @param string $column     演算子の対象となるカラムの名前または値
+     * @param string $name       演算子の対象となるカラムの名前または値
      * @param string $from_value BETWEEN演算子の範囲の始端となる値
      * @param string $to_value   BETWEEN演算子の範囲の終端となる値
+     * @param bool $is_not       演算子に NOT を付与するかどうか
      */
-    public function __construct(string $column, string $from_value, string $to_value)
+    public function __construct(string $name, string $from_value, string $to_value, bool $is_not = false)
     {
-        $this->setColumn($column);
+        $this->setName($name);
         $this->setFromValue($from_value);
         $this->setToValue($to_value);
+        $this->setIsNot($is_not);
     }
 
     /**
-     * SQLの演算子の書式を取得します。
+     * 演算子の名前を取得します。
      *
-     * @return string SQLの演算子の書式
+     * @return string 演算子の名前
      */
-    public function getOperatorFormat(): string
+    public function getOperator(): string
     {
-        return '%s BETWEEN %s AND %s';
+        return 'BETWEEN';
     }
 
     /**
-     * 演算子の対象となるカラムの名前または値を取得します。
+     * 演算子の対象となる表や列の値と比較する値を取得します。
      *
-     * @return string 演算子の対象となるカラムの名前または値
+     * @return string 演算子の対象となる表や列の値と比較する値
      */
-    public function getColumn(): string
+    public function getValue(): string
     {
-        return $this->column;
-    }
-
-    /**
-     * 演算子の対象となるカラムの名前または値を設定します。
-     *
-     * @param string $column 演算子の対象となるカラムの名前または値
-     *
-     * @throws \InvalidArgumentException 引数 column に空文字列を渡した場合
-     */
-    public function setColumn(string $column)
-    {
-        if (empty($column) === true) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->column = $column;
+        return sprintf('%s AND %s', $this->getFromValue(), $this->getToValue());
     }
 
     /**
@@ -114,15 +97,5 @@ class Between implements IConditionContainable
         }
 
         $this->to_value = $to_value;
-    }
-
-    /**
-     * SQLの演算子を文字列として取得します。
-     *
-     * @return string SQLの演算子
-     */
-    public function __toString(): string
-    {
-        return sprintf($this->getOperatorFormat(), $this->getColumn(), $this->getFromValue(), $this->getToValue());
     }
 }

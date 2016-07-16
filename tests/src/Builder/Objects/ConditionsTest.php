@@ -353,22 +353,28 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
             ],
             // 演算子入り
             [
-                'a >= 2 AND b BETWEEN 10 AND 20',
+                'a >= 2 AND b <= 5',
                 Conditions::OPERATION_AND,
                 new Expression('a', 2, Expression::SIGN_AO),
-                new Between('b', 10, 20)
+                new Expression('b', 5, Expression::SIGN_OU)
             ],
             [
-                'c IS NULL OR d IS NOT NULL',
+                'c BETWEEN 10 AND 20 OR d NOT BETWEEN 5 AND 50',
                 Conditions::OPERATION_OR,
-                new IsNull('c'),
-                new IsNull('d', true)
+                new Between('c', 10, 20),
+                new Between('d', 5, 50, true)
             ],
             [
-                "e LIKE 'patter%' AND f NOT LIKE '_eed%'",
+                'e IS NULL AND f IS NOT NULL',
                 Conditions::OPERATION_AND,
-                new Like('e', 'patter%'),
-                new Like('f', '_eed%', true)
+                new IsNull('e'),
+                new IsNull('f', true)
+            ],
+            [
+                "g LIKE 'patter%' OR h NOT LIKE '_eed%'",
+                Conditions::OPERATION_OR,
+                new Like('g', 'patter%'),
+                new Like('h', '_eed%', true)
             ],
         ];
     }

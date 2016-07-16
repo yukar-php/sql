@@ -10,7 +10,6 @@ use Yukar\Sql\Builder\Operators\Between;
  */
 class BetweenTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_COLUMN = 'column';
     const PROP_NAME_FROM_VALUE = 'from_value';
     const PROP_NAME_TO_VALUE = 'to_value';
 
@@ -41,105 +40,6 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         return $property;
-    }
-
-    /**
-     * 正常系テスト
-     */
-    public function testGetOperatorFormat()
-    {
-        self::assertSame('%s BETWEEN %s AND %s', $this->getNewInstance()->getOperatorFormat());
-    }
-
-    /**
-     * メソッド testGetColumn のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetColumn()
-    {
-        return [
-            [ 'column', 'column' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerGetColumn
-     *
-     * @param string $expected   期待値
-     * @param string $prop_value プロパティ column の値
-     */
-    public function testGetColumn($expected, $prop_value)
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getColumn());
-    }
-
-    /**
-     * メソッド testSetColumn のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetColumn()
-    {
-        return [
-            [ 'column', null, 'column' ],
-            [ 'column', 'source', 'column' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetColumn
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ column の値
-     * @param string $column    メソッド setColumn の引数 column に渡す値
-     */
-    public function testSetColumn($expected, $prop_value, $column)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
-        $reflector->setValue($object, $prop_value);
-        $object->setColumn($column);
-
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetColumn のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetColumnFailure()
-    {
-        return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'column', '' ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetColumnFailure
-     *
-     * @param \Exception $expected   期待値
-     * @param mixed $prop_value      プロパティ column の値
-     * @param string $column         メソッド setColumn の引数 column に渡す値
-     */
-    public function testSetColumnFailure($expected, $prop_value, $column)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
-        $object->setColumn($column);
     }
 
     /**
@@ -350,8 +250,10 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     public function providerToString()
     {
         return [
-            [ 'a BETWEEN 1 AND 2', 'a', '1', '2' ],
-            [ 'b BETWEEN 1 AND 2', 'b', 1, 2 ],
+            [ 'a BETWEEN 1 AND 2', 'a', '1', '2', false ],
+            [ 'b BETWEEN 1 AND 2', 'b', 1, 2, false ],
+            [ 'a NOT BETWEEN 1 AND 2', 'a', '1', '2', true ],
+            [ 'b NOT BETWEEN 1 AND 2', 'b', 1, 2, true ],
         ];
     }
 
@@ -364,9 +266,10 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $column     コンストラクタの引数 column に渡す値
      * @param string $from_value コンストラクタの引数 from_value に渡す値
      * @param string $to_value   コンストラクタの引数 to_value に渡す値
+     * @param bool $is_not       コンストラクタの引数 is_not に渡す値
      */
-    public function testToString($expected, $column, $from_value, $to_value)
+    public function testToString($expected, $column, $from_value, $to_value, $is_not)
     {
-        self::assertSame($expected, (string)(new Between($column, $from_value, $to_value)));
+        self::assertSame($expected, (string)(new Between($column, $from_value, $to_value, $is_not)));
     }
 }
