@@ -1,14 +1,12 @@
 <?php
 namespace Yukar\Sql\Builder\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
-
 /**
  * 算術演算子を表現します。
  *
  * @author hiroki sugawara
  */
-class Expression implements IConditionContainable
+class Expression extends BaseConditionContainable
 {
     const SIGN_EQ = 1;
     const SIGN_NE = 2;
@@ -26,9 +24,8 @@ class Expression implements IConditionContainable
         self::SIGN_OU => '<=',
     ];
 
-    private $name = null;
-    private $value = null;
-    private $sign = null;
+    private $value = '';
+    private $sign = '';
 
     /**
      * Expression クラスの新しいインスタンスを初期化します。
@@ -44,43 +41,7 @@ class Expression implements IConditionContainable
     {
         $this->setName($name);
         $this->setValue($value);
-        $this->setSign($sign);
-    }
-
-    /**
-     * SQLの演算子の書式を取得します。
-     *
-     * @return string SQLの演算子の書式
-     */
-    public function getOperatorFormat(): string
-    {
-        return '%s %s %s';
-    }
-
-    /**
-     * 演算子の対象となる表や列の名前を取得します。
-     *
-     * @return string 演算子の対象となる表や列の名前
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * 演算子の対象となる表や列の名前を設定します。
-     *
-     * @param string $name 演算子の対象となる表や列の名前
-     *
-     * @throws \InvalidArgumentException 引数 name に渡した値が空文字列の場合
-     */
-    public function setName(string $name)
-    {
-        if (empty($name) === true) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->name = $name;
+        $this->setOperator($sign);
     }
 
     /**
@@ -114,7 +75,7 @@ class Expression implements IConditionContainable
      *
      * @return string 演算子
      */
-    public function getSign(): string
+    public function getOperator(): string
     {
         return $this->sign;
     }
@@ -127,11 +88,11 @@ class Expression implements IConditionContainable
      *                  値が比較値よりも小さい時は、Expression::SIGN_LT、大きい時は、Expression::SIGN_GT。<br />
      *                  値が比較値以下の場合は、Expression::SIGN_OU、以上の時は、Expression::SIGN_AO。
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException 引数 sign に渡した値が許容できない場合
      *
-     * @return Expression
+     * @return Expression 演算子を設定した状態のクラス Expression のオブジェクトインスタンス
      */
-    public function setSign(int $sign): Expression
+    public function setOperator(int $sign): Expression
     {
         if (empty(self::SIGNS[$sign]) === true) {
             throw new \InvalidArgumentException();
@@ -140,15 +101,5 @@ class Expression implements IConditionContainable
         $this->sign = self::SIGNS[$sign];
 
         return $this;
-    }
-
-    /**
-     * SQLの演算子を文字列として取得します。
-     *
-     * @return string SQLの演算子
-     */
-    public function __toString(): string
-    {
-        return sprintf($this->getOperatorFormat(), $this->getName(), $this->getSign(), $this->getValue());
     }
 }

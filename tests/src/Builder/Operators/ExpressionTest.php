@@ -10,7 +10,6 @@ use Yukar\Sql\Builder\Operators\Expression;
  */
 class ExpressionTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_NAME = 'name';
     const PROP_NAME_VALUE = 'value';
     const PROP_NAME_SIGN = 'sign';
 
@@ -41,105 +40,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
 
         return $property;
-    }
-
-    /**
-     * 正常系テスト
-     */
-    public function testGetFunctionFormat()
-    {
-        self::assertSame('%s %s %s', $this->getNewInstance()->getOperatorFormat());
-    }
-
-    /**
-     * メソッド testGetName のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetName()
-    {
-        return [
-            [ 'column', 'column' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerGetName
-     *
-     * @param string $expected   期待値
-     * @param string $prop_value プロパティ name の値
-     */
-    public function testGetName($expected, $prop_value)
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getName());
-    }
-
-    /**
-     * メソッド testSetName のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetName()
-    {
-        return [
-            [ 'column', null, 'column' ],
-            [ 'abc', 'column', 'abc' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetName
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ name の値
-     * @param string $name      メソッド setName の引数 name に渡す値
-     */
-    public function testSetName($expected, $prop_value, $name)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_NAME);
-        $reflector->setValue($object, $prop_value);
-        $object->setName($name);
-
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetNameFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetNameFailure()
-    {
-        return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'column', '' ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetNameFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ name の値
-     * @param mixed $name          メソッド setName の引数 name に渡す値
-     */
-    public function testSetNameFailure($expected, $prop_value, $name)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
-        $object->setName($name);
     }
 
     /**
@@ -272,7 +172,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getSign());
+        self::assertSame($expected, $object->getOperator());
     }
 
     /**
@@ -307,7 +207,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
         $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
         $reflector->setValue($object, $prop_value);
 
-        $this->assertInstanceOf(get_class($object), $object->setSign($sign));
+        $this->assertInstanceOf(get_class($object), $object->setOperator($sign));
         self::assertSame($expected, $reflector->getValue($object));
     }
 
@@ -341,7 +241,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
 
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
-        $object->setSign($sign);
+        $object->setOperator($sign);
     }
 
     /**
@@ -369,6 +269,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $name, $value, $sign)
     {
-        self::assertSame($expected, (string)(new Expression($name, $value))->setSign($sign));
+        self::assertSame($expected, (string)(new Expression($name, $value))->setOperator($sign));
     }
 }
