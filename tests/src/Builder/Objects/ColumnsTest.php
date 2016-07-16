@@ -19,11 +19,14 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Columns コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getColumnsInstance()
+    private function getNewInstance(): Columns
     {
-        return (new \ReflectionClass(Columns::class))->newInstanceWithoutConstructor();
+        /** @var Columns $instance */
+        $instance = (new \ReflectionClass(Columns::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -67,10 +70,10 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumns($expected, $base_list)
     {
-        $object = $this->getColumnsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $base_list);
 
-        $this->assertSame($expected, $object->getColumns());
+        self::assertSame($expected, $object->getColumns());
     }
 
     /**
@@ -98,12 +101,12 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumns($expected, $prop_value, $set_list)
     {
-        $object = $this->getColumnsInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setColumns($set_list);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -135,7 +138,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getColumnsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setColumns($set_list);
     }
@@ -165,6 +168,6 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $base_list)
     {
-        $this->assertSame($expected, (string)new Columns($base_list));
+        self::assertSame($expected, (string)new Columns($base_list));
     }
 }

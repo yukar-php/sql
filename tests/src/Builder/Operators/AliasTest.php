@@ -16,11 +16,14 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Alias コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getAliasInstance()
+    private function getNewInstance(): Alias
     {
-        return (new \ReflectionClass(Alias::class))->newInstanceWithoutConstructor();
+        /** @var Alias $instance */
+        $instance = (new \ReflectionClass(Alias::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -44,7 +47,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat()
     {
-        $this->assertSame('%s AS %s', $this->getAliasInstance()->getOperatorFormat());
+        self::assertSame('%s AS %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -69,10 +72,10 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOriginName($expected, $prop_value)
     {
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getOriginName());
+        self::assertSame($expected, $object->getOriginName());
     }
 
     /**
@@ -99,12 +102,12 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOriginName($expected, $prop_value, $origin_name)
     {
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setOriginName($origin_name);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -133,7 +136,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME)->setValue($object, $prop_value);
         $object->setOriginName($origin_name);
     }
@@ -160,10 +163,10 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAliasName($expected, $prop_value)
     {
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ALIAS_NAME)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getAliasName());
+        self::assertSame($expected, $object->getAliasName());
     }
 
     /**
@@ -190,12 +193,12 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAliasName($expected, $prop_value, $alias_name)
     {
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ALIAS_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setAliasName($alias_name);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -224,7 +227,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getAliasInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ALIAS_NAME)->setValue($object, $prop_value);
         $object->setAliasName($alias_name);
     }
@@ -252,6 +255,6 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $origin_name, $alias_name)
     {
-        $this->assertSame($expected, (string)new Alias($origin_name, $alias_name));
+        self::assertSame($expected, (string)new Alias($origin_name, $alias_name));
     }
 }

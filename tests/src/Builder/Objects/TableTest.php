@@ -17,11 +17,14 @@ class TableTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Table コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getTableInstance()
+    private function getNewInstance(): Table
     {
-        return (new \ReflectionClass(Table::class))->newInstanceWithoutConstructor();
+        /** @var Table $instance */
+        $instance = (new \ReflectionClass(Table::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -63,10 +66,10 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTableName($expected, $table_name)
     {
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $table_name);
 
-        $this->assertSame($expected, $object->getTableName());
+        self::assertSame($expected, $object->getTableName());
     }
 
     /**
@@ -93,12 +96,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetTableName($expected, $prop_value, $table_name)
     {
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TABLE_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setTableName($table_name);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -127,7 +130,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $prop_value);
         $object->setTableName($table_name);
     }
@@ -154,10 +157,10 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefinedColumns($expected, $prop_value)
     {
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getDefinedColumns());
+        self::assertSame($expected, $object->getDefinedColumns());
     }
 
     /**
@@ -185,7 +188,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->getDefinedColumns();
     }
@@ -214,12 +217,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDefinedColumns($expected, $prop_value, $columns)
     {
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
 
-        $this->assertInstanceOf(get_class($object), $object->setDefinedColumns($columns));
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertInstanceOf(get_class($object), $object->setDefinedColumns($columns));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -248,7 +251,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getTableInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setDefinedColumns($columns);
     }
@@ -277,6 +280,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $table_name, $columns)
     {
-        $this->assertSame($expected, (string)(new Table($table_name))->setDefinedColumns($columns));
+        self::assertSame($expected, (string)(new Table($table_name))->setDefinedColumns($columns));
     }
 }

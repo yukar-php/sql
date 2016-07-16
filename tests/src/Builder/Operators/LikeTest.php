@@ -17,11 +17,14 @@ class LikeTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Like コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getLikeInstance()
+    private function getNewInstance(): Like
     {
-        return (new \ReflectionClass(Like::class))->newInstanceWithoutConstructor();
+        /** @var Like $instance */
+        $instance = (new \ReflectionClass(Like::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -45,7 +48,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat()
     {
-        $this->assertSame('%s %sLIKE \'%s\'', $this->getLikeInstance()->getOperatorFormat());
+        self::assertSame('%s %sLIKE \'%s\'', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -70,10 +73,10 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumn($expected, $prop_value)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getColumn());
+        self::assertSame($expected, $object->getColumn());
     }
 
     /**
@@ -100,12 +103,12 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumn($expected, $prop_value, $column)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
         $reflector->setValue($object, $prop_value);
         $object->setColumn($column);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -134,7 +137,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
         $object->setColumn($column);
     }
@@ -161,10 +164,10 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPattern($expected, $prop_value)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_PATTERN)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getPattern());
+        self::assertSame($expected, $object->getPattern());
     }
 
     /**
@@ -191,12 +194,12 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetPattern($expected, $prop_value, $pattern)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_PATTERN);
         $reflector->setValue($object, $prop_value);
         $object->setPattern($pattern);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -225,7 +228,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_PATTERN)->setValue($object, $prop_value);
         $object->setPattern($pattern);
     }
@@ -253,10 +256,10 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNot($expected, $prop_value)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_IS_NOT)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->isNot());
+        self::assertSame($expected, $object->isNot());
     }
 
     /**
@@ -285,12 +288,12 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetIsNot($expected, $prop_value, $is_not)
     {
-        $object = $this->getLikeInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_IS_NOT);
         $reflector->setValue($object, $prop_value);
         $object->setIsNot($is_not);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -318,6 +321,6 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $pattern, $is_not)
     {
-        $this->assertSame($expected, (string)(new Like($column, $pattern, $is_not)));
+        self::assertSame($expected, (string)(new Like($column, $pattern, $is_not)));
     }
 }

@@ -16,11 +16,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Order コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getOrderInstance()
+    private function getNewInstance(): Order
     {
-        return (new \ReflectionClass(Order::class))->newInstanceWithoutConstructor();
+        /** @var Order $instance */
+        $instance = (new \ReflectionClass(Order::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -44,7 +47,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat()
     {
-        $this->assertSame('%s %s', $this->getOrderInstance()->getOperatorFormat());
+        self::assertSame('%s %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -70,10 +73,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumnName($expected, $prop_value)
     {
-        $object = $this->getOrderInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getColumnName());
+        self::assertSame($expected, $object->getColumnName());
     }
 
     /**
@@ -100,12 +103,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumnName($expected, $prop_value, $column_name)
     {
-        $object = $this->getOrderInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setColumnName($column_name);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -134,7 +137,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getOrderInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
         $object->setColumnName($column_name);
     }
@@ -165,10 +168,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrderType($expected, $prop_value)
     {
-        $object = $this->getOrderInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_TYPE)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getOrderType());
+        self::assertSame($expected, $object->getOrderType());
     }
 
     /**
@@ -204,12 +207,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOrderType($expected, $prop_value, $order_type)
     {
-        $object = $this->getOrderInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_TYPE);
         $reflector->setValue($object, $prop_value);
 
-        $this->assertInstanceOf(get_class($object), $object->setOrderType($order_type));
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertInstanceOf(get_class($object), $object->setOrderType($order_type));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -236,6 +239,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column_name, $order_type)
     {
-        $this->assertSame($expected, (string)new Order($column_name, $order_type));
+        self::assertSame($expected, (string)new Order($column_name, $order_type));
     }
 }

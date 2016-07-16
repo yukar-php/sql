@@ -17,11 +17,14 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Between コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getBetweenInstance()
+    private function getNewInstance(): Between
     {
-        return (new \ReflectionClass(Between::class))->newInstanceWithoutConstructor();
+        /** @var Between $instance */
+        $instance = (new \ReflectionClass(Between::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -45,7 +48,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat()
     {
-        $this->assertSame('%s BETWEEN %s AND %s', $this->getBetweenInstance()->getOperatorFormat());
+        self::assertSame('%s BETWEEN %s AND %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -70,10 +73,10 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumn($expected, $prop_value)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getColumn());
+        self::assertSame($expected, $object->getColumn());
     }
 
     /**
@@ -100,12 +103,12 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumn($expected, $prop_value, $column)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
         $reflector->setValue($object, $prop_value);
         $object->setColumn($column);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -134,7 +137,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
         $object->setColumn($column);
     }
@@ -162,10 +165,10 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFromValue($expected, $prop_value)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM_VALUE)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getFromValue());
+        self::assertSame($expected, $object->getFromValue());
     }
 
     /**
@@ -194,12 +197,12 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFromValue($expected, $prop_value, $from_value)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FROM_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setFromValue($from_value);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -234,7 +237,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM_VALUE)->setValue($object, $prop_value);
         $object->setFromValue($from_value);
     }
@@ -262,10 +265,10 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetToValue($expected, $prop_value)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TO_VALUE)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getToValue());
+        self::assertSame($expected, $object->getToValue());
     }
 
     /**
@@ -294,12 +297,12 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetToValue($expected, $prop_value, $from_value)
     {
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TO_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setToValue($from_value);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -334,7 +337,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getBetweenInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TO_VALUE)->setValue($object, $prop_value);
         $object->setToValue($from_value);
     }
@@ -364,6 +367,6 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $from_value, $to_value)
     {
-        $this->assertSame($expected, (string)(new Between($column, $from_value, $to_value)));
+        self::assertSame($expected, (string)(new Between($column, $from_value, $to_value)));
     }
 }

@@ -17,11 +17,14 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Expression コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getExpressionInstance()
+    private function getNewInstance(): Expression
     {
-        return (new \ReflectionClass(Expression::class))->newInstanceWithoutConstructor();
+        /** @var Expression $instance */
+        $instance = (new \ReflectionClass(Expression::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -45,7 +48,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFunctionFormat()
     {
-        $this->assertSame('%s %s %s', $this->getExpressionInstance()->getOperatorFormat());
+        self::assertSame('%s %s %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -70,10 +73,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetName($expected, $prop_value)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getName());
+        self::assertSame($expected, $object->getName());
     }
 
     /**
@@ -100,12 +103,12 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetName($expected, $prop_value, $name)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setName($name);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -134,7 +137,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
         $object->setName($name);
     }
@@ -161,10 +164,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue($expected, $prop_value)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getValue());
+        self::assertSame($expected, $object->getValue());
     }
 
     /**
@@ -191,12 +194,12 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValue($expected, $prop_value, $value)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setValue($value);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -228,7 +231,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
         $object->setValue($value);
     }
@@ -266,10 +269,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSign($expected, $prop_value)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getSign());
+        self::assertSame($expected, $object->getSign());
     }
 
     /**
@@ -300,12 +303,12 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSign($expected, $prop_value, $sign)
     {
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
         $reflector->setValue($object, $prop_value);
 
         $this->assertInstanceOf(get_class($object), $object->setSign($sign));
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -336,7 +339,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getExpressionInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
         $object->setSign($sign);
     }
@@ -366,6 +369,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $name, $value, $sign)
     {
-        $this->assertSame($expected, (string)(new Expression($name, $value))->setSign($sign));
+        self::assertSame($expected, (string)(new Expression($name, $value))->setSign($sign));
     }
 }

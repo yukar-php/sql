@@ -20,11 +20,14 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return Conditions コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getConditionsInstance()
+    private function getNewInstance(): Conditions
     {
-        return (new \ReflectionClass(Conditions::class))->newInstanceWithoutConstructor();
+        /** @var Conditions $instance */
+        $instance = (new \ReflectionClass(Conditions::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -69,10 +72,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperation($expected, $prop_value)
     {
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_OPERATOR)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getOperation());
+        self::assertSame($expected, $object->getOperation());
     }
 
     /**
@@ -102,11 +105,11 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOperation($expected, $prop_value)
     {
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $property = $this->getProperty($object, self::PROP_NAME_OPERATOR);
         $object->setOperation($prop_value);
 
-        $this->assertSame($expected, $property->getValue($object));
+        self::assertSame($expected, $property->getValue($object));
     }
 
     /**
@@ -133,10 +136,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConditions($expected, $conditions)
     {
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $conditions);
 
-        $this->assertSame($expected, $object->getConditions());
+        self::assertSame($expected, $object->getConditions());
     }
 
     /**
@@ -168,13 +171,13 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddConditions($expected, $base_cond, $add_cond)
     {
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
 
         $reflector->setValue($object, $base_cond);
         $object->addCondition($add_cond);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -217,7 +220,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $base_cond);
         $object->addCondition($add_cond);
     }
@@ -247,12 +250,12 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetConditions($expected, $base_cond, $first, $second)
     {
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
         $reflector->setValue($object, $base_cond);
         $object->setConditions($first, $second);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -288,7 +291,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getConditionsInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $base_cond);
         $object->setConditions($first, $second);
     }
@@ -382,6 +385,6 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $operator, $first, $second)
     {
-        $this->assertSame($expected, (string)(new Conditions($operator))->setConditions($first, $second));
+        self::assertSame($expected, (string)(new Conditions($operator))->setConditions($first, $second));
     }
 }

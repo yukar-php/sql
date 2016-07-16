@@ -16,11 +16,14 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return IsNull コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getIsNullInstance()
+    private function getNewInstance(): IsNull
     {
-        return (new \ReflectionClass(IsNull::class))->newInstanceWithoutConstructor();
+        /** @var IsNull $instance */
+        $instance = (new \ReflectionClass(IsNull::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -44,7 +47,7 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat()
     {
-        $this->assertSame('%s IS %sNULL', $this->getIsNullInstance()->getOperatorFormat());
+        self::assertSame('%s IS %sNULL', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -69,10 +72,10 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumn($expected, $prop_value)
     {
-        $object = $this->getIsNullInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getColumn());
+        self::assertSame($expected, $object->getColumn());
     }
 
     /**
@@ -99,12 +102,12 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumn($expected, $prop_value, $column)
     {
-        $object = $this->getIsNullInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
         $reflector->setValue($object, $prop_value);
         $object->setColumn($column);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -139,7 +142,7 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getIsNullInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
         $object->setColumn($column);
     }
@@ -167,10 +170,10 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNot($expected, $prop_value)
     {
-        $object = $this->getIsNullInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_IS_NOT)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->isNot());
+        self::assertSame($expected, $object->isNot());
     }
 
     /**
@@ -199,12 +202,12 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetIsNot($expected, $prop_value, $is_not)
     {
-        $object = $this->getIsNullInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_IS_NOT);
         $reflector->setValue($object, $prop_value);
         $object->setIsNot($is_not);
 
-        $this->assertSame($expected, $reflector->getValue($object));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -231,6 +234,6 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $is_not)
     {
-        $this->assertSame($expected, (string)(new IsNull($column, $is_not)));
+        self::assertSame($expected, (string)(new IsNull($column, $is_not)));
     }
 }

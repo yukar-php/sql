@@ -18,11 +18,14 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return GroupBy コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getGroupByInstance()
+    private function getNewInstance(): GroupBy
     {
-        return (new \ReflectionClass(GroupBy::class))->newInstanceWithoutConstructor();
+        /** @var GroupBy $instance */
+        $instance = (new \ReflectionClass(GroupBy::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -46,7 +49,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPhraseString()
     {
-        $this->assertSame('GROUP BY %s', $this->getGroupByInstance()->getPhraseString());
+        self::assertSame('GROUP BY %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -71,10 +74,10 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGroupBy($expected, $prop_value)
     {
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getGroupBy()->getColumns());
+        self::assertSame($expected, $object->getGroupBy()->getColumns());
     }
 
     /**
@@ -101,12 +104,12 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGroupBy($expected, $prop_value, $group_by)
     {
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setGroupBy($group_by);
 
-        $this->assertSame($expected, $reflector->getValue($object)->getColumns());
+        self::assertSame($expected, $reflector->getValue($object)->getColumns());
     }
 
     /**
@@ -135,7 +138,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setGroupBy($group_by);
@@ -166,11 +169,11 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHaving($expected, $prop_value)
     {
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
         $having = $object->getHaving();
 
-        $this->assertSame($expected, empty($having) ? $having : $having->getConditions());
+        self::assertSame($expected, empty($having) ? $having : $having->getConditions());
     }
 
     /**
@@ -201,12 +204,12 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHaving($expected, $prop_value, $having)
     {
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_HAVING_COND);
         $reflector->setValue($object, $prop_value);
         $object->setHaving($having);
 
-        $this->assertSame($expected, $reflector->getValue($object)->getConditions());
+        self::assertSame($expected, $reflector->getValue($object)->getConditions());
     }
 
     /**
@@ -237,7 +240,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getGroupByInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
         $object->setHaving($having);
     }
@@ -280,6 +283,6 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $group_by, $having)
     {
-        $this->assertSame($expected, (string)new GroupBy($group_by, $having));
+        self::assertSame($expected, (string)new GroupBy($group_by, $having));
     }
 }

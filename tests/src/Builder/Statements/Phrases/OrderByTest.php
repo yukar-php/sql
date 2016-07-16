@@ -17,11 +17,14 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
      *
-     * @return object コンストラクタを通さずに作成した新しいインスタンス
+     * @return OrderBy コンストラクタを通さずに作成した新しいインスタンス
      */
-    private function getOrderByInstance()
+    private function getNewInstance(): OrderBy
     {
-        return (new \ReflectionClass(OrderBy::class))->newInstanceWithoutConstructor();
+        /** @var OrderBy $instance */
+        $instance =  (new \ReflectionClass(OrderBy::class))->newInstanceWithoutConstructor();
+
+        return $instance;
     }
 
     /**
@@ -45,7 +48,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPhraseString()
     {
-        $this->assertSame('ORDER BY %s', $this->getOrderByInstance()->getPhraseString());
+        self::assertSame('ORDER BY %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -70,10 +73,10 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrderBy($expected, $prop_value)
     {
-        $object = $this->getOrderByInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getOrderBy()->getColumns());
+        self::assertSame($expected, $object->getOrderBy()->getColumns());
     }
 
     /**
@@ -100,12 +103,12 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOrderBy($expected, $prop_value, $order_by)
     {
-        $object = $this->getOrderByInstance();
+        $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setOrderBy($order_by);
 
-        $this->assertSame($expected, $reflector->getValue($object)->getColumns());
+        self::assertSame($expected, $reflector->getValue($object)->getColumns());
     }
 
     /**
@@ -134,7 +137,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getOrderByInstance();
+        $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST)->setValue($object, $prop_value);
         $object->setOrderBy($order_by);
     }
@@ -179,6 +182,6 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $order_by)
     {
-        $this->assertSame($expected, (string)new OrderBy($order_by));
+        self::assertSame($expected, (string)new OrderBy($order_by));
     }
 }
