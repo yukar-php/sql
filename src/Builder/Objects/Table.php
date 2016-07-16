@@ -10,7 +10,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\ITable;
  */
 class Table implements ITable
 {
-    private $table_name = null;
+    private $table_name = '';
     private $column_list = [];
 
     /**

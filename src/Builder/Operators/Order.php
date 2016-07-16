@@ -14,8 +14,8 @@ class Order implements IOperator
     const DESCENDING = 2;
     const SORTS = [ self::ASCENDING => 'ASC', self::DESCENDING => 'DESC' ];
 
-    private $column_name = null;
-    private $order_type = null;
+    private $column_name = '';
+    private $order_type = '';
 
     /**
      * Order クラスの新しいインスタンスを初期化します。

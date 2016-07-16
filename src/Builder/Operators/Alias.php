@@ -10,8 +10,8 @@ use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
  */
 class Alias implements IOperator
 {
-    private $origin_name = null;
-    private $alias_name = null;
+    private $origin_name = '';
+    private $alias_name = '';
 
     /**
      * Alias クラスの新しいインスタンスを初期化します。

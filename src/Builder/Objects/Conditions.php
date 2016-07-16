@@ -15,7 +15,7 @@ class Conditions implements ICondition
     const OPERATION_OR = 2;
     const OPERATORS = [ self::OPERATION_AND => 'AND', self::OPERATION_OR => 'OR' ];
 
-    private $operator = null;
+    private $operator = '';
     private $conditions = [];
 
     /**
