@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\Expression;
+use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 
 /**
  * クラス Expression の単体テスト

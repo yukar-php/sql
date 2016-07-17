@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Operators;
+namespace Yukar\Sql\Builder\Operators\AtCondition;
 
 use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
 

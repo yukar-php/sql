@@ -2,10 +2,10 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Conditions;
-use Yukar\Sql\Builder\Operators\Between;
-use Yukar\Sql\Builder\Operators\Expression;
-use Yukar\Sql\Builder\Operators\IsNull;
-use Yukar\Sql\Builder\Operators\Like;
+use Yukar\Sql\Builder\Operators\AtCondition\Between;
+use Yukar\Sql\Builder\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
+use Yukar\Sql\Builder\Operators\AtCondition\Like;
 
 /**
  * クラス Conditions の単体テスト

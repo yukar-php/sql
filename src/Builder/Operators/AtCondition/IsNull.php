@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Operators;
+namespace Yukar\Sql\Builder\Operators\AtCondition;
 
 /**
  * IS NULL 演算子または IS NOT NULL 演算子を表します。

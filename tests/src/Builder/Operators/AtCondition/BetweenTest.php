@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\Between;
+use Yukar\Sql\Builder\Operators\AtCondition\Between;
 
 /**
  * クラス Between の単体テスト

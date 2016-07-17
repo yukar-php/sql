@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Operators;
+namespace Yukar\Sql\Builder\Operators\AtCondition;
 
 /**
  * BETWEEN 演算子または NOT BETWEEN 演算子を表現します。

@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\Like;
+use Yukar\Sql\Builder\Operators\AtCondition\Like;
 
 /**
  * クラス Like の単体テスト

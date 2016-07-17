@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\BaseConditionContainable;
+use Yukar\Sql\Builder\Operators\AtCondition\BaseConditionContainable;
 
 /**
  * 抽象クラス BaseConditionContainable の単体テスト

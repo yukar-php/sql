@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\BaseDeniableOperator;
+use Yukar\Sql\Builder\Operators\AtCondition\BaseDeniableOperator;
 
 /**
  * 抽象クラス BaseDeniableOperator の単体テスト
