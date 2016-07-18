@@ -1,8 +1,8 @@
 <?php
 namespace Yukar\Sql\Builder\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\Columns;
-use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
 
 /**
@@ -18,10 +18,10 @@ class GroupBy implements IPhrases
     /**
      * GroupBy クラスの新しいインスタンスを初期化します。
      *
-     * @param Columns $group_by
-     * @param Conditions $having
+     * @param IColumns $group_by GroupBy句に指定するテーブルの任意の列のリスト
+     * @param ICondition $having Having句に指定する条件のリスト
      */
-    public function __construct(Columns $group_by, Conditions $having = null)
+    public function __construct(IColumns $group_by, ICondition $having = null)
     {
         $this->setGroupBy($group_by);
         (isset($having) === true) && $this->setHaving($having);
@@ -40,9 +40,9 @@ class GroupBy implements IPhrases
     /**
      * GroupBy句に指定するテーブルの任意の列のリストを取得します。
      *
-     * @return Columns GroupBy句に指定するテーブルの任意の列のリスト
+     * @return IColumns GroupBy句に指定するテーブルの任意の列のリスト
      */
-    public function getGroupBy(): Columns
+    public function getGroupBy(): IColumns
     {
         return $this->group_by_list;
     }
@@ -50,11 +50,11 @@ class GroupBy implements IPhrases
     /**
      * GroupBy句に指定するテーブルの任意の列のリストを設定します。
      *
-     * @param Columns $group_by GroupBy句に指定するテーブルの任意の列のリスト
+     * @param IColumns $group_by GroupBy句に指定するテーブルの任意の列のリスト
      *
      * @throws \InvalidArgumentException GroupBy句に指定するテーブルの任意の列のリストの要素が空の場合
      */
-    public function setGroupBy(Columns $group_by)
+    public function setGroupBy(IColumns $group_by)
     {
         if (empty($group_by->getColumns()) === true) {
             throw new \InvalidArgumentException();
@@ -76,11 +76,11 @@ class GroupBy implements IPhrases
     /**
      * Having句に指定する条件のリストを設定します。
      *
-     * @param Conditions $conditions Having句に指定する条件のリスト
+     * @param ICondition $conditions Having句に指定する条件のリスト
      *
      * @throws \InvalidArgumentException Having句に指定する条件のリストの要素が空の場合
      */
-    public function setHaving(Conditions $conditions)
+    public function setHaving(ICondition $conditions)
     {
         if (empty($conditions->getConditions()) === true) {
             throw new \InvalidArgumentException();

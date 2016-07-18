@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Objects;
 
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
 
 /**
@@ -68,13 +69,13 @@ class Table implements ITable
     /**
      * テーブルで定義済みの列のリストを設定します。
      *
-     * @param Columns $columns テーブルで定義済みの列のリスト
+     * @param IColumns $columns テーブルで定義済みの列のリスト
      *
      * @throws \InvalidArgumentException 引数 $columns の要素が空の場合
      *
      * @return ITable 定義済みの列のリストを設定した状態の ITable を継承するオブジェクトのインスタンス
      */
-    public function setDefinedColumns(Columns $columns): ITable
+    public function setDefinedColumns(IColumns $columns): ITable
     {
         $column_list = $columns->getColumns();
 

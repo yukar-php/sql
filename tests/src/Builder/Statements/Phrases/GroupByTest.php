@@ -4,6 +4,8 @@ namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
 
 /**
  * クラス GroupBy の単体テスト
@@ -69,8 +71,8 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetGroupBy
      *
-     * @param array $expected     期待値
-     * @param Columns $prop_value プロパティ group_by_list の値
+     * @param array $expected      期待値
+     * @param IColumns $prop_value プロパティ group_by_list の値
      */
     public function testGetGroupBy($expected, $prop_value)
     {
@@ -98,9 +100,9 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetGroupBy
      *
-     * @param array $expected   期待値
-     * @param mixed $prop_value プロパティ group_by_list の値
-     * @param Columns $group_by メソッド setGroupBy の引数 group_by に渡す値
+     * @param array $expected    期待値
+     * @param mixed $prop_value  プロパティ group_by_list の値
+     * @param IColumns $group_by メソッド setGroupBy の引数 group_by に渡す値
      */
     public function testSetGroupBy($expected, $prop_value, $group_by)
     {
@@ -132,7 +134,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @param \Exception $expected 期待値
      * @param mixed $prop_value    プロパティ group_by_list の値
-     * @param Columns $group_by    メソッド setGroupBy の引数 group_by に渡す値
+     * @param IColumns $group_by   メソッド setGroupBy の引数 group_by に渡す値
      */
     public function testSetGroupByFailure($expected, $prop_value, $group_by)
     {
@@ -203,7 +205,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $expected    期待値
      * @param mixed $prop_value  プロパティ having_cond の値
-     * @param Conditions $having メソッド setHaving の引数 conditions の値
+     * @param ICondition $having メソッド setHaving の引数 conditions の値
      */
     public function testSetHaving($expected, $prop_value, $having)
     {
@@ -237,7 +239,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @param \Exception $expected 期待値
      * @param mixed $prop_value    プロパティ having_cond の値
-     * @param Conditions $having   メソッド setHaving の引数 conditions の値
+     * @param ICondition $having   メソッド setHaving の引数 conditions の値
      */
     public function testSetHavingFailure($expected, $prop_value, $having)
     {
@@ -280,9 +282,9 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected  期待値
-     * @param Columns $group_by コンストラクタの引数 group_by に渡す値
-     * @param mixed $having     コンストラクタの引数 having に渡す値
+     * @param string $expected   期待値
+     * @param IColumns $group_by コンストラクタの引数 group_by に渡す値
+     * @param mixed $having      コンストラクタの引数 having に渡す値
      */
     public function testToString($expected, $group_by, $having)
     {

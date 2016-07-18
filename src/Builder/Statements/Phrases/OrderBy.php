@@ -1,7 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\Columns;
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
 
 /**
@@ -16,9 +16,9 @@ class OrderBy implements IPhrases
     /**
      * OrderBy クラスの新しいインスタンスを初期化します。
      *
-     * @param Columns $order_by
+     * @param IColumns $order_by OrderBy句に指定するテーブルの任意の列のリスト
      */
-    public function __construct(Columns $order_by)
+    public function __construct(IColumns $order_by)
     {
         $this->setOrderBy($order_by);
     }
@@ -36,9 +36,9 @@ class OrderBy implements IPhrases
     /**
      * OrderBy句に指定するテーブルの任意の列のリストを取得します。
      *
-     * @return Columns OrderBy句に指定するテーブルの任意の列のリスト
+     * @return IColumns OrderBy句に指定するテーブルの任意の列のリスト
      */
-    public function getOrderBy(): Columns
+    public function getOrderBy(): IColumns
     {
         return $this->order_by_list;
     }
@@ -46,11 +46,11 @@ class OrderBy implements IPhrases
     /**
      * OrderBy句に指定するテーブルの任意の列のリストを設定します。
      *
-     * @param Columns $order_by OrderBy句に指定するテーブルの任意の列のリスト
+     * @param IColumns $order_by OrderBy句に指定するテーブルの任意の列のリスト
      *
      * @throws \InvalidArgumentException OrderBy句に指定するテーブルの任意の列のリストの要素が空の場合
      */
-    public function setOrderBy(Columns $order_by)
+    public function setOrderBy(IColumns $order_by)
     {
         if (empty($order_by->getColumns()) === true) {
             throw new \InvalidArgumentException();

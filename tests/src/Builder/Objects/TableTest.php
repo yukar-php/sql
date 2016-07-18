@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 
 /**
  * クラス Table の単体テスト
@@ -213,7 +214,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @param array $expected   期待値
      * @param array $prop_value プロパティ column_list の値
-     * @param Columns $columns  メソッド setDefinedColumns の引数 columns に渡す値
+     * @param IColumns $columns メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testSetDefinedColumns($expected, $prop_value, $columns)
     {
@@ -245,7 +246,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @param |Exception $expected 期待値
      * @param array $prop_value    プロパティ column_list の値
-     * @param Columns $columns     メソッド setDefinedColumns の引数 columns に渡す値
+     * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testSetDefinedColumnsFailure($expected, $prop_value, $columns)
     {
@@ -276,7 +277,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected   期待値
      * @param string $table_name コンストラクタの引数 name に渡す値
-     * @param Columns $columns   メソッド setDefinedColumns の引数 columns に渡す値
+     * @param IColumns $columns  メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testToString($expected, $table_name, $columns)
     {
