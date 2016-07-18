@@ -11,7 +11,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
  */
 class OrderBy implements IPhrases
 {
-    private $order_by_list = null;
+    private $order_by_list;
 
     /**
      * OrderBy クラスの新しいインスタンスを初期化します。

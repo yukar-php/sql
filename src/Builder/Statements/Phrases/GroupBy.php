@@ -12,8 +12,8 @@ use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
  */
 class GroupBy implements IPhrases
 {
-    private $group_by_list = null;
-    private $having_cond = null;
+    private $group_by_list;
+    private $having_cond;
 
     /**
      * GroupBy クラスの新しいインスタンスを初期化します。
