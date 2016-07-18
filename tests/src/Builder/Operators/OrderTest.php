@@ -119,8 +119,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function providerSetColumnNameFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'TableName', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'TableName', '' ],
         ];
     }
 

@@ -117,11 +117,11 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     public function providerSetColumnsFailure()
     {
         return [
-            [ '\InvalidArgumentException', [], [] ],
-            [ '\InvalidArgumentException', [ 'a', 'b' ], [] ],
-            [ '\DomainException', [], [ 0 ] ],
-            [ '\DomainException', [ '1', '2' ], [ 0, 1 ] ],
-            [ '\DomainException', [ '1', '2' ], [ new Expression('a', 1), new Between('b', 1, 2) ] ],
+            [ \InvalidArgumentException::class, [], [] ],
+            [ \InvalidArgumentException::class, [ 'a', 'b' ], [] ],
+            [ \DomainException::class, [], [ 0 ] ],
+            [ \DomainException::class, [ '1', '2' ], [ 0, 1 ] ],
+            [ \DomainException::class, [ '1', '2' ], [ new Expression('a', 1), new Between('b', 1, 2) ] ],
         ];
     }
 

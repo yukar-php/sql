@@ -110,8 +110,8 @@ class LikeTest extends \PHPUnit_Framework_TestCase
     public function providerSetPatternFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'column', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'column', '' ],
         ];
     }
 

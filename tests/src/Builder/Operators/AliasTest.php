@@ -118,8 +118,8 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function providerSetOriginNameFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'origin', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'origin', '' ],
         ];
     }
 
@@ -209,8 +209,8 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function providerSetAliasNameFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'alias_name', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'alias_name', '' ],
         ];
     }
 

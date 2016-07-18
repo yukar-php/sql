@@ -113,14 +113,14 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     public function providerSetFromValueFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '0' ],
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', null, 0 ],
-            [ '\InvalidArgumentException', null, 0.0 ],
-            [ '\InvalidArgumentException', '1', '0' ],
-            [ '\InvalidArgumentException', '1', '' ],
-            [ '\InvalidArgumentException', '1', 0 ],
-            [ '\InvalidArgumentException', '1', 0.0 ],
+            [ \InvalidArgumentException::class, null, '0' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, null, 0 ],
+            [ \InvalidArgumentException::class, null, 0.0 ],
+            [ \InvalidArgumentException::class, '1', '0' ],
+            [ \InvalidArgumentException::class, '1', '' ],
+            [ \InvalidArgumentException::class, '1', 0 ],
+            [ \InvalidArgumentException::class, '1', 0.0 ],
         ];
     }
 
@@ -213,14 +213,14 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     public function providerSetToValueFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '0' ],
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', null, 0 ],
-            [ '\InvalidArgumentException', null, 0.0 ],
-            [ '\InvalidArgumentException', '1', '0' ],
-            [ '\InvalidArgumentException', '1', '' ],
-            [ '\InvalidArgumentException', '1', 0 ],
-            [ '\InvalidArgumentException', '1', 0.0 ],
+            [ \InvalidArgumentException::class, null, '0' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, null, 0 ],
+            [ \InvalidArgumentException::class, null, 0.0 ],
+            [ \InvalidArgumentException::class, '1', '0' ],
+            [ \InvalidArgumentException::class, '1', '' ],
+            [ \InvalidArgumentException::class, '1', 0 ],
+            [ \InvalidArgumentException::class, '1', 0.0 ],
         ];
     }
 

@@ -110,11 +110,11 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function providerSetValueFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', null, 0 ],
-            [ '\InvalidArgumentException', null, 0.0 ],
-            [ '\InvalidArgumentException', 'value', '' ],
-            [ '\InvalidArgumentException', 'value', '0' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, null, 0 ],
+            [ \InvalidArgumentException::class, null, 0.0 ],
+            [ \InvalidArgumentException::class, 'value', '' ],
+            [ \InvalidArgumentException::class, 'value', '0' ],
         ];
     }
 
@@ -219,10 +219,10 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     public function providerSetSignFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, 0 ],
-            [ '\InvalidArgumentException', Expression::SIGN_NE, 0 ],
-            [ '\InvalidArgumentException', null, 7 ],
-            [ '\InvalidArgumentException', Expression::SIGN_LT, 7 ],
+            [ \InvalidArgumentException::class, null, 0 ],
+            [ \InvalidArgumentException::class, Expression::SIGN_NE, 0 ],
+            [ \InvalidArgumentException::class, null, 7 ],
+            [ \InvalidArgumentException::class, Expression::SIGN_LT, 7 ],
         ];
     }
 

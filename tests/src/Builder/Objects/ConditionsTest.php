@@ -192,18 +192,18 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
 
         return [
             // 許されない型の値を指定した場合
-            [ '\TypeError', [], 1 ],
-            [ '\TypeError', [], true ],
-            [ '\TypeError', [], null ],
-            [ '\TypeError', [], new \stdClass() ],
+            [ \TypeError::class, [], 1 ],
+            [ \TypeError::class, [], true ],
+            [ \TypeError::class, [], null ],
+            [ \TypeError::class, [], new \stdClass() ],
             // 既に条件数が上限に達している場合
-            [ '\OverflowException', [ 'a = 1', 'b = 1' ], 'c = 1' ],
-            [ '\OverflowException', [ 'a = 1', 'b = 1' ], $condition ],
+            [ \OverflowException::class, [ 'a = 1', 'b = 1' ], 'c = 1' ],
+            [ \OverflowException::class, [ 'a = 1', 'b = 1' ], $condition ],
             // 既に条件数が上限に達しており、許されない型を指定した場合
-            [ '\TypeError', [ 'x = 1', 'y = 2' ], -1 ],
-            [ '\TypeError', [ 'x = 1', 'y = 2' ], false ],
-            [ '\TypeError', [ 'x = 1', 'y = 2' ], null ],
-            [ '\TypeError', [ 'x = 1', 'y = 2' ], new \stdClass() ],
+            [ \TypeError::class, [ 'x = 1', 'y = 2' ], -1 ],
+            [ \TypeError::class, [ 'x = 1', 'y = 2' ], false ],
+            [ \TypeError::class, [ 'x = 1', 'y = 2' ], null ],
+            [ \TypeError::class, [ 'x = 1', 'y = 2' ], new \stdClass() ],
         ];
     }
 
@@ -269,11 +269,11 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $condition->setConditions('sa = 1', 'sb = 2');
 
         return [
-            [ '\TypeError', [], 1, 'right = 1' ],
-            [ '\TypeError', [], -1, $condition ],
-            [ '\TypeError', [], 'left = 1', null ],
-            [ '\TypeError', [], $condition, true ],
-            [ '\TypeError', [], false, new \stdClass() ],
+            [ \TypeError::class, [], 1, 'right = 1' ],
+            [ \TypeError::class, [], -1, $condition ],
+            [ \TypeError::class, [], 'left = 1', null ],
+            [ \TypeError::class, [], $condition, true ],
+            [ \TypeError::class, [], false, new \stdClass() ],
         ];
     }
 

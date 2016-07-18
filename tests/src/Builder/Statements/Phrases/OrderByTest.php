@@ -119,8 +119,8 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     public function providerSetOrderByFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, new Columns() ],
-            [ '\InvalidArgumentException', new Columns([ 'a', 'b' ]), new Columns() ],
+            [ \InvalidArgumentException::class, null, new Columns() ],
+            [ \InvalidArgumentException::class, new Columns([ 'a', 'b' ]), new Columns() ],
         ];
     }
 

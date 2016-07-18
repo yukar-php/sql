@@ -120,8 +120,8 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function providerSetGroupByFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, new Columns() ],
-            [ '\InvalidArgumentException', new Columns([ 'x', 'y', 'z' ]), new Columns() ],
+            [ \InvalidArgumentException::class, null, new Columns() ],
+            [ \InvalidArgumentException::class, new Columns([ 'x', 'y', 'z' ]), new Columns() ],
         ];
     }
 
@@ -151,11 +151,15 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetHaving()
     {
+        $condition_1 = (new Conditions())->addCondition('a = 1');
+        $condition_2 = (new Conditions())->setConditions('a = 1', 'b = 1');
+        $condition_3 = (new Conditions())->addCondition('a = 1')->addCondition('b = 1');
+
         return [
             [ null, null ],
-            [ [ 'a = 1' ], (new Conditions())->addCondition('a = 1') ],
-            [ [ 'a = 1', 'b = 1' ], (new Conditions())->setConditions('a = 1', 'b = 1') ],
-            [ [ 'a = 1', 'b = 1' ], (new Conditions())->addCondition('a = 1')->addCondition('b = 1') ],
+            [ $condition_1, $condition_1 ],
+            [ $condition_2, $condition_2 ],
+            [ $condition_3, $condition_3 ],
         ];
     }
 
@@ -171,9 +175,8 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
-        $having = $object->getHaving();
 
-        self::assertSame($expected, empty($having) ? $having : $having->getConditions());
+        self::assertSame($expected, $object->getHaving());
     }
 
     /**
@@ -220,10 +223,10 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     public function providerSetHavingFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, new Conditions() ],
-            [ '\InvalidArgumentException', new Conditions(), new Conditions() ],
-            [ '\InvalidArgumentException', (new Conditions())->addCondition('a = 1'), new Conditions() ],
-            [ '\InvalidArgumentException', (new Conditions())->setConditions('x = 1', 'y = 1'), new Conditions() ],
+            [ \InvalidArgumentException::class, null, new Conditions() ],
+            [ \InvalidArgumentException::class, new Conditions(), new Conditions() ],
+            [ \InvalidArgumentException::class, (new Conditions())->addCondition('a = 1'), new Conditions() ],
+            [ \InvalidArgumentException::class, (new Conditions())->setConditions('x = 1', 'y = 1'), new Conditions() ],
         ];
     }
 

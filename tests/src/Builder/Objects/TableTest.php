@@ -112,8 +112,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function providerSetTableNameFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'TableName', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'TableName', '' ],
         ];
     }
 

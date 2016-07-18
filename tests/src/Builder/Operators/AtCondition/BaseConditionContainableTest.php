@@ -118,8 +118,8 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
     public function providerSetNameFailure()
     {
         return [
-            [ '\InvalidArgumentException', null, '' ],
-            [ '\InvalidArgumentException', 'column', '' ],
+            [ \InvalidArgumentException::class, null, '' ],
+            [ \InvalidArgumentException::class, 'column', '' ],
         ];
     }
 
