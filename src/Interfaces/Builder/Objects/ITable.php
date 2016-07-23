@@ -1,14 +1,12 @@
 <?php
 namespace Yukar\Sql\Interfaces\Builder\Objects;
 
-use Yukar\Sql\Builder\Objects\Columns;
-
 /**
  * テーブルを定義するインターフェイス。
  *
  * @author hiroki sugawara
  */
-interface ITable
+interface ITable extends IDataSource
 {
     /**
      * テーブルの名前を取得します。
@@ -40,13 +38,13 @@ interface ITable
     /**
      * テーブルで定義済みの列のリストを設定します。
      *
-     * @param Columns $columns テーブルで定義済みの列のリスト
+     * @param IColumns $columns テーブルで定義済みの列のリスト
      *
      * @throws \InvalidArgumentException 引数 $columns の要素が空の場合
      *
      * @return ITable 定義済みの列のリストを設定した状態の ITable を継承するオブジェクトのインスタンス
      */
-    public function setDefinedColumns(Columns $columns): ITable;
+    public function setDefinedColumns(IColumns $columns): ITable;
 
     /**
      * オブジェクトを表す文字列を取得します。

@@ -1,7 +1,9 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Operators;
 
+use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Statements\Dml\Select;
 
 /**
  * クラス Alias の単体テスト
@@ -85,9 +87,16 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetOriginName()
     {
+        $table_name = new Table('table_name');
+        $select_query = new Select($table_name);
+
         return [
-            [ 'origin', null, 'origin' ],
-            [ 'based', 'origin', 'based' ],
+            [ 'table_name', null, 'table_name' ],
+            [ '(SELECT * FROM table_name)', null, '(SELECT * FROM table_name)' ],
+            [ '(SELECT * FROM table_name)', null, $select_query ],
+            [ 'origin_name', 'table_name', 'origin_name' ],
+            [ '(SELECT * FROM table_name)', 'table_name', '(SELECT * FROM table_name)' ],
+            [ '(SELECT * FROM table_name)', 'table_name', $select_query ],
         ];
     }
 
@@ -239,8 +248,13 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
+        $table_name = new Table('table_name');
+        $select_query = new Select($table_name);
+
         return [
             [ 'origin_a AS alias_a', 'origin_a', 'alias_a' ],
+            [ 'table_name AS alias_table', $table_name, 'alias_table' ],
+            [ '(SELECT * FROM table_name) AS alias_table', $select_query, 'alias_table' ],
         ];
     }
 
