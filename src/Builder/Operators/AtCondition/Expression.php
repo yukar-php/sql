@@ -63,7 +63,7 @@ class Expression extends BaseConditionContainable
      */
     public function setValue(string $value)
     {
-        if (empty($value) === true) {
+        if (empty($value) === true && is_numeric($value) === false) {
             throw new \InvalidArgumentException();
         }
 

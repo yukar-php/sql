@@ -79,7 +79,17 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ 'value', null, 'value' ],
+            [ '0', null, 0 ],
+            [ '1', null, 1 ],
+            [ '0', null, '0' ],
+            [ '0.0', null, '0.0' ],
+            [ '1', null, '1' ],
             [ 'xyz', 'value', 'xyz' ],
+            [ '0', 'value', 0 ],
+            [ '1', 'value', 1 ],
+            [ '0', 'value', '0' ],
+            [ '0.0', 'value', '0.0' ],
+            [ '1', 'value', '1' ],
         ];
     }
 
@@ -111,10 +121,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
-            [ \InvalidArgumentException::class, null, 0 ],
-            [ \InvalidArgumentException::class, null, 0.0 ],
             [ \InvalidArgumentException::class, 'value', '' ],
-            [ \InvalidArgumentException::class, 'value', '0' ],
         ];
     }
 
