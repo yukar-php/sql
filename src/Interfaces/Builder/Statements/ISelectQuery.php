@@ -1,0 +1,91 @@
+<?php
+namespace Yukar\Sql\Interfaces\Builder\Statements;
+
+use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
+use Yukar\Sql\Builder\Statements\Phrases\Join;
+use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
+use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+
+/**
+ * 検索の問い合わせクエリを定義するインターフェイス。
+ *
+ * @author hiroki sugawara
+ */
+interface ISelectQuery extends IConditionalDMLQuery
+{
+    /**
+     * 検索の問い合わせクエリの対象となる列のリストを取得します。
+     *
+     * @return IColumns 検索の問い合わせクエリの対象となる列のリスト
+     */
+    public function getColumns(): IColumns;
+
+    /**
+     * 検索の問い合わせクエリの対象となる列のリストを設定します。
+     *
+     * @param IColumns $columns 検索の問い合わせクエリの対象となる列のリスト
+     *
+     * @return ISelectQuery 対象となる列のリストを設定した状態のオブジェクトのインスタンス
+     */
+    public function setColumns(IColumns $columns): ISelectQuery;
+
+    /**
+     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
+     *
+     * @return Join|null 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     */
+    public function getJoin();
+
+    /**
+     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を設定します。
+     *
+     * @param Join $join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     *
+     * @return ISelectQuery 結合する表の名前またはサブクエリとその結合条件を設定した状態のオブジェクトのインスタンス
+     */
+    public function setJoin(Join $join): ISelectQuery;
+
+    /**
+     * 問い合わせクエリの条件式を設定します。
+     *
+     * @param ICondition $condition 問い合わせクエリの条件式
+     *
+     * @throws \InvalidArgumentException 引数 condition の要素が空の場合
+     *
+     * @return ISelectQuery 条件式を設定した状態のオブジェクトのインスタンス
+     */
+    public function setWhere(ICondition $condition): ISelectQuery;
+
+    /**
+     * 問い合わせクエリのグループ化に関する表リストや条件式を取得します。
+     *
+     * @return GroupBy|null 問い合わせクエリのグループ化に関する表リストや条件式
+     */
+    public function getGroupBy();
+
+    /**
+     * 問い合わせクエリのグループ化に関する表リストや条件式を設定します。
+     *
+     * @param GroupBy $group_by 問い合わせクエリのグループ化に関する表リストや条件式
+     *
+     * @return ISelectQuery グループ化に関する表リストや条件式を設定した状態のオブジェクトのインスタンス
+     */
+    public function setGroupBy(GroupBy $group_by): ISelectQuery;
+
+    /**
+     * 問い合わせクエリの結果のカラムのソート順を取得します。
+     *
+     * @return OrderBy|null 問い合わせクエリの結果のカラムのソート順
+     */
+    public function getOrderBy();
+
+    /**
+     * 問い合わせクエリの結果のカラムのソート順を設定します。
+     *
+     * @param OrderBy $order_by 問い合わせクエリの結果のカラムのソート順
+     *
+     * @return ISelectQuery 結果のカラムのソート順を設定した状態のオブジェクトのインスタンス
+     */
+    public function setOrderBy(OrderBy $order_by): ISelectQuery;
+}
