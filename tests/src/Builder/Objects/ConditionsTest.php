@@ -2,11 +2,14 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\AtCondition\Between;
+use Yukar\Sql\Builder\Operators\AtCondition\Exists;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
 use Yukar\Sql\Builder\Operators\AtCondition\Like;
+use Yukar\Sql\Builder\Statements\Dml\Select;
 
 /**
  * クラス Conditions の単体テスト
@@ -382,6 +385,12 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 Conditions::OPERATION_AND,
                 new In('i', [ 'x', 'y', 'z' ]),
                 new In('j', [ 'x', 'y', 'z' ], true)
+            ],
+            [
+                'k EXISTS (SELECT * FROM table_k) OR l NOT EXISTS (SELECT * FROM table_l)',
+                Conditions::OPERATION_OR,
+                new Exists('k', new Select(new Table('table_k'))),
+                new Exists('l', new Select(new Table('table_l')), true),
             ],
         ];
     }
