@@ -4,6 +4,7 @@ namespace Yukar\Sql\Tests\Builder\Objects;
 use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Operators\AtCondition\Between;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
 use Yukar\Sql\Builder\Operators\AtCondition\Like;
 
@@ -375,6 +376,12 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 Conditions::OPERATION_OR,
                 new Like('g', 'patter%'),
                 new Like('h', '_eed%', true)
+            ],
+            [
+                'i IN (x, y, z) AND j NOT IN (x, y, z)',
+                Conditions::OPERATION_AND,
+                new In('i', [ 'x', 'y', 'z' ]),
+                new In('j', [ 'x', 'y', 'z' ], true)
             ],
         ];
     }
