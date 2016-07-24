@@ -47,12 +47,12 @@ class BaseDeniableOperatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * 単体テスト対象となるクラスの指定した名前のメソッドのリフレクションインスタンスを取得します。
      *
+     * @param object $object      単体テスト対象となるクラスのインスタンス
+     * @param string $method_name リフレクションを取得するメソッドの名前
      *
-     * @param object $object
-     * @param string $method_name
-     *
-     * @return \ReflectionMethod
+     * @return \ReflectionMethod 指定した名前のメソッドのリフレクションを持つインスタンス
      */
     private function getMethod($object, string $method_name): \ReflectionMethod
     {

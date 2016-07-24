@@ -10,8 +10,11 @@ use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
  */
 class Order implements IOperator
 {
+    /** SQLクエリの実行結果が「昇順ソート」であることを示す定数 */
     const ASCENDING = 1;
+    /** SQLクエリの実行結果が「降順ソート」であることを示す定数 */
     const DESCENDING = 2;
+
     const SORTS = [ self::ASCENDING => 'ASC', self::DESCENDING => 'DESC' ];
 
     private $column_name = '';

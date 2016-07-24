@@ -11,8 +11,11 @@ use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
  */
 class Conditions implements ICondition
 {
+    /** 条件式の各項目は「積集合（AND）」であることを示す定数 */
     const OPERATION_AND = 1;
+    /** 条件式の各項目は「和集合（OR）」であることを示す定数 */
     const OPERATION_OR = 2;
+
     const OPERATORS = [ self::OPERATION_AND => 'AND', self::OPERATION_OR => 'OR' ];
 
     private $operator = '';

@@ -15,7 +15,7 @@ class In extends BaseDeniableOperator
     /**
      * In クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name  演算子の対象となる表や列の値と比較する値
+     * @param string $name  演算子の対象となる表や列の名前
      * @param mixed $needle 演算子の対象となる列リストまたは問い合わせクエリ
      * @param bool $is_not  演算子に NOT を付与するかどうか
      */
