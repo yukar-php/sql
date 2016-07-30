@@ -82,8 +82,8 @@ class InTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ 'SELECT * FROM table', null, 'SELECT * FROM table' ],
-            [ 'column_a, column_b', null, [ 'column_a', 'column_b' ] ],
-            [ 'column_a, column_b', null, new \ArrayObject([ 'column_a', 'column_b' ]) ],
+            [ "'column_a', 'column_b'", null, [ 'column_a', 'column_b' ] ],
+            [ "'column_a', 'column_b'", null, new \ArrayObject([ 'column_a', 'column_b' ]) ],
         ];
     }
 
@@ -143,17 +143,17 @@ class InTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド  のデータプロバイダー
+     * メソッド testSetExpression のデータプロバイダー
      *
      * @return array
      */
     public function providerSetExpression()
     {
         return [
-            [ 'a, b, c', null, [ 'a', 'b', 'c' ] ],
-            [ 'x, y, z', null, new \ArrayObject([ 'x', 'y', 'z' ]) ],
-            [ 'a, b, c', 'o, p, q', [ 'a', 'b', 'c' ] ],
-            [ 'x, y, z', 'o, p, q', new \ArrayObject([ 'x', 'y', 'z' ]) ],
+            [ "'a', 'b', 'c'", null, [ 'a', 'b', 'c' ] ],
+            [ "'x', 'y', 'z'", null, new \ArrayObject([ 'x', 'y', 'z' ]) ],
+            [ "'a', 'b', 'c'", "'o', 'p', 'q'", [ 'a', 'b', 'c' ] ],
+            [ "'x', 'y', 'z'", "'o', 'p', 'q'", new \ArrayObject([ 'x', 'y', 'z' ]) ],
         ];
     }
 
@@ -293,14 +293,14 @@ class InTest extends \PHPUnit_Framework_TestCase
         $select = new Select(new Table('table'), new Columns([ 'col' ]));
 
         return [
-            [ 'column IN (a, b, c)', 'column', [ 'a', 'b', 'c' ], false ],
-            [ 'column IN (x, y, z)', 'column', new \ArrayObject([ 'x', 'y', 'z' ]), false ],
-            [ 'column IN (o, p, q)', 'column', 'o, p, q', false ],
+            [ "column IN ('a', 'b', 'c')", 'column', [ 'a', 'b', 'c' ], false ],
+            [ "column IN ('x', 'y', 'z')", 'column', new \ArrayObject([ 'x', 'y', 'z' ]), false ],
+            [ "column IN (1, 2, 3)", 'column', '1, 2, 3', false ],
             [ 'column IN (SELECT col FROM table)', 'column', 'SELECT col FROM table', false ],
             [ 'column IN (SELECT col FROM table)', 'column', $select, false ],
-            [ 'column NOT IN (a, b, c)', 'column', [ 'a', 'b', 'c' ], true ],
-            [ 'column NOT IN (x, y, z)', 'column', new \ArrayObject([ 'x', 'y', 'z' ]), true ],
-            [ 'column NOT IN (o, p, q)', 'column', 'o, p, q', true ],
+            [ "column NOT IN ('a', 'b', 'c')", 'column', [ 'a', 'b', 'c' ], true ],
+            [ "column NOT IN ('x', 'y', 'z')", 'column', new \ArrayObject([ 'x', 'y', 'z' ]), true ],
+            [ "column NOT IN (1, 2, 3)", 'column', '1, 2, 3', true ],
             [ 'column NOT IN (SELECT col FROM table)', 'column', 'SELECT col FROM table', true ],
             [ 'column NOT IN (SELECT col FROM table)', 'column', $select, true ],
         ];

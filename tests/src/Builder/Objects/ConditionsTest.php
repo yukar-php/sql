@@ -381,10 +381,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 new Like('h', '_eed%', true)
             ],
             [
-                'i IN (x, y, z) AND j NOT IN (x, y, z)',
+                "i IN ('x', 'y', 'z') AND j NOT IN (1, 2, 3)",
                 Conditions::OPERATION_AND,
                 new In('i', [ 'x', 'y', 'z' ]),
-                new In('j', [ 'x', 'y', 'z' ], true)
+                new In('j', [ 1, 2, 3 ], true)
             ],
             [
                 'k EXISTS (SELECT * FROM table_k) OR l NOT EXISTS (SELECT * FROM table_l)',
