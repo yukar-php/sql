@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Operators\AtCondition;
 
+use Yukar\Linq\Collections\ListObject;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -87,11 +88,7 @@ class In extends BaseDeniableOperator
         if ($this->isAcceptableExpression($expression) === false) {
             throw new \InvalidArgumentException();
         }
-
-        $this->needle = implode(
-            ', ',
-            ($expression instanceof \Traversable === true) ? iterator_to_array($expression) : $expression
-        );
+        $this->needle = $this->getExpressionString($expression);
 
         return $this;
     }
@@ -152,5 +149,24 @@ class In extends BaseDeniableOperator
     {
         return ((is_string($sub_query) === true && empty($sub_query) === false)
             || $sub_query instanceof ISelectQuery === true);
+    }
+
+    /**
+     *
+     *
+     * @param array|\Traversable $expression
+     *
+     * @return string
+     */
+    private function getExpressionString($expression): string
+    {
+        $list = new ListObject(
+            ($expression instanceof \Traversable === true) ? iterator_to_array($expression) : $expression
+        );
+        $converter = function ($val) {
+            return is_numeric($val) ? $val : sprintf("'%s'", $val);
+        };
+
+        return implode(', ', $list->select($converter)->toArray());
     }
 }
