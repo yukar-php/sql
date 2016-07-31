@@ -4,6 +4,7 @@ namespace Yukar\Sql\Tests\Builder\Operators;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 
 /**
  * クラス Alias の単体テスト
@@ -88,7 +89,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function providerSetOriginName()
     {
         $table_name = new Table('table_name');
-        $select_query = new Select($table_name);
+        $select_query = new Select(new From($table_name));
 
         return [
             [ 'table_name', null, 'table_name' ],
@@ -249,7 +250,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     public function providerToString()
     {
         $table_name = new Table('table_name');
-        $select_query = new Select($table_name);
+        $select_query = new Select(new From($table_name));
 
         return [
             [ 'origin_a AS alias_a', 'origin_a', 'alias_a' ],

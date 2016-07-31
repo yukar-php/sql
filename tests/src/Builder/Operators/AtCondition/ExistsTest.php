@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\AtCondition\Exists;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 
 /**
  * クラス Exists の単体テスト
@@ -80,8 +81,8 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
     public function providerSetNeedle()
     {
         $table_name = new Table('table_name');
-        $select_query_a = new Select($table_name);
-        $select_query_b = new Select($table_name, new Columns([ 'col' ]));
+        $select_query_a = new Select(new From($table_name));
+        $select_query_b = new Select(new From($table_name), new Columns([ 'col' ]));
 
         return [
             [ 'SELECT * FROM table_name', null, 'SELECT * FROM table_name' ],
@@ -149,7 +150,7 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
-        $select = new Select(new Table('table'), new Columns([ 'col' ]));
+        $select = new Select(new From(new Table('table')), new Columns([ 'col' ]));
 
         return [
             [ 'column EXISTS (SELECT col FROM table)', 'column', 'SELECT col FROM table', false ],

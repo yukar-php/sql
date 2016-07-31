@@ -8,12 +8,12 @@ use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
 
 /**
  * クラス Select の単体テスト
@@ -22,6 +22,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_FROM = 'from';
     const PROP_NAME_COLUMNS = 'columns';
     const PROP_NAME_JOIN = 'join';
     const PROP_NAME_GROUP_BY = 'group_by';
@@ -61,7 +62,76 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQueryFormat()
     {
-        self::assertSame('SELECT %s FROM %s %s', $this->getNewInstance()->getQueryFormat());
+        self::assertSame('SELECT %s %s %s', $this->getNewInstance()->getQueryFormat());
+    }
+
+    /**
+     * メソッド testGetFrom のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerGetFrom()
+    {
+        $from_origin = new From(new Table('table_name'));
+        $from_alias = new From(new Alias('table_a', 'a'));
+
+        return [
+            [ $from_origin, $from_origin ],
+            [ $from_alias, $from_alias ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerGetFrom
+     *
+     * @param FROM $expected   期待値
+     * @param FROM $prop_value プロパティ from の値
+     */
+    public function testGetFrom($expected, $prop_value)
+    {
+        $object = $this->getNewInstance();
+        $this->getProperty($object, self::PROP_NAME_FROM)->setValue($object, $prop_value);
+
+        self::assertSame($expected, $object->getFrom());
+    }
+
+    /**
+     * メソッド testSetFrom のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerSetFrom()
+    {
+        $from_origin = new From(new Table('table_name'));
+        $from_alias = new From(new Alias('table_a', 'a'));
+
+        return [
+            [ $from_origin, null, $from_origin ],
+            [ $from_alias, null, $from_alias ],
+            [ $from_origin, $from_alias, $from_origin ],
+            [ $from_alias, $from_origin, $from_alias ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerSetFrom
+     *
+     * @param FROM $expected    期待値
+     * @param mixed $prop_value プロパティ from の値
+     * @param FROM $from        メソッド setFrom の引数 from に渡す値
+     */
+    public function testSetFrom($expected, $prop_value, $from)
+    {
+        $object = $this->getNewInstance();
+        $reflector = $this->getProperty($object, self::PROP_NAME_FROM);
+        $reflector->setValue($object, $prop_value);
+        $object->setFrom($from);
+
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -380,14 +450,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
-        $from_origin = new Table('table_name');
-        $from_alias_a = new Table(new Alias('table_a', 'a'));
-        $from_alias_b = new Table(new Alias('table_b', 'b'));
+        $from_origin = new From(new Table('table_name'));
+        $from_alias_a = new From(new Alias('table_a', 'a'));
+        $from_alias_b = new From(new Alias('table_b', 'b'));
         $columns_abc = new Columns([ 'a', 'b', 'c' ]);
         $columns_xyz = new Columns([ 'x', 'y', 'z' ]);
         $join_cond = (new Conditions())->addCondition(new Expression('a.x', 'b.x'));
-        $join_b = new Join($from_alias_b, Join::INNER_JOIN, $join_cond);
-        $join_a = new Join($from_alias_a, Join::INNER_JOIN, $join_cond);
+        $join_b = new Join($from_alias_b->getDataSource(), Join::INNER_JOIN, $join_cond);
+        $join_a = new Join($from_alias_a->getDataSource(), Join::INNER_JOIN, $join_cond);
         $where_abc = (new Conditions())->setConditions(
             new Expression('a', 0, Expression::SIGN_GT),
             new Expression('b', 10, Expression::SIGN_OU)
@@ -568,13 +638,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected  期待値
-     * @param IDataSource $from コンストラクタの引数 from に渡す値
-     * @param mixed $columns    コンストラクタの引数 columns に渡す値
-     * @param mixed $join       メソッド setJoin の引数 join に渡す値（null以外の時のみ）
-     * @param mixed $where      メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
-     * @param mixed $group_by   メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
-     * @param mixed $order_by   メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param string $expected 期待値
+     * @param FROM $from       コンストラクタの引数 from に渡す値
+     * @param mixed $columns   コンストラクタの引数 columns に渡す値
+     * @param mixed $join      メソッド setJoin の引数 join に渡す値（null以外の時のみ）
+     * @param mixed $where     メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
+     * @param mixed $group_by  メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
+     * @param mixed $order_by  メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
      */
     public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by)
     {

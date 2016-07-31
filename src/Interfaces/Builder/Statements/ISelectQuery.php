@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Interfaces\Builder\Statements;
 
+use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
@@ -14,6 +15,20 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
  */
 interface ISelectQuery extends IConditionalDMLQuery
 {
+    /**
+     * 検索の問い合わせクエリの対象となる表やサブクエリを取得します。
+     *
+     * @return From 検索の問い合わせクエリの対象となる表やサブクエリ
+     */
+    public function getFrom(): From;
+
+    /**
+     * 検索の問い合わせクエリの対象となる表やサブクエリを設定します。
+     *
+     * @param From $from 検索の問い合わせクエリの対象となる表やサブクエリ
+     */
+    public function setFrom(From $from);
+
     /**
      * 検索の問い合わせクエリの対象となる列のリストを取得します。
      *

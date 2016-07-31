@@ -2,12 +2,12 @@
 namespace Yukar\Sql\Builder\Statements\Dml;
 
 use Yukar\Sql\Builder\Objects\Columns;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -17,6 +17,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
+    private $from;
     private $columns;
     private $join;
     private $group_by;
@@ -25,12 +26,13 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     /**
      * Select クラスの新しいインスタンスを初期化します。
      *
-     * @param IDataSource $from 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @param From $from        検索の問い合わせクエリの対象となる表やサブクエリ
      * @param IColumns $columns 検索の問い合わせクエリの対象となる列のリスト
      */
-    public function __construct(IDataSource $from, IColumns $columns = null)
+    public function __construct(From $from, IColumns $columns = null)
     {
-        $this->setDataSource($from);
+        $this->setDataSource($from->getDataSource());
+        $this->setFrom($from);
         $this->setColumns($columns ?? new Columns());
     }
 
@@ -41,7 +43,27 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      */
     public function getQueryFormat(): string
     {
-        return 'SELECT %s FROM %s %s';
+        return 'SELECT %s %s %s';
+    }
+
+    /**
+     * 検索の問い合わせクエリの対象となる表やサブクエリを取得します。
+     *
+     * @return From 検索の問い合わせクエリの対象となる表やサブクエリ
+     */
+    public function getFrom(): From
+    {
+        return $this->from;
+    }
+
+    /**
+     * 検索の問い合わせクエリの対象となる表やサブクエリを設定します。
+     *
+     * @param From $from 検索の問い合わせクエリの対象となる表やサブクエリ
+     */
+    public function setFrom(From $from)
+    {
+        $this->from = $from;
     }
 
     /**
@@ -171,6 +193,6 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
             )
         );
 
-        return rtrim(sprintf($this->getQueryFormat(), $this->getColumns(), $this->getDataSource(), $optional_query));
+        return rtrim(sprintf($this->getQueryFormat(), $this->getColumns(), $this->getFrom(), $optional_query));
     }
 }
