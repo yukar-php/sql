@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Statements\Dml\Insert;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Values;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
@@ -133,7 +134,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     public function providerGetValues()
     {
         $values = new Values([ [ 1, 2, 3 ], [ 4, 5, 6 ] ]);
-        $select = new Select(new Table('table_name'));
+        $select = new Select(new From(new Table('table_name')));
 
         return [
             [ $values, $values ],
@@ -165,7 +166,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     public function providerSetValues()
     {
         $values = new Values([ [ 1, 2, 3 ], [ 4, 5, 6 ] ]);
-        $select = new Select(new Table('table_name'));
+        $select = new Select(new From(new Table('table_name')));
 
         return [
             [ $values, null, $values ],
@@ -256,7 +257,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $into_table_name = new Into(new Table('table_name'));
         $into_table_columns = new Into(new Table('table_name'), new Columns([ 'a', 'b', 'c' ]));
         $values = new Values([ [ 1, 2, 3 ], [ 'x', 'y', 'z' ] ]);
-        $select = new Select(new Table('select_table'));
+        $select = new Select(new From(new Table('select_table')));
 
         return [
             [ "INSERT INTO table_name VALUES (1, 2, 3), ('x', 'y', 'z')", $into_table_name, $values ],

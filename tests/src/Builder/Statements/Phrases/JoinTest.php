@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
 
@@ -97,7 +98,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
         $table_obj = new Table('table_name');
         $alias_obj = new Alias('table_name', 'alias_name');
         $query_alias = new Alias('(SELECT * FROM table_name)', 'alias_query');
-        $select_query = new Alias(new Select($table_obj), 'alias_query');
+        $select_query = new Alias(new Select(new From($table_obj)), 'alias_query');
 
         return [
             [ 'table_name', null, 'table_name' ],
@@ -369,7 +370,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
     {
         $table_name = new Table('table_name');
         $alias_name = new Alias($table_name, 'a');
-        $select_query = new Alias(new Select($table_name), 'a');
+        $select_query = new Alias(new Select(new From($table_name)), 'a');
         $alias_text = 'table_name AS a';
         $alias_query = '(SELECT * FROM table_name) AS a';
         $on_orig_table = (new Conditions())->addCondition(new Expression('origin.a', 'table_name.a'));

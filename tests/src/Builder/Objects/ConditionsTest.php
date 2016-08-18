@@ -10,6 +10,7 @@ use Yukar\Sql\Builder\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
 use Yukar\Sql\Builder\Operators\AtCondition\Like;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 
 /**
  * クラス Conditions の単体テスト
@@ -389,8 +390,8 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
             [
                 'k EXISTS (SELECT * FROM table_k) OR l NOT EXISTS (SELECT * FROM table_l)',
                 Conditions::OPERATION_OR,
-                new Exists('k', new Select(new Table('table_k'))),
-                new Exists('l', new Select(new Table('table_l')), true),
+                new Exists('k', new Select(new From(new Table('table_k')))),
+                new Exists('l', new Select(new From(new Table('table_l'))), true),
             ],
         ];
     }

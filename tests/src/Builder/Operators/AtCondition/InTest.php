@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Statements\Dml\Select;
+use Yukar\Sql\Builder\Statements\Phrases\From;
 
 /**
  * クラス In の単体テスト
@@ -219,7 +220,7 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetSubQuery()
     {
-        $select = new Select(new Table('table'), new Columns([ 'col' ]));
+        $select = new Select(new From(new Table('table')), new Columns([ 'col' ]));
 
         return [
             [ 'SELECT col FROM table', null, 'SELECT col FROM table' ],
@@ -290,7 +291,7 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
-        $select = new Select(new Table('table'), new Columns([ 'col' ]));
+        $select = new Select(new From(new Table('table')), new Columns([ 'col' ]));
 
         return [
             [ "column IN ('a', 'b', 'c')", 'column', [ 'a', 'b', 'c' ], false ],
