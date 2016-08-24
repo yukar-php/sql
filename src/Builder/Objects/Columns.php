@@ -82,6 +82,7 @@ class Columns implements IColumns
      */
     private function isAcceptableColumnValue($column): bool
     {
-        return (is_string($column) === true || ($column instanceof IConditionContainable === false && $column instanceof IOperator));
+        return (is_string($column) === true
+            || ($column instanceof IConditionContainable === false && $column instanceof IOperator));
     }
 }

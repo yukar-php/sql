@@ -135,7 +135,8 @@ class Conditions implements ICondition
      */
     private function isAcceptableCondition($condition): bool
     {
-        return (is_string($condition) === true || $condition instanceof ICondition || $condition instanceof IConditionContainable);
+        return (is_string($condition) === true || $condition instanceof ICondition === true
+            || $condition instanceof IConditionContainable === true);
     }
 
     /**
