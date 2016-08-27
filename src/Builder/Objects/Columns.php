@@ -13,16 +13,20 @@ use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
  */
 class Columns implements IColumns
 {
+    use TQuoteIdentifier;
+
     private $column_list = [];
 
     /**
      * Columns クラスの新しいインスタンスを初期化します。
      *
-     * @param array $columns テーブルの任意の列のリスト
+     * @param array $columns                  テーブルの任意の列のリスト
+     * @param DelimitedIdentifier $identifier SQL識別子を区切り識別子で引用する設定
      */
-    public function __construct(array $columns = [])
+    public function __construct(array $columns = [], DelimitedIdentifier $identifier = null)
     {
         (empty($columns) === false) && $this->setColumns($columns);
+        (isset($identifier) === true) && $this->setDelimitedIdentifier($identifier);
     }
 
     /**
@@ -70,7 +74,7 @@ class Columns implements IColumns
     {
         $columns = $this->getColumns();
 
-        return empty($columns) ? "*" : implode(", ", $columns);
+        return empty($columns) ? "*" : implode(", ", $this->getQuotedList($columns));
     }
 
     /**

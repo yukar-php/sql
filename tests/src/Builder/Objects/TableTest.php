@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Columns;
+use Yukar\Sql\Builder\Objects\DelimitedIdentifier;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 
@@ -14,6 +15,17 @@ class TableTest extends \PHPUnit_Framework_TestCase
 {
     const PROP_NAME_TABLE_NAME = 'table_name';
     const PROP_NAME_COLUMN_LIST = 'column_list';
+
+    /**
+     * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     */
+    public static function tearDownAfterClass()
+    {
+        $object = new \ReflectionClass(DelimitedIdentifier::class);
+        $property = $object->getProperty('quote_type');
+        $property->setAccessible(true);
+        $property->setValue($object, null);
+    }
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -264,9 +276,17 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
+        $columns = new Columns([ 'test1', 'test2' ]);
+
         return [
-            [ 'TestTable', 'TestTable', new Columns([ 'test1', 'test2' ]) ],
-            [ 'schema.TestTable', 'schema.TestTable', new Columns([ 'test1', 'test2' ]) ],
+            [ 'TestTable', 'TestTable', null, $columns ],
+            [ '"TestTable"', 'TestTable', DelimitedIdentifier::ANSI_QUOTES_TYPE, $columns ],
+            [ '`TestTable`', 'TestTable', DelimitedIdentifier::MYSQL_QUOTES_TYPE, $columns ],
+            [ '[TestTable]', 'TestTable', DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE, $columns ],
+            [ 'schema.TestTable', 'schema.TestTable', null, $columns ],
+            [ '"schema"."TestTable"', 'schema.TestTable', DelimitedIdentifier::ANSI_QUOTES_TYPE, $columns ],
+            [ '`schema`.`TestTable`', 'schema.TestTable', DelimitedIdentifier::MYSQL_QUOTES_TYPE, $columns ],
+            [ '[schema].[TestTable]', 'schema.TestTable', DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE, $columns ],
         ];
     }
 
@@ -277,10 +297,16 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected   期待値
      * @param string $table_name コンストラクタの引数 name に渡す値
+     * @param int $quote_type    メソッド init の引数 quote_type に渡す値
      * @param IColumns $columns  メソッド setDefinedColumns の引数 columns に渡す値
      */
-    public function testToString($expected, $table_name, $columns)
+    public function testToString($expected, $table_name, $quote_type, $columns)
     {
-        self::assertSame($expected, (string)(new Table($table_name))->setDefinedColumns($columns));
+        DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
+
+        self::assertSame(
+            $expected,
+            (string)(new Table($table_name, DelimitedIdentifier::get()))->setDefinedColumns($columns)
+        );
     }
 }
