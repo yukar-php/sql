@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Objects;
 
 use Yukar\Sql\Builder\Objects\Columns;
+use Yukar\Sql\Builder\Objects\DelimitedIdentifier;
 use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\AtCondition\Between;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
@@ -15,6 +16,17 @@ use Yukar\Sql\Builder\Operators\Order;
 class ColumnsTest extends \PHPUnit_Framework_TestCase
 {
     const PROP_NAME_COLUMN_LIST = 'column_list';
+
+    /**
+     * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     */
+    public static function tearDownAfterClass()
+    {
+        $object = new \ReflectionClass(DelimitedIdentifier::class);
+        $property = $object->getProperty('quote_type');
+        $property->setAccessible(true);
+        $property->setValue($object, null);
+    }
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -150,11 +162,21 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
+        $alias_a = new Alias('a', 'alias_a');
+        $alias_b = new Alias('b', 'alias_b');
+        $order_asc = new Order('o');
+        $order_dsc = new Order('p', Order::DESCENDING);
+
         return [
-            [ "*", [] ],
-            [ "a, b, c", [ 'a', 'b', 'c' ] ],
-            [ 'a AS alias_a, b AS alias_b', [ new Alias('a', 'alias_a'), new Alias('b', 'alias_b') ] ],
-            [ 'o ASC, p DESC', [ new Order('o'), new Order('p', Order::DESCENDING) ] ],
+            [ "*", [], null ],
+            [ 'a, b, c', [ 'a', 'b', 'c' ], null ],
+            [ '"a", "b", "c"', [ 'a', 'b', 'c' ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
+            [ '`a`, `b`, `c`', [ 'a', 'b', 'c' ], DelimitedIdentifier::MYSQL_QUOTES_TYPE ],
+            [ '[a], [b], [c]', [ 'a', 'b', 'c' ], DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE ],
+            [ 'a AS alias_a, b AS alias_b', [ $alias_a, $alias_b ], null ],
+            [ 'a AS alias_a, b AS alias_b', [ $alias_a, $alias_b ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
+            [ 'o ASC, p DESC', [ $order_asc, $order_dsc ], null ],
+            [ 'o ASC, p DESC', [ $order_asc, $order_dsc ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
         ];
     }
 
@@ -165,9 +187,12 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected 期待値
      * @param array $base_list コンストラクタの引数 columns に渡す値
+     * @param int $quote_type  メソッド init の引数 quote_type に渡す値
      */
-    public function testToString($expected, $base_list)
+    public function testToString($expected, $base_list, $quote_type)
     {
-        self::assertSame($expected, (string)new Columns($base_list));
+        DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
+
+        self::assertSame($expected, (string)new Columns($base_list, DelimitedIdentifier::get()));
     }
 }

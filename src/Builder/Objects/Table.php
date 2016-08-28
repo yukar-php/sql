@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Objects;
 
+use Yukar\Linq\Collections\ListObject;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
 
@@ -11,17 +12,21 @@ use Yukar\Sql\Interfaces\Builder\Objects\ITable;
  */
 class Table implements ITable
 {
+    use TQuoteIdentifier;
+
     private $table_name = '';
     private $column_list = [];
 
     /**
      * Table クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name
+     * @param string $name                    テーブルの名前
+     * @param DelimitedIdentifier $identifier SQL識別子を区切り識別子で引用する設定
      */
-    public function __construct(string $name)
+    public function __construct(string $name, DelimitedIdentifier $identifier = null)
     {
         $this->setTableName($name);
+        (isset($identifier) === true) && $this->setDelimitedIdentifier($identifier);
     }
 
     /**
@@ -78,12 +83,15 @@ class Table implements ITable
     public function setDefinedColumns(IColumns $columns): ITable
     {
         $column_list = $columns->getColumns();
+        $true_for_all = (new ListObject($column_list))->trueForAll(function ($v) {
+            return is_string($v);
+        });
 
-        if (empty($column_list) === true) {
+        if (empty($column_list) === true || $true_for_all === false) {
             throw new \InvalidArgumentException();
         }
 
-        $this->column_list = $column_list;
+        $this->column_list = $this->getQuotedList($column_list);
 
         return $this;
     }
@@ -95,6 +103,13 @@ class Table implements ITable
      */
     public function __toString(): string
     {
-        return $this->getTableName();
+        $table_name = $this->getTableName();
+
+        // 引用書式を使用時にスキーマを含む場合は文字列を分割して引用に変換（そのままだと「"schema.table"」になるため）
+        if ($this->isPreparedQuote() === true && strpos($table_name, '.') !== false) {
+            return implode('.', $this->getQuotedList(explode('.', $table_name)));
+        }
+
+        return $this->getQuotedString($table_name);
     }
 }

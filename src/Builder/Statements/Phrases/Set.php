@@ -1,8 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Statements\Phrases;
 
-use Yukar\Linq\Collections\DictionaryObject;
-use Yukar\Linq\Collections\KeyValuePair;
+use Yukar\Sql\Builder\Objects\SetValuesHash;
 use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
 
 /**
@@ -17,9 +16,9 @@ class Set implements IPhrases
     /**
      * Set クラスの新しいインスタンスを初期化します。
      *
-     * @param DictionaryObject $dictionary SET 句の対象となる表の列名とその値の辞書
+     * @param SetValuesHash $dictionary SET 句の対象となる表の列名とその値の辞書
      */
-    public function __construct(DictionaryObject $dictionary)
+    public function __construct(SetValuesHash $dictionary)
     {
         $this->setDictionary($dictionary);
     }
@@ -37,9 +36,9 @@ class Set implements IPhrases
     /**
      * SET 句の対象となる表の列名とその値の辞書を取得します。
      *
-     * @return DictionaryObject SET 句の対象となる表の列名とその値の辞書
+     * @return SetValuesHash SET 句の対象となる表の列名とその値の辞書
      */
-    public function getDictionary(): DictionaryObject
+    public function getDictionary(): SetValuesHash
     {
         return $this->dictionary;
     }
@@ -47,9 +46,9 @@ class Set implements IPhrases
     /**
      * SET 句の対象となる表の列名とその値の辞書を設定します。
      *
-     * @param DictionaryObject $dictionary SET 句の対象となる表の列名とその値の辞書
+     * @param SetValuesHash $dictionary SET 句の対象となる表の列名とその値の辞書
      */
-    public function setDictionary(DictionaryObject $dictionary)
+    public function setDictionary(SetValuesHash $dictionary)
     {
         if ($dictionary->getSize() === 0) {
             throw new \InvalidArgumentException();
@@ -65,24 +64,6 @@ class Set implements IPhrases
      */
     public function __toString(): string
     {
-        return sprintf($this->getPhraseString(), $this->getDictionaryString());
-    }
-
-    /**
-     * SET 句の対象となる表の列名とその値の辞書の内容を文字列として取得します。
-     *
-     * @return string SET 句の対象となる表の列名とその値の辞書の内容
-     */
-    private function getDictionaryString(): string
-    {
-        $selector = function (KeyValuePair $v) {
-            $converter = function ($val) {
-                return is_numeric($val) ? $val : sprintf("'%s'", $val);
-            };
-
-            return sprintf('%s = %s', $v->getKey(), $converter($v->getValue()));
-        };
-
-        return implode(', ', $this->getDictionary()->select($selector)->toArray());
+        return sprintf($this->getPhraseString(), $this->getDictionary());
     }
 }

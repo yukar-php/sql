@@ -1,7 +1,7 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 
-use Yukar\Linq\Collections\DictionaryObject;
+use Yukar\Sql\Builder\Objects\SetValuesHash;
 use Yukar\Sql\Builder\Statements\Phrases\Set;
 
 /**
@@ -57,7 +57,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetDictionary()
     {
-        $dic_1 = new DictionaryObject([ 'col1' => 'val1', 'col2' => '20' ]);
+        $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
 
         return [
             [ $dic_1, $dic_1 ],
@@ -69,8 +69,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetDictionary
      *
-     * @param DictionaryObject $expected   期待値
-     * @param DictionaryObject $prop_value プロパティ dictionary の値
+     * @param SetValuesHash $expected   期待値
+     * @param SetValuesHash $prop_value プロパティ dictionary の値
      */
     public function testGetDictionary($expected, $prop_value)
     {
@@ -87,8 +87,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetDictionary()
     {
-        $dic_1 = new DictionaryObject([ 'col1' => 'val1', 'col2' => '20' ]);
-        $dic_2 = new DictionaryObject([ 'col1' => 'val1' ]);
+        $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
+        $dic_2 = new SetValuesHash([ 'col1' => 'val1' ]);
 
         return [
             [ $dic_1, null, $dic_1 ],
@@ -101,9 +101,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDictionary
      *
-     * @param DictionaryObject $expected   期待値
-     * @param mixed $prop_value            プロパティ dictionary の値
-     * @param DictionaryObject $dictionary メソッド setDictionary の引数 dictionary に渡す値
+     * @param SetValuesHash $expected   期待値
+     * @param mixed $prop_value         プロパティ dictionary の値
+     * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
     public function testSetDictionary($expected, $prop_value, $dictionary)
     {
@@ -123,8 +123,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
     public function providerSetDictionaryFailure()
     {
         return [
-            [ \InvalidArgumentException::class, null, new DictionaryObject() ],
-            [ \InvalidArgumentException::class, new DictionaryObject([ 'col' => 'val' ]), new DictionaryObject() ],
+            [ \InvalidArgumentException::class, null, new SetValuesHash() ],
+            [ \InvalidArgumentException::class, new SetValuesHash([ 'col' => 'val' ]), new SetValuesHash() ],
         ];
     }
 
@@ -133,9 +133,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDictionaryFailure
      *
-     * @param \Exception $expected         期待値
-     * @param mixed $prop_value            プロパティ dictionary の値
-     * @param DictionaryObject $dictionary メソッド setDictionary の引数 dictionary に渡す値
+     * @param \Exception $expected      期待値
+     * @param mixed $prop_value         プロパティ dictionary の値
+     * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
     public function testSetDictionaryFailure($expected, $prop_value, $dictionary)
     {
@@ -153,8 +153,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString()
     {
-        $dic_1 = new DictionaryObject([ 'col1' => 'val1', 'col2' => '20' ]);
-        $dic_2 = new DictionaryObject([ 'col1' => 'val1' ]);
+        $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
+        $dic_2 = new SetValuesHash([ 'col1' => 'val1' ]);
 
         return [
             [ "SET col1 = 'val1', col2 = 20", $dic_1 ],
@@ -167,8 +167,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected             期待値
-     * @param DictionaryObject $dictionary コンストラクタの引数 dictionary に渡す値
+     * @param string $expected          期待値
+     * @param SetValuesHash $dictionary コンストラクタの引数 dictionary に渡す値
      */
     public function testToString($expected, $dictionary)
     {
