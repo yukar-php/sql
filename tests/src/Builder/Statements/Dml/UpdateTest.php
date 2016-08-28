@@ -1,8 +1,8 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Dml;
 
-use Yukar\Linq\Collections\DictionaryObject;
 use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Builder\Objects\SetValuesHash;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
@@ -66,8 +66,8 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetUpdateSets()
     {
-        $set_1 = new Set(new DictionaryObject([ 'col1' => 'val1' ]));
-        $set_2 = new Set(new DictionaryObject([ 'col1' => 'val1', 'col2' => '20' ]));
+        $set_1 = new Set(new SetValuesHash([ 'col1' => 'val1' ]));
+        $set_2 = new Set(new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]));
 
         return [
             [ $set_1, $set_1 ],
@@ -98,8 +98,8 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetUpdateSets()
     {
-        $set_1 = new Set(new DictionaryObject([ 'col1' => 'val1' ]));
-        $set_2 = new Set(new DictionaryObject([ 'col1' => 'val1', 'col2' => '20' ]));
+        $set_1 = new Set(new SetValuesHash([ 'col1' => 'val1' ]));
+        $set_2 = new Set(new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]));
 
         return [
             [ $set_1, null, $set_1 ],
@@ -231,8 +231,8 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     {
         $target_table = new Table('target_table');
         $source_table = new Table('source_table');
-        $single_sets = new Set(new DictionaryObject([ 'a' => '1' ]));
-        $double_sets = new Set(new DictionaryObject([ 'b' => '2', 'c' => '3' ]));
+        $single_sets = new Set(new SetValuesHash([ 'a' => '1' ]));
+        $double_sets = new Set(new SetValuesHash([ 'b' => '2', 'c' => '3' ]));
         $condition_1 = (new Conditions())->addCondition(new Expression('d', 0, Expression::SIGN_GT));
         $condition_2 = (new Conditions())->addCondition(new Expression('st.x', 10, Expression::SIGN_LT));
         $source_from = new From($source_table);
