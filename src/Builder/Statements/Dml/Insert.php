@@ -4,6 +4,7 @@ namespace Yukar\Sql\Builder\Statements\Dml;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Values;
 use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Statements\IInsertQuery;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -11,7 +12,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  *
  * @author hiroki sugawara
  */
-class Insert extends BaseSqlDMLQuery
+class Insert extends BaseSqlDMLQuery implements IInsertQuery
 {
     private $values;
 
