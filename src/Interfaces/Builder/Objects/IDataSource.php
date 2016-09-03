@@ -6,7 +6,7 @@ namespace Yukar\Sql\Interfaces\Builder\Objects;
  *
  * @author hiroki sugawara
  */
-interface IDataSource
+interface IDataSource extends ISqlQuerySource
 {
 
 }

@@ -4,7 +4,9 @@ namespace Yukar\Sql\Tests\Builder\Statements\Dml;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Statements\Dml\BaseSqlDMLQuery;
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
+use Yukar\Sql\Builder\Statements\Phrases\From;
+use Yukar\Sql\Builder\Statements\Phrases\Into;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 
 /**
  * 抽象クラス BaseSqlDMLQuery の単体テスト
@@ -13,7 +15,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
  */
 class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DATA_SOURCE = 'data_source';
+    const PROP_NAME_SQL_QUERY_SOURCE = 'sql_query_source';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -46,70 +48,80 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetDataSource のデータプロバイダー
+     * メソッド testGetSqlQuerySource のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetDataSource()
+    public function providerGetSqlQuerySource()
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
+        $sql_query_from = new From($table_name);
+        $into_table_name = new Into(new Table('table_name'));
 
         return [
             [ $table_name, $table_name ],
             [ $sub_query_text, $sub_query_text ],
+            [ $sql_query_from, $sql_query_from ],
+            [ $into_table_name, $into_table_name ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerGetDataSource
+     * @dataProvider providerGetSqlQuerySource
      *
-     * @param string $expected        期待値
-     * @param IDataSource $prop_value プロパティ data_source の値
+     * @param string          $expected   期待値
+     * @param ISqlQuerySource $prop_value プロパティ sql_query_source の値
      */
-    public function testGetDataSource($expected, $prop_value)
+    public function testGetSqlQuerySource($expected, $prop_value)
     {
         $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDataSource());
+        self::assertSame($expected, $object->getSqlQuerySource());
     }
 
     /**
-     * メソッド testSetDataSource のデータプロバイダー
+     * メソッド testSetSqlQuerySource のデータプロバイダー
      *
      * @return array
      */
-    public function providerSetDataSource()
+    public function providerSetSqlQuerySource()
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
+        $sql_query_from = new From($table_name);
+        $into_table_name = new Into(new Table('table_name'));
 
         return [
             [ $table_name, null, $table_name ],
             [ $sub_query_text, null, $sub_query_text ],
-            [ $table_name, $sub_query_text, $table_name ],
+            [ $sql_query_from, null, $sql_query_from ],
+            [ $into_table_name, null, $into_table_name ],
+            [ $table_name, $into_table_name, $table_name ],
             [ $sub_query_text, $table_name, $sub_query_text ],
+            [ $sql_query_from, $sub_query_text, $sql_query_from ],
+            [ $into_table_name, $sql_query_from, $into_table_name ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerSetDataSource
+     * @dataProvider providerSetSqlQuerySource
      *
-     * @param string $expected         期待値
-     * @param IDataSource $prop_value  プロパティ data_source の値
-     * @param IDataSource $data_source メソッド setDataSource の引数 data_source に渡す値
+     * @param string          $expected         期待値
+     * @param ISqlQuerySource $prop_value       プロパティ sql_query_source の値
+     * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testSetDataSource($expected, $prop_value, $data_source)
+    public function testSetSqlQuerySource($expected, $prop_value, $sql_query_source)
     {
         $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
+        $reflector = $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE);
         $reflector->setValue($object, $prop_value);
-        $object->setDataSource($data_source);
+        $object->setSqlQuerySource($sql_query_source);
 
         self::assertSame($expected, $reflector->getValue($object));
     }

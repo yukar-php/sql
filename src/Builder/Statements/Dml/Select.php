@@ -8,6 +8,7 @@ use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -17,7 +18,6 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
-    private $from;
     private $columns;
     private $join;
     private $group_by;
@@ -31,8 +31,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      */
     public function __construct(From $from, IColumns $columns = null)
     {
-        $this->setDataSource($from->getDataSource());
-        $this->setFrom($from);
+        $this->setSqlQuerySource($from);
         $this->setColumns($columns ?? new Columns());
     }
 
@@ -47,23 +46,17 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     }
 
     /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを取得します。
+     * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
-     * @return From 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function getFrom(): From
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
     {
-        return $this->from;
-    }
+        if ($sql_query_source instanceof From === false) {
+            throw new \InvalidArgumentException();
+        }
 
-    /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを設定します。
-     *
-     * @param From $from 検索の問い合わせクエリの対象となる表やサブクエリ
-     */
-    public function setFrom(From $from)
-    {
-        $this->from = $from;
+        parent::setSqlQuerySource($sql_query_source);
     }
 
     /**
@@ -193,6 +186,8 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
             )
         );
 
-        return rtrim(sprintf($this->getQueryFormat(), $this->getColumns(), $this->getFrom(), $optional_query));
+        return rtrim(
+            sprintf($this->getQueryFormat(), $this->getColumns(), $this->getSqlQuerySource(), $optional_query)
+        );
     }
 }

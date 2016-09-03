@@ -10,10 +10,12 @@ use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Statements\Dml\Select;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
+use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 
 /**
  * クラス Select の単体テスト
@@ -22,7 +24,6 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_FROM = 'from';
     const PROP_NAME_COLUMNS = 'columns';
     const PROP_NAME_JOIN = 'join';
     const PROP_NAME_GROUP_BY = 'group_by';
@@ -66,72 +67,30 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetFrom のデータプロバイダー
+     * メソッド testSetSqlQuerySourceFailure のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetFrom()
+    public function providerSetSqlQuerySourceFailure()
     {
-        $from_origin = new From(new Table('table_name'));
-        $from_alias = new From(new Alias('table_a', 'a'));
-
         return [
-            [ $from_origin, $from_origin ],
-            [ $from_alias, $from_alias ],
+            [ new Table('table_name') ],
+            [ new Alias('(SELECT foo FROM table)', 'bar') ],
+            [ new Into(new Table('table_name')) ],
         ];
     }
 
     /**
-     * 正常系テスト
+     * 異常系テスト
      *
-     * @dataProvider providerGetFrom
+     * @dataProvider providerSetSqlQuerySourceFailure
      *
-     * @param FROM $expected   期待値
-     * @param FROM $prop_value プロパティ from の値
+     * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testGetFrom($expected, $prop_value)
+    public function testSetSqlQuerySourceFailure($sql_query_source)
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_FROM)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getFrom());
-    }
-
-    /**
-     * メソッド testSetFrom のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetFrom()
-    {
-        $from_origin = new From(new Table('table_name'));
-        $from_alias = new From(new Alias('table_a', 'a'));
-
-        return [
-            [ $from_origin, null, $from_origin ],
-            [ $from_alias, null, $from_alias ],
-            [ $from_origin, $from_alias, $from_origin ],
-            [ $from_alias, $from_origin, $from_alias ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetFrom
-     *
-     * @param FROM $expected    期待値
-     * @param mixed $prop_value プロパティ from の値
-     * @param FROM $from        メソッド setFrom の引数 from に渡す値
-     */
-    public function testSetFrom($expected, $prop_value, $from)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_FROM);
-        $reflector->setValue($object, $prop_value);
-        $object->setFrom($from);
-
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNewInstance()->setSqlQuerySource($sql_query_source);
     }
 
     /**

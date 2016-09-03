@@ -4,6 +4,7 @@ namespace Yukar\Sql\Builder\Statements\Dml;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Set;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
 use Yukar\Sql\Interfaces\Builder\Statements\IUpdateQuery;
 
@@ -25,7 +26,7 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
      */
     public function __construct(ITable $data_source, Set $update_sets)
     {
-        $this->setDataSource($data_source);
+        $this->setSqlQuerySource($data_source);
         $this->setUpdateSets($update_sets);
     }
 
@@ -37,6 +38,20 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
     public function getQueryFormat(): string
     {
         return 'UPDATE %s %s %s';
+    }
+
+    /**
+     * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
+     *
+     * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
+     */
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    {
+        if ($sql_query_source instanceof ITable === false) {
+            throw new \InvalidArgumentException();
+        }
+
+        parent::setSqlQuerySource($sql_query_source);
     }
 
     /**
@@ -109,7 +124,7 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
         return rtrim(
             sprintf(
                 $this->getQueryFormat(),
-                $this->getDataSource(),
+                $this->getSqlQuerySource(),
                 $this->getUpdateSets(),
                 implode(' ', array_filter([ $this->getFrom(), $this->getWhereString() ], 'strlen'))
             )

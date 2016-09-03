@@ -1,7 +1,7 @@
 <?php
 namespace Yukar\Sql\Interfaces\Builder\Statements;
 
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 
 /**
  * SQLのデータ操作言語の問い合わせクエリを定義するインターフェイス。
@@ -20,16 +20,16 @@ interface ISqlDMLQuery
     /**
      * SQLのデータ操作言語の対象となる表やサブクエリを取得します。
      *
-     * @return IDataSource SQLのデータ操作言語の対象となる表やサブクエリ
+     * @return ISqlQuerySource SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function getDataSource(): IDataSource;
+    public function getSqlQuerySource(): ISqlQuerySource;
 
     /**
      * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
-     * @param IDataSource $data_source SQLのデータ操作言語の対象となる表やサブクエリ
+     * @param ISqlQuerySource $data_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setDataSource(IDataSource $data_source);
+    public function setSqlQuerySource(ISqlQuerySource $data_source);
 
     /**
      * SQLのデータ操作言語の問い合わせクエリを文字列として取得します。

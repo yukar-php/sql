@@ -1,7 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Statements\Dml;
 
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Statements\ISqlDMLQuery;
 
 /**
@@ -11,25 +11,25 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISqlDMLQuery;
  */
 abstract class BaseSqlDMLQuery implements ISqlDMLQuery
 {
-    private $data_source;
+    private $sql_query_source;
 
     /**
      * SQLのデータ操作言語の対象となる表やサブクエリを取得します。
      *
-     * @return IDataSource SQLのデータ操作言語の対象となる表やサブクエリ
+     * @return ISqlQuerySource SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function getDataSource(): IDataSource
+    public function getSqlQuerySource(): ISqlQuerySource
     {
-        return $this->data_source;
+        return $this->sql_query_source;
     }
 
     /**
      * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
-     * @param IDataSource $data_source SQLのデータ操作言語の対象となる表やサブクエリ
+     * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setDataSource(IDataSource $data_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
     {
-        $this->data_source = $data_source;
+        $this->sql_query_source = $sql_query_source;
     }
 }
