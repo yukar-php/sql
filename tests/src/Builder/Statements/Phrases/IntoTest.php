@@ -3,6 +3,8 @@ namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
+use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
@@ -181,6 +183,46 @@ class IntoTest extends \PHPUnit_Framework_TestCase
         $object->setColumns($columns);
 
         self::assertSame($expected, $reflector->getValue($object));
+    }
+
+    /**
+     * メソッド testSetColumnsFailure のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerSetColumnsFailure()
+    {
+        $valid_columns = new Columns([ 'x', 'y', 'z' ]);
+        $empty_columns = new Columns();
+        $order_columns = new Columns([ new Order('col_name') ]);
+        $alias_columns = new Columns([ new Alias('orig_table', 'as_table') ]);
+
+        return [
+            [ \InvalidArgumentException::class, null, $empty_columns ],
+            [ \InvalidArgumentException::class, null, $order_columns ],
+            [ \InvalidArgumentException::class, null, $alias_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $empty_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $order_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $alias_columns ],
+        ];
+    }
+
+    /**
+     * 異常系テスト
+     *
+     * @dataProvider providerSetColumnsFailure
+     *
+     * @param \Exception    $expected   期待値
+     * @param mixed         $prop_value プロパティ columns の値
+     * @param IColumns|null $columns    メソッド setColumns の引数 columns に渡す値
+     */
+    public function testSetColumnsFailure($expected, $prop_value, $columns)
+    {
+        $this->expectException($expected);
+
+        $object = $this->getNewInstance();
+        $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
+        $object->setColumns($columns);
     }
 
     /**

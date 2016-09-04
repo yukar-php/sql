@@ -75,6 +75,10 @@ class Into implements IPhrases, ISqlQuerySource
      */
     public function setColumns(IColumns $columns)
     {
+        if ($columns->hasOnlyStringItems() === false) {
+            throw new \InvalidArgumentException();
+        }
+
         $this->columns = $columns;
     }
 

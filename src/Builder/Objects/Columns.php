@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Builder\Objects;
 
 use Yukar\Linq\Collections\ListObject;
+use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
 use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
@@ -65,6 +66,36 @@ class Columns implements IColumns
     }
 
     /**
+     * テーブルの任意の列のリストが文字列の項目だけを持つかどうかを判別します。
+     *
+     * @return bool テーブルの任意の列のリストが文字列の項目だけの場合は true。それ以外の場合は false。
+     */
+    public function hasOnlyStringItems(): bool
+    {
+        $list = new ListObject($this->getColumns());
+
+        return ($list->getSize() > 0
+            && $list->trueForAll(function ($column) {
+                return (is_string($column) === true && strlen($column) > 0);
+            }) === true);
+    }
+
+    /**
+     * テーブルの任意の列のリストがOrderByに使用可能な項目だけを持つかどうかを判別します。
+     *
+     * @return bool テーブルの任意の列のリストがOrderByに使用可能な項目だけの場合は true。それ以外の場合は false。
+     */
+    public function hasOnlyOrderByItems(): bool
+    {
+        $list = new ListObject($this->getColumns());
+
+        return ($list->getSize() > 0
+            && $list->trueForAll(function ($column) {
+                return ((is_string($column) === true && strlen($column) > 0) || ($column instanceof Order));
+            }) === true);
+    }
+
+    /**
      * テーブルの列のリストを文字列で取得します。
      *
      * @return string テーブルの対象の列のリストを「,」で連結した文字列。<br/>
@@ -86,7 +117,7 @@ class Columns implements IColumns
      */
     private function isAcceptableColumnValue($column): bool
     {
-        return (is_string($column) === true
+        return ((is_string($column) === true && strlen($column) > 0)
             || ($column instanceof IConditionContainable === false && $column instanceof IOperator));
     }
 }
