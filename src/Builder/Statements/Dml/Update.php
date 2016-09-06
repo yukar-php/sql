@@ -121,13 +121,10 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
      */
     public function __toString(): string
     {
-        return rtrim(
-            sprintf(
-                $this->getQueryFormat(),
-                $this->getSqlQuerySource(),
-                $this->getUpdateSets(),
-                implode(' ', array_filter([ $this->getFrom(), $this->getWhereString() ], 'strlen'))
-            )
+        return $this->getFormatRightTrim(
+            $this->getSqlQuerySource(),
+            $this->getUpdateSets(),
+            $this->joinQuery($this->getFrom(), $this->getWhereString())
         );
     }
 }

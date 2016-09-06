@@ -178,16 +178,10 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      */
     public function __toString(): string
     {
-        $optional_query = implode(
-            ' ',
-            array_filter(
-                [ $this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy() ],
-                'strlen'
-            )
-        );
-
-        return rtrim(
-            sprintf($this->getQueryFormat(), $this->getColumns(), $this->getSqlQuerySource(), $optional_query)
+        return $this->getFormatRightTrim(
+            $this->getColumns(),
+            $this->getSqlQuerySource(),
+            $this->joinQuery($this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
         );
     }
 }

@@ -69,6 +69,6 @@ class Delete extends BaseConditionalDMLQuery
      */
     public function __toString(): string
     {
-        return rtrim(sprintf($this->getQueryFormat(), $this->getSqlQuerySource(), $this->getWhereString()));
+        return $this->getFormatRightTrim($this->getSqlQuerySource(), $this->getWhereString());
     }
 }

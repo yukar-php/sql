@@ -32,4 +32,28 @@ abstract class BaseSqlDMLQuery implements ISqlDMLQuery
     {
         $this->sql_query_source = $sql_query_source;
     }
+
+    /**
+     * クエリ文字列を結合します。
+     *
+     * @param array ...$query_parts 結合するクエリ文字列
+     *
+     * @return string 結合したクエリ文字列
+     */
+    protected function joinQuery(...$query_parts)
+    {
+        return implode(' ', array_filter($query_parts, 'strlen'));
+    }
+
+    /**
+     * 設定した書式に従い右端の空白文字を全て削除したSQLクエリ文字列を取得します。
+     *
+     * @param array ...$query_parts SQLクエリのパーツ
+     *
+     * @return string 書式に従って出力したSQLクエリ文字列
+     */
+    protected function getFormatRightTrim(...$query_parts)
+    {
+        return rtrim(sprintf($this->getQueryFormat(), ...$query_parts));
+    }
 }
