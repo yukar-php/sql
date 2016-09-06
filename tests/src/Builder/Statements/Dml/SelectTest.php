@@ -541,7 +541,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ],
             // JOIN + WHERE + GROUP BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x WHERE x >= 10 AND z < 10 GROUP BY a, b, c HAVING c > 0',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' WHERE x >= 10 AND z < 10 GROUP BY a, b, c HAVING c > 0',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
@@ -551,7 +552,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ],
             // JOIN + WHERE + ORDER BY
             [
-                'SELECT a, b, c FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x WHERE a > 0 AND b <= 10 ORDER BY a ASC, b DESC',
+                'SELECT a, b, c FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x'
+                . ' WHERE a > 0 AND b <= 10 ORDER BY a ASC, b DESC',
                 $from_alias_a,
                 $columns_abc,
                 $join_b,
@@ -561,7 +563,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ],
             // JOIN + GROUP BY + ORDER BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
@@ -571,7 +574,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ],
             // WHERE + GROUP BY + ORDER BY
             [
-                'SELECT a, b, c FROM table_a AS a WHERE a > 0 AND b <= 10 GROUP BY a, b, c HAVING c > 0 ORDER BY a ASC, b DESC',
+                'SELECT a, b, c FROM table_a AS a WHERE a > 0 AND b <= 10'
+                . ' GROUP BY a, b, c HAVING c > 0 ORDER BY a ASC, b DESC',
                 $from_alias_a,
                 $columns_abc,
                 null,
@@ -581,7 +585,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ],
             // JOIN + WHERE + GROUP BY + ORDER BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
