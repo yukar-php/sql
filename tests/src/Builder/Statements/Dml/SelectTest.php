@@ -24,6 +24,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
+    const PROP_NAME_IS_DISTINCT = 'is_distinct';
     const PROP_NAME_COLUMNS = 'columns';
     const PROP_NAME_JOIN = 'join';
     const PROP_NAME_GROUP_BY = 'group_by';
@@ -91,6 +92,67 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->getNewInstance()->setSqlQuerySource($sql_query_source);
+    }
+
+    /**
+     * メソッド testGetDistinct のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerGetDistinct()
+    {
+        return [
+            [ false, false ],
+            [ true, true ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerGetDistinct
+     *
+     * @param bool $expected   期待値
+     * @param bool $prop_value プロパティ is_distinct の値
+     */
+    public function testGetDistinct($expected, $prop_value)
+    {
+        $object = $this->getNewInstance();
+        $this->getProperty($object, self::PROP_NAME_IS_DISTINCT)->setValue($object, $prop_value);
+
+        self::assertSame($expected, $object->getDistinct());
+    }
+
+    /**
+     * メソッド testSetDistinct のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerSetDistinct()
+    {
+        return [
+            [ false, true, false ],
+            [ true, false, true ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerSetDistinct
+     *
+     * @param bool $expected    期待値
+     * @param bool $prop_value  プロパティ is_distinct の値
+     * @param bool $is_distinct メソッド setDistinct の引数 columns に渡す値
+     */
+    public function testSetDistinct($expected, $prop_value, $is_distinct)
+    {
+        $object = $this->getNewInstance();
+        $reflector = $this->getProperty($object, self::PROP_NAME_IS_DISTINCT);
+        $reflector->setValue($object, $prop_value);
+
+        self::assertInstanceOf(Select::class, $object->setDistinct($is_distinct));
+        self::assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -437,14 +499,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $order_by_xyz = new OrderBy(new Columns([ new Order('x', Order::DESCENDING), new Order('z') ]));
 
         return [
-            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null ],
-            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null ],
+            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null, null ],
+            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, null, true ],
+            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, false ],
+            [ 'SELECT DISTINCT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, true ],
             // JOIN のみ
             [
                 'SELECT x, y, z FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x',
                 $from_alias_a,
                 $columns_xyz,
                 $join_b,
+                null,
                 null,
                 null,
                 null,
@@ -458,6 +523,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_abc,
                 null,
                 null,
+                null,
             ],
             // GROUP BY のみ
             [
@@ -467,6 +533,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $group_by_xyz,
+                null,
                 null,
             ],
             // ORDER BY のみ
@@ -478,6 +545,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE
             [
@@ -486,6 +554,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $columns_abc,
                 $join_a,
                 $where_abc,
+                null,
                 null,
                 null,
             ],
@@ -498,6 +567,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $group_by_abc,
                 null,
+                null,
             ],
             // JOIN + ORDER BY
             [
@@ -508,6 +578,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $order_by_xyz,
+                null,
             ],
             // WHERE + GROUP BY
             [
@@ -517,6 +588,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $where_xyz,
                 $group_by_xyz,
+                null,
                 null,
             ],
             // WHERE + ORDER BY
@@ -528,6 +600,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_xyz,
                 null,
                 $order_by_xyz,
+                null,
             ],
             // GROUP BY + ORDER BY
             [
@@ -538,6 +611,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $group_by_abc,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE + GROUP BY
             [
@@ -548,6 +622,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $join_a,
                 $where_xyz,
                 $group_by_abc,
+                null,
                 null,
             ],
             // JOIN + WHERE + ORDER BY
@@ -560,6 +635,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_abc,
                 null,
                 $order_by_abc,
+                null,
             ],
             // JOIN + GROUP BY + ORDER BY
             [
@@ -571,6 +647,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $group_by_xyz,
                 $order_by_xyz,
+                null,
             ],
             // WHERE + GROUP BY + ORDER BY
             [
@@ -582,6 +659,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_abc,
                 $group_by_abc,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE + GROUP BY + ORDER BY
             [
@@ -592,7 +670,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $join_a,
                 $where_xyz,
                 $group_by_xyz,
-                $order_by_xyz
+                $order_by_xyz,
+                null,
             ],
         ];
     }
@@ -603,16 +682,18 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerToString
      *
      * @param string $expected 期待値
-     * @param FROM $from       コンストラクタの引数 from に渡す値
-     * @param mixed $columns   コンストラクタの引数 columns に渡す値
-     * @param mixed $join      メソッド setJoin の引数 join に渡す値（null以外の時のみ）
-     * @param mixed $where     メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
-     * @param mixed $group_by  メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
-     * @param mixed $order_by  メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param From   $from     コンストラクタの引数 from に渡す値
+     * @param mixed  $columns  コンストラクタの引数 columns に渡す値
+     * @param mixed  $join     メソッド setJoin の引数 join に渡す値（null以外の時のみ）
+     * @param mixed  $where    メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
+     * @param mixed  $group_by メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
+     * @param mixed  $order_by メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param mixed  $distinct メソッド setDistinct の引数 is_distinct に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by)
+    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $distinct)
     {
         $select = new Select($from, $columns);
+        isset($distinct) && $select->setDistinct($distinct);
         isset($join) && $select->setJoin($join);
         isset($where) && $select->setWhere($where);
         isset($group_by) && $select->setGroupBy($group_by);

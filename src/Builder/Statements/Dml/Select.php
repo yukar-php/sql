@@ -18,6 +18,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
+    private $is_distinct = false;
     private $columns;
     private $join;
     private $group_by;
@@ -57,6 +58,30 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
         }
 
         parent::setSqlQuerySource($sql_query_source);
+    }
+
+    /**
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
+     *
+     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
+     */
+    public function getDistinct(): bool
+    {
+        return $this->is_distinct;
+    }
+
+    /**
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
+     *
+     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
+     *
+     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
+     */
+    public function setDistinct(bool $distinct): ISelectQuery
+    {
+        $this->is_distinct = $distinct;
+
+        return $this;
     }
 
     /**
@@ -179,7 +204,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     public function __toString(): string
     {
         return $this->getFormatRightTrim(
-            $this->getColumns(),
+            (($this->getDistinct() === true) ? 'DISTINCT ' : '') . $this->getColumns(),
             $this->getSqlQuerySource(),
             $this->joinQuery($this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
         );

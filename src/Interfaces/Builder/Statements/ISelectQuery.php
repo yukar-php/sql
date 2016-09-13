@@ -15,6 +15,22 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
 interface ISelectQuery extends IConditionalDMLQuery
 {
     /**
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
+     *
+     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
+     */
+    public function getDistinct(): bool;
+
+    /**
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
+     *
+     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
+     *
+     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
+     */
+    public function setDistinct(bool $distinct): ISelectQuery;
+
+    /**
      * 検索の問い合わせクエリの対象となる列のリストを取得します。
      *
      * @return IColumns 検索の問い合わせクエリの対象となる列のリスト
