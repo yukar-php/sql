@@ -11,7 +11,6 @@ use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 class ExpressionTest extends \PHPUnit_Framework_TestCase
 {
     const PROP_NAME_VALUE = 'value';
-    const PROP_NAME_SIGN = 'sign';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -144,114 +143,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetSign データプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetSign()
-    {
-        return [
-            [ '=', Expression::SIGNS[Expression::SIGN_EQ] ],
-            [ '=', Expression::SIGNS[1] ],
-            [ '<>', Expression::SIGNS[Expression::SIGN_NE] ],
-            [ '<>', Expression::SIGNS[2] ],
-            [ '>', Expression::SIGNS[Expression::SIGN_GT] ],
-            [ '>', Expression::SIGNS[3] ],
-            [ '>=', Expression::SIGNS[Expression::SIGN_AO] ],
-            [ '>=', Expression::SIGNS[4] ],
-            [ '<', Expression::SIGNS[Expression::SIGN_LT] ],
-            [ '<', Expression::SIGNS[5] ],
-            [ '<=', Expression::SIGNS[Expression::SIGN_OU] ],
-            [ '<=', Expression::SIGNS[6] ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerGetSign
-     *
-     * @param string $expected   期待値
-     * @param string $prop_value プロパティ sign の値
-     */
-    public function testGetSign($expected, $prop_value)
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getOperator());
-    }
-
-    /**
-     * メソッド testSetSign データプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetSign()
-    {
-        return [
-            [ '=', null, Expression::SIGN_EQ ],
-            [ '<>', Expression::SIGN_EQ, Expression::SIGN_NE ],
-            [ '>', 2, Expression::SIGN_GT ],
-            [ '>=', Expression::SIGN_GT, 4 ],
-            [ '<', 4, 5 ],
-            [ '<=', null, 6 ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetSign
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ sign の値
-     * @param int $sign         メソッド setSign の引数 sign に渡す値
-     */
-    public function testSetSign($expected, $prop_value, $sign)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
-        $reflector->setValue($object, $prop_value);
-
-        self::assertInstanceOf(get_class($object), $object->setOperator($sign));
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetSignFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetSignFailure()
-    {
-        return [
-            [ \InvalidArgumentException::class, null, 0 ],
-            [ \InvalidArgumentException::class, Expression::SIGN_NE, 0 ],
-            [ \InvalidArgumentException::class, null, 7 ],
-            [ \InvalidArgumentException::class, Expression::SIGN_LT, 7 ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetSignFailure
-     *
-     * @param \Exception $expected
-     * @param mixed $prop_value
-     * @param mixed $sign
-     */
-    public function testSetSignFailure($expected, $prop_value, $sign)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
-        $object->setOperator($sign);
-    }
-
-    /**
      * メソッド testToString のデータプロバイダー
      *
      * @return array
@@ -276,6 +167,6 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $name, $value, $sign)
     {
-        self::assertSame($expected, (string)(new Expression($name, $value))->setOperator($sign));
+        self::assertSame($expected, (string)(new Expression($name, $value, $sign)));
     }
 }
