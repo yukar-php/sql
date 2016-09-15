@@ -65,10 +65,17 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetDataSource()
     {
+        $table_obj = new Table('table_name');
+        $alias_obj = new Alias('table_name', 'alias_name');
+        $query_alias = new Alias('(SELECT * FROM table_name)', 'alias_query');
+        $select_query = new Alias(new Select(new From($table_obj)), 'alias_query');
+
         return [
             [ 'table_name', 'table_name' ],
-            [ 'table_name AS alias_name', 'table_name AS alias_name' ],
-            [ '(SELECT * FROM table_name) AS alias_query', '(SELECT * FROM table_name) AS alias_query' ],
+            [ 'table_name', $table_obj ],
+            [ 'table_name AS alias_name', $alias_obj ],
+            [ '(SELECT * FROM table_name) AS alias_query', $query_alias ],
+            [ '(SELECT * FROM table_name) AS alias_query', $select_query ],
         ];
     }
 
@@ -102,15 +109,15 @@ class JoinTest extends \PHPUnit_Framework_TestCase
 
         return [
             [ 'table_name', null, 'table_name' ],
-            [ 'table_name', null, $table_obj ],
-            [ 'table_name AS alias_name', null, $alias_obj ],
-            [ '(SELECT * FROM table_name) AS alias_query', null, $query_alias ],
-            [ '(SELECT * FROM table_name) AS alias_query', null, $select_query ],
-            [ 'table_name', '(SELECT * FROM table_name) AS alias_query', 'table_name' ],
-            [ 'table_name', '(SELECT * FROM table_name) AS alias_query', $table_obj ],
-            [ 'table_name AS alias_name', '(SELECT * FROM table_name) AS alias_query', $alias_obj ],
-            [ '(SELECT * FROM table_name) AS alias_query', 'table_name', $query_alias ],
-            [ '(SELECT * FROM table_name) AS alias_query', 'table_name', $select_query ],
+            [ $table_obj, null, $table_obj ],
+            [ $alias_obj, null, $alias_obj ],
+            [ $query_alias, null, $query_alias ],
+            [ $select_query, null, $select_query ],
+            [ 'table_name', $alias_obj, 'table_name' ],
+            [ $table_obj, $alias_obj, $table_obj ],
+            [ $alias_obj, $select_query, $alias_obj ],
+            [ $query_alias, $table_obj, $query_alias ],
+            [ $select_query, 'table_name', $select_query ],
         ];
     }
 

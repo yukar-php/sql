@@ -13,7 +13,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Alias implements IOperator, IDataSource
 {
-    private $origin_name = '';
+    private $origin_name;
     private $alias_name = '';
 
     /**
@@ -45,7 +45,7 @@ class Alias implements IOperator, IDataSource
      */
     public function getOriginName(): string
     {
-        return $this->origin_name;
+        return sprintf(($this->origin_name instanceof ISelectQuery === true) ? '(%s)' : '%s', $this->origin_name);
     }
 
     /**
@@ -61,7 +61,7 @@ class Alias implements IOperator, IDataSource
             throw new \InvalidArgumentException();
         }
 
-        $this->origin_name = sprintf(($origin_name instanceof ISelectQuery === true) ? '(%s)' : '%s', $origin_name);
+        $this->origin_name = $origin_name;
     }
 
     /**

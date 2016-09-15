@@ -58,6 +58,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ [ [ 'a', 'b', 'c' ] ], [ [ 'a', 'b', 'c' ] ] ],
+            [ [ [ 'a', 'b', 'c' ] ], new \ArrayObject([ [ 'a', 'b', 'c' ] ]) ],
         ];
     }
 
@@ -84,11 +85,14 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetValues()
     {
+        $array_obj_1 = new \ArrayObject([ [ 'a', 'b', 'c' ] ]);
+        $array_obj_2 = new \ArrayObject([ [ 'x', 'y', 'z' ] ]);
+
         return [
             [ [ [ 'a', 'b', 'c' ] ], null, [ [ 'a', 'b', 'c' ] ] ],
-            [ [ [ 'a', 'b', 'c' ] ], null, new \ArrayObject([ [ 'a', 'b', 'c' ] ]) ],
-            [ [ [ 'x', 'y', 'z' ] ], [ [ 'a', 'b', 'c' ] ], [ [ 'x', 'y', 'z' ] ] ],
-            [ [ [ 'x', 'y', 'z' ] ], [ [ 'a', 'b', 'c' ] ], new \ArrayObject([ [ 'x', 'y', 'z' ] ]) ],
+            [ $array_obj_1, null, $array_obj_1 ],
+            [ [ [ 'x', 'y', 'z' ] ], $array_obj_1, [ [ 'x', 'y', 'z' ] ] ],
+            [ $array_obj_2, [ [ 'a', 'b', 'c' ] ],$array_obj_2 ],
         ];
     }
 

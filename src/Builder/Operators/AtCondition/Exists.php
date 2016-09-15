@@ -10,7 +10,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Exists extends BaseDeniableOperator
 {
-    private $needle = '';
+    private $needle;
 
     /**
      * Exists クラスの新しいインスタンスを初期化します。
@@ -53,7 +53,7 @@ class Exists extends BaseDeniableOperator
      */
     public function getNeedle(): string
     {
-        return $this->needle;
+        return strval($this->needle);
     }
 
     /**
@@ -69,7 +69,7 @@ class Exists extends BaseDeniableOperator
             throw new \InvalidArgumentException();
         }
 
-        $this->needle = strval($needle);
+        $this->needle = $needle;
     }
 
     /**

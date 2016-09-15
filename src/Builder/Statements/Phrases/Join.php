@@ -63,7 +63,7 @@ class Join implements IPhrases
      */
     public function getDataSource(): string
     {
-        return $this->data_source;
+        return strval($this->data_source);
     }
 
     /**
@@ -79,7 +79,7 @@ class Join implements IPhrases
             throw new \InvalidArgumentException();
         }
 
-        $this->data_source = strval($data_source);
+        $this->data_source = $data_source;
     }
 
     /**

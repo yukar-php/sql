@@ -60,8 +60,16 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetOriginName()
     {
+        $table_name = new Table('table_name');
+        $select_query = new Select(new From($table_name));
+
         return [
-            [ 'origin', 'origin' ],
+            [ 'table_name', $table_name ],
+            [ '(SELECT * FROM table_name)', '(SELECT * FROM table_name)' ],
+            [ '(SELECT * FROM table_name)', $select_query ],
+            [ 'origin_name', 'origin_name' ],
+            [ '(SELECT * FROM table_name)', '(SELECT * FROM table_name)' ],
+            [ '(SELECT * FROM table_name)', $select_query ],
         ];
     }
 
@@ -92,12 +100,12 @@ class AliasTest extends \PHPUnit_Framework_TestCase
         $select_query = new Select(new From($table_name));
 
         return [
-            [ 'table_name', null, 'table_name' ],
+            [ $table_name, null, $table_name ],
             [ '(SELECT * FROM table_name)', null, '(SELECT * FROM table_name)' ],
-            [ '(SELECT * FROM table_name)', null, $select_query ],
-            [ 'origin_name', 'table_name', 'origin_name' ],
-            [ '(SELECT * FROM table_name)', 'table_name', '(SELECT * FROM table_name)' ],
-            [ '(SELECT * FROM table_name)', 'table_name', $select_query ],
+            [ $select_query, null, $select_query ],
+            [ 'origin_name', $table_name, 'origin_name' ],
+            [ '(SELECT * FROM table_name)', $table_name, '(SELECT * FROM table_name)' ],
+            [ $select_query, 'table_name', $select_query ],
         ];
     }
 

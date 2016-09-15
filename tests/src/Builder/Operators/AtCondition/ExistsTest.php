@@ -52,8 +52,14 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetNeedle()
     {
+        $table_name = new Table('table_name');
+        $select_query_a = new Select(new From($table_name));
+        $select_query_b = new Select(new From($table_name), new Columns([ 'col' ]));
+
         return [
             [ 'SELECT * FROM table_name', 'SELECT * FROM table_name' ],
+            [ 'SELECT * FROM table_name', $select_query_a ],
+            [ 'SELECT col FROM table_name', $select_query_b ],
         ];
     }
 
@@ -86,9 +92,9 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
 
         return [
             [ 'SELECT * FROM table_name', null, 'SELECT * FROM table_name' ],
-            [ 'SELECT * FROM table_name', null, $select_query_a ],
-            [ 'SELECT col FROM table_name', 'SELECT * FROM table_name', 'SELECT col FROM table_name' ],
-            [ 'SELECT col FROM table_name', 'SELECT * FROM table_name', $select_query_b ],
+            [ $select_query_a, null, $select_query_a ],
+            [ 'SELECT col FROM table_name', $select_query_a, 'SELECT col FROM table_name' ],
+            [ $select_query_b, 'SELECT * FROM table_name', $select_query_b ],
         ];
     }
 
