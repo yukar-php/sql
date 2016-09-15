@@ -11,7 +11,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class In extends BaseDeniableOperator
 {
-    private $needle = '';
+    private $needle;
 
     /**
      * In クラスの新しいインスタンスを初期化します。
@@ -54,7 +54,8 @@ class In extends BaseDeniableOperator
      */
     public function getNeedle(): string
     {
-        return $this->needle;
+        return ($this->isAcceptableExpression($this->needle) === true) ?
+            $this->getExpressionString($this->needle) : strval($this->needle);
     }
 
     /**
@@ -70,47 +71,7 @@ class In extends BaseDeniableOperator
             throw new \InvalidArgumentException();
         }
 
-        ($this->isAcceptableExpression($needle) === true) && $this->setExpression($needle);
-        ($this->isAcceptableSubQuery($needle) === true) && $this->setSubQuery($needle);
-    }
-
-    /**
-     * IN 演算子の対象となる列リストを設定します。
-     *
-     * @param array|\Traversable $expression IN 演算子の対象となる列リスト
-     *
-     * @throws \InvalidArgumentException 引数 expression に渡した値が不正な場合
-     *
-     * @return In 列リストを設定した状態のクラス IN のオブジェクトインスタンス
-     */
-    public function setExpression($expression): self
-    {
-        if ($this->isAcceptableExpression($expression) === false) {
-            throw new \InvalidArgumentException();
-        }
-        $this->needle = $this->getExpressionString($expression);
-
-        return $this;
-    }
-
-    /**
-     * IN 演算子の対象となる問い合わせクエリを設定します。
-     *
-     * @param string|ISelectQuery $sub_query IN 演算子の対象となる問い合わせクエリ
-     *
-     * @throws \InvalidArgumentException 引数 expression に渡した値が不正な場合
-     *
-     * @return In 問い合わせクエリを設定した状態のクラス IN のオブジェクトインスタンス
-     */
-    public function setSubQuery($sub_query): self
-    {
-        if ($this->isAcceptableSubQuery($sub_query) === false) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->needle = strval($sub_query);
-
-        return $this;
+        $this->needle = $needle;
     }
 
     /**

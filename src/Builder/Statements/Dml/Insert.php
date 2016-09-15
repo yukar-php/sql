@@ -3,6 +3,8 @@ namespace Yukar\Sql\Builder\Statements\Dml;
 
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Values;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Statements\IInsertQuery;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -10,9 +12,8 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  *
  * @author hiroki sugawara
  */
-class Insert extends BaseSqlDMLQuery
+class Insert extends BaseSqlDMLQuery implements IInsertQuery
 {
-    private $into;
     private $values;
 
     /**
@@ -23,8 +24,7 @@ class Insert extends BaseSqlDMLQuery
      */
     public function __construct(Into $into, $values)
     {
-        $this->setDataSource($into->getDataSource());
-        $this->setInto($into);
+        $this->setSqlQuerySource($into);
         $this->setValues($values);
     }
 
@@ -39,23 +39,17 @@ class Insert extends BaseSqlDMLQuery
     }
 
     /**
-     * 挿入の問い合わせクエリの対象となる表と列を取得します。
+     * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
-     * @return Into 挿入の問い合わせクエリの対象となる表と列
+     * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function getInto(): Into
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
     {
-        return $this->into;
-    }
+        if ($sql_query_source instanceof Into === false) {
+            throw new \InvalidArgumentException();
+        }
 
-    /**
-     * 挿入の問い合わせクエリの対象となる表と列を設定します。
-     *
-     * @param Into $into 挿入の問い合わせクエリの対象となる表と列
-     */
-    public function setInto(Into $into)
-    {
-        $this->into = $into;
+        parent::setSqlQuerySource($sql_query_source);
     }
 
     /**
@@ -91,7 +85,7 @@ class Insert extends BaseSqlDMLQuery
      */
     public function __toString(): string
     {
-        return sprintf($this->getQueryFormat(), $this->getInto(), $this->getValues());
+        return sprintf($this->getQueryFormat(), $this->getSqlQuerySource(), $this->getValues());
     }
 
     /**

@@ -56,7 +56,7 @@ class GroupBy implements IPhrases
      */
     public function setGroupBy(IColumns $group_by)
     {
-        if (empty($group_by->getColumns()) === true) {
+        if ($group_by->hasOnlyStringItems() === false) {
             throw new \InvalidArgumentException();
         }
 

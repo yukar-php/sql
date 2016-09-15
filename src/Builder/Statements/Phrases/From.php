@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Builder\Statements\Phrases;
 
 use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
 
 /**
@@ -9,7 +10,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
  *
  * @author hiroki sugawara
  */
-class From implements IPhrases
+class From implements IPhrases, ISqlQuerySource
 {
     private $data_source;
 

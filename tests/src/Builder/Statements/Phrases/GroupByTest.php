@@ -3,6 +3,8 @@ namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Conditions;
+use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
@@ -121,9 +123,18 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetGroupByFailure()
     {
+        $valid_columns = new Columns([ 'x', 'y', 'z' ]);
+        $empty_columns = new Columns();
+        $order_columns = new Columns([ new Order('col_name') ]);
+        $alias_columns = new Columns([ new Alias('orig_table', 'as_table') ]);
+
         return [
-            [ \InvalidArgumentException::class, null, new Columns() ],
-            [ \InvalidArgumentException::class, new Columns([ 'x', 'y', 'z' ]), new Columns() ],
+            [ \InvalidArgumentException::class, null, $empty_columns ],
+            [ \InvalidArgumentException::class, null, $order_columns ],
+            [ \InvalidArgumentException::class, null, $alias_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $empty_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $order_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $alias_columns ],
         ];
     }
 

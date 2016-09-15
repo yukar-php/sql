@@ -54,7 +54,8 @@ class InTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ 'SELECT * FROM table', 'SELECT * FROM table' ],
-            [ 'column_a, column_b', 'column_a, column_b' ],
+            [ "'column_a', 'column_b'", [ 'column_a', 'column_b' ] ],
+            [ "'column_a', 'column_b'", new \ArrayObject([ 'column_a', 'column_b' ]) ],
         ];
     }
 
@@ -81,10 +82,12 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetNeedle()
     {
+        $array_object = new \ArrayObject([ 'column_a', 'column_b' ]);
+
         return [
             [ 'SELECT * FROM table', null, 'SELECT * FROM table' ],
-            [ "'column_a', 'column_b'", null, [ 'column_a', 'column_b' ] ],
-            [ "'column_a', 'column_b'", null, new \ArrayObject([ 'column_a', 'column_b' ]) ],
+            [ [ 'column_a', 'column_b' ], null, [ 'column_a', 'column_b' ] ],
+            [ $array_object, null, $array_object ],
         ];
     }
 
@@ -141,147 +144,6 @@ class InTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
         $object->setNeedle($needle);
-    }
-
-    /**
-     * メソッド testSetExpression のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetExpression()
-    {
-        return [
-            [ "'a', 'b', 'c'", null, [ 'a', 'b', 'c' ] ],
-            [ "'x', 'y', 'z'", null, new \ArrayObject([ 'x', 'y', 'z' ]) ],
-            [ "'a', 'b', 'c'", "'o', 'p', 'q'", [ 'a', 'b', 'c' ] ],
-            [ "'x', 'y', 'z'", "'o', 'p', 'q'", new \ArrayObject([ 'x', 'y', 'z' ]) ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetExpression
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ needle の値
-     * @param mixed $expression メソッド setExpression の引数 expression に渡す値
-     */
-    public function testSetExpression($expected, $prop_value, $expression)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_NEEDLE);
-        $reflector->setValue($object, $prop_value);
-
-        self::assertInstanceOf(get_class($object), $object->setExpression($expression));
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetExpressionFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetExpressionFailure()
-    {
-        return [
-            [ \InvalidArgumentException::class, null, null ],
-            [ \InvalidArgumentException::class, null, 0 ],
-            [ \InvalidArgumentException::class, null, 1.1 ],
-            [ \InvalidArgumentException::class, null, true ],
-            [ \InvalidArgumentException::class, null, '' ],
-            [ \InvalidArgumentException::class, null, [] ],
-            [ \InvalidArgumentException::class, null, new \stdClass() ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetExpressionFailure
-     *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ needle の値
-     * @param mixed $expression    メソッド setExpression の引数 expression に渡す値
-     */
-    public function testSetExpressionFailure($expected, $prop_value, $expression)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
-        $object->setExpression($expression);
-    }
-
-    /**
-     * メソッド testSetSubQuery のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetSubQuery()
-    {
-        $select = new Select(new From(new Table('table')), new Columns([ 'col' ]));
-
-        return [
-            [ 'SELECT col FROM table', null, 'SELECT col FROM table' ],
-            [ 'SELECT col FROM table', null, $select ],
-            [ 'a, b, c', null, 'a, b, c' ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetSubQuery
-     *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ needle の値
-     * @param mixed $sub_query  メソッド setSubQuery の引数 sub_query に渡す値
-     */
-    public function testSetSubQuery($expected, $prop_value, $sub_query)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_NEEDLE);
-        $reflector->setValue($object, $prop_value);
-
-        self::assertInstanceOf(get_class($object), $object->setSubQuery($sub_query));
-        self::assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
-     * メソッド testSetSubQueryFailure のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetSubQueryFailure()
-    {
-        return [
-            [ \InvalidArgumentException::class, null, null ],
-            [ \InvalidArgumentException::class, null, 0 ],
-            [ \InvalidArgumentException::class, null, 1.1 ],
-            [ \InvalidArgumentException::class, null, true ],
-            [ \InvalidArgumentException::class, null, '' ],
-            [ \InvalidArgumentException::class, null, [] ],
-            [ \InvalidArgumentException::class, null, new \stdClass() ],
-        ];
-    }
-
-    /**
-     * 異常系テスト
-     *
-     * @dataProvider providerSetSubQueryFailure
-     *
-     * @param |Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ needle の値
-     * @param mixed $sub_query     メソッド setSubQuery の引数 sub_query に渡す値
-     */
-    public function testSetSubQueryFailure($expected, $prop_value, $sub_query)
-    {
-        $this->expectException($expected);
-
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
-        $object->setSubQuery($sub_query);
     }
 
     /**

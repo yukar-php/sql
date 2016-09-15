@@ -10,10 +10,12 @@ use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Statements\Dml\Select;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
+use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 
 /**
  * クラス Select の単体テスト
@@ -22,7 +24,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_FROM = 'from';
+    const PROP_NAME_IS_DISTINCT = 'is_distinct';
     const PROP_NAME_COLUMNS = 'columns';
     const PROP_NAME_JOIN = 'join';
     const PROP_NAME_GROUP_BY = 'group_by';
@@ -66,71 +68,90 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetFrom のデータプロバイダー
+     * メソッド testSetSqlQuerySourceFailure のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetFrom()
+    public function providerSetSqlQuerySourceFailure()
     {
-        $from_origin = new From(new Table('table_name'));
-        $from_alias = new From(new Alias('table_a', 'a'));
-
         return [
-            [ $from_origin, $from_origin ],
-            [ $from_alias, $from_alias ],
+            [ new Table('table_name') ],
+            [ new Alias('(SELECT foo FROM table)', 'bar') ],
+            [ new Into(new Table('table_name')) ],
+        ];
+    }
+
+    /**
+     * 異常系テスト
+     *
+     * @dataProvider providerSetSqlQuerySourceFailure
+     *
+     * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
+     */
+    public function testSetSqlQuerySourceFailure($sql_query_source)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNewInstance()->setSqlQuerySource($sql_query_source);
+    }
+
+    /**
+     * メソッド testGetDistinct のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerGetDistinct()
+    {
+        return [
+            [ false, false ],
+            [ true, true ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerGetFrom
+     * @dataProvider providerGetDistinct
      *
-     * @param FROM $expected   期待値
-     * @param FROM $prop_value プロパティ from の値
+     * @param bool $expected   期待値
+     * @param bool $prop_value プロパティ is_distinct の値
      */
-    public function testGetFrom($expected, $prop_value)
+    public function testGetDistinct($expected, $prop_value)
     {
         $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_FROM)->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_IS_DISTINCT)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getFrom());
+        self::assertSame($expected, $object->getDistinct());
     }
 
     /**
-     * メソッド testSetFrom のデータプロバイダー
+     * メソッド testSetDistinct のデータプロバイダー
      *
      * @return array
      */
-    public function providerSetFrom()
+    public function providerSetDistinct()
     {
-        $from_origin = new From(new Table('table_name'));
-        $from_alias = new From(new Alias('table_a', 'a'));
-
         return [
-            [ $from_origin, null, $from_origin ],
-            [ $from_alias, null, $from_alias ],
-            [ $from_origin, $from_alias, $from_origin ],
-            [ $from_alias, $from_origin, $from_alias ],
+            [ false, true, false ],
+            [ true, false, true ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerSetFrom
+     * @dataProvider providerSetDistinct
      *
-     * @param FROM $expected    期待値
-     * @param mixed $prop_value プロパティ from の値
-     * @param FROM $from        メソッド setFrom の引数 from に渡す値
+     * @param bool $expected    期待値
+     * @param bool $prop_value  プロパティ is_distinct の値
+     * @param bool $is_distinct メソッド setDistinct の引数 columns に渡す値
      */
-    public function testSetFrom($expected, $prop_value, $from)
+    public function testSetDistinct($expected, $prop_value, $is_distinct)
     {
         $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_FROM);
+        $reflector = $this->getProperty($object, self::PROP_NAME_IS_DISTINCT);
         $reflector->setValue($object, $prop_value);
-        $object->setFrom($from);
 
+        self::assertInstanceOf(Select::class, $object->setDistinct($is_distinct));
         self::assertSame($expected, $reflector->getValue($object));
     }
 
@@ -478,14 +499,17 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $order_by_xyz = new OrderBy(new Columns([ new Order('x', Order::DESCENDING), new Order('z') ]));
 
         return [
-            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null ],
-            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null ],
+            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null, null ],
+            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, null, true ],
+            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, false ],
+            [ 'SELECT DISTINCT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, true ],
             // JOIN のみ
             [
                 'SELECT x, y, z FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x',
                 $from_alias_a,
                 $columns_xyz,
                 $join_b,
+                null,
                 null,
                 null,
                 null,
@@ -499,6 +523,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_abc,
                 null,
                 null,
+                null,
             ],
             // GROUP BY のみ
             [
@@ -508,6 +533,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $group_by_xyz,
+                null,
                 null,
             ],
             // ORDER BY のみ
@@ -519,6 +545,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE
             [
@@ -527,6 +554,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $columns_abc,
                 $join_a,
                 $where_abc,
+                null,
                 null,
                 null,
             ],
@@ -539,6 +567,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $group_by_abc,
                 null,
+                null,
             ],
             // JOIN + ORDER BY
             [
@@ -549,6 +578,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 null,
                 $order_by_xyz,
+                null,
             ],
             // WHERE + GROUP BY
             [
@@ -558,6 +588,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $where_xyz,
                 $group_by_xyz,
+                null,
                 null,
             ],
             // WHERE + ORDER BY
@@ -569,6 +600,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $where_xyz,
                 null,
                 $order_by_xyz,
+                null,
             ],
             // GROUP BY + ORDER BY
             [
@@ -579,56 +611,67 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 null,
                 $group_by_abc,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE + GROUP BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x WHERE x >= 10 AND z < 10 GROUP BY a, b, c HAVING c > 0',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' WHERE x >= 10 AND z < 10 GROUP BY a, b, c HAVING c > 0',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
                 $where_xyz,
                 $group_by_abc,
                 null,
+                null,
             ],
             // JOIN + WHERE + ORDER BY
             [
-                'SELECT a, b, c FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x WHERE a > 0 AND b <= 10 ORDER BY a ASC, b DESC',
+                'SELECT a, b, c FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x'
+                . ' WHERE a > 0 AND b <= 10 ORDER BY a ASC, b DESC',
                 $from_alias_a,
                 $columns_abc,
                 $join_b,
                 $where_abc,
                 null,
                 $order_by_abc,
+                null,
             ],
             // JOIN + GROUP BY + ORDER BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
                 null,
                 $group_by_xyz,
                 $order_by_xyz,
+                null,
             ],
             // WHERE + GROUP BY + ORDER BY
             [
-                'SELECT a, b, c FROM table_a AS a WHERE a > 0 AND b <= 10 GROUP BY a, b, c HAVING c > 0 ORDER BY a ASC, b DESC',
+                'SELECT a, b, c FROM table_a AS a WHERE a > 0 AND b <= 10'
+                . ' GROUP BY a, b, c HAVING c > 0 ORDER BY a ASC, b DESC',
                 $from_alias_a,
                 $columns_abc,
                 null,
                 $where_abc,
                 $group_by_abc,
                 $order_by_abc,
+                null,
             ],
             // JOIN + WHERE + GROUP BY + ORDER BY
             [
-                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
+                'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
+                . ' WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
                 $from_alias_b,
                 $columns_xyz,
                 $join_a,
                 $where_xyz,
                 $group_by_xyz,
-                $order_by_xyz
+                $order_by_xyz,
+                null,
             ],
         ];
     }
@@ -639,16 +682,18 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerToString
      *
      * @param string $expected 期待値
-     * @param FROM $from       コンストラクタの引数 from に渡す値
-     * @param mixed $columns   コンストラクタの引数 columns に渡す値
-     * @param mixed $join      メソッド setJoin の引数 join に渡す値（null以外の時のみ）
-     * @param mixed $where     メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
-     * @param mixed $group_by  メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
-     * @param mixed $order_by  メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param From   $from     コンストラクタの引数 from に渡す値
+     * @param mixed  $columns  コンストラクタの引数 columns に渡す値
+     * @param mixed  $join     メソッド setJoin の引数 join に渡す値（null以外の時のみ）
+     * @param mixed  $where    メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
+     * @param mixed  $group_by メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
+     * @param mixed  $order_by メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param mixed  $distinct メソッド setDistinct の引数 is_distinct に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by)
+    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $distinct)
     {
         $select = new Select($from, $columns);
+        isset($distinct) && $select->setDistinct($distinct);
         isset($join) && $select->setJoin($join);
         isset($where) && $select->setWhere($where);
         isset($group_by) && $select->setGroupBy($group_by);

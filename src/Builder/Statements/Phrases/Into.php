@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Builder\Statements\Phrases;
 
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
 use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
 
@@ -10,7 +11,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
  *
  * @author hiroki sugawara
  */
-class Into implements IPhrases
+class Into implements IPhrases, ISqlQuerySource
 {
     private $data_source;
     private $columns;
@@ -74,6 +75,10 @@ class Into implements IPhrases
      */
     public function setColumns(IColumns $columns)
     {
+        if ($columns->hasOnlyStringItems() === false) {
+            throw new \InvalidArgumentException();
+        }
+
         $this->columns = $columns;
     }
 

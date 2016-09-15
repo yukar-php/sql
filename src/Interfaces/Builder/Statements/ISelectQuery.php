@@ -1,7 +1,6 @@
 <?php
 namespace Yukar\Sql\Interfaces\Builder\Statements;
 
-use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
 use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
@@ -16,18 +15,20 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
 interface ISelectQuery extends IConditionalDMLQuery
 {
     /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを取得します。
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
      *
-     * @return From 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
      */
-    public function getFrom(): From;
+    public function getDistinct(): bool;
 
     /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを設定します。
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
      *
-     * @param From $from 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
+     *
+     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
      */
-    public function setFrom(From $from);
+    public function setDistinct(bool $distinct): ISelectQuery;
 
     /**
      * 検索の問い合わせクエリの対象となる列のリストを取得します。

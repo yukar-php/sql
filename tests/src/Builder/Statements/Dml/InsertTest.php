@@ -3,11 +3,13 @@ namespace Yukar\Sql\Tests\Builder\Statements\Dml;
 
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Table;
+use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Statements\Dml\Insert;
 use Yukar\Sql\Builder\Statements\Dml\Select;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Values;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -17,7 +19,6 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class InsertTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_INTO = 'into';
     const PROP_NAME_VALUES = 'values';
 
     /**
@@ -58,72 +59,30 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetInto のデータプロバイダー
+     * メソッド testSetSqlQuerySourceFailure のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetInto()
+    public function providerSetSqlQuerySourceFailure()
     {
-        $into_table_name = new Into(new Table('table_name'));
-        $into_table_columns = new Into(new Table('table_name'), new Columns([ 'a', 'b', 'c' ]));
-
         return [
-            [ $into_table_name, $into_table_name ],
-            [ $into_table_columns, $into_table_columns ],
+            [ new Table('table_name') ],
+            [ new Alias('(SELECT foo FROM table)', 'bar') ],
+            [ new From(new Table('table_name')) ],
         ];
     }
 
     /**
-     * 正常系テスト
+     * 異常系テスト
      *
-     * @dataProvider providerGetInto
+     * @dataProvider providerSetSqlQuerySourceFailure
      *
-     * @param Into $expected   期待値
-     * @param Into $prop_value プロパティ into の値
+     * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testGetInto($expected, $prop_value)
+    public function testSetSqlQuerySourceFailure($sql_query_source)
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_INTO)->setValue($object, $prop_value);
-
-        self::assertSame($expected, $object->getInto());
-    }
-
-    /**
-     * メソッド testSetInto のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetInto()
-    {
-        $into_table_name = new Into(new Table('table_name'));
-        $into_table_columns = new Into(new Table('table_name'), new Columns([ 'a', 'b', 'c' ]));
-
-        return [
-            [ $into_table_name, null, $into_table_name ],
-            [ $into_table_columns, null, $into_table_columns ],
-            [ $into_table_name, $into_table_columns, $into_table_name ],
-            [ $into_table_columns, $into_table_name, $into_table_columns ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetInto
-     *
-     * @param Into $expected    期待値
-     * @param mixed $prop_value プロパティ into の値
-     * @param Into $into        メソッド setInto の引数 into に渡す値
-     */
-    public function testSetInto($expected, $prop_value, $into)
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_INTO);
-        $reflector->setValue($object, $prop_value);
-        $object->setInto($into);
-
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNewInstance()->setSqlQuerySource($sql_query_source);
     }
 
     /**

@@ -52,7 +52,7 @@ class OrderBy implements IPhrases
      */
     public function setOrderBy(IColumns $order_by)
     {
-        if (empty($order_by->getColumns()) === true) {
+        if ($order_by->hasOnlyOrderByItems() === false) {
             throw new \InvalidArgumentException();
         }
 

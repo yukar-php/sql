@@ -156,6 +156,70 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * testHasOnlyStringItems のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerHasOnlyStringItems()
+    {
+        return [
+            [ false, [] ],
+            [ false, [ '' ] ],
+            [ true, [ 'a', 'b', 'c' ] ],
+            [ false, [ new Order('col_name', Order::DESCENDING) ] ],
+            [ false, [ new Alias('orig_table', 'as_table') ] ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerHasOnlyStringItems
+     *
+     * @param bool  $expected   期待値
+     * @param array $prop_value プロパティ column_list の値
+     */
+    public function testHasOnlyStringItems($expected, $prop_value)
+    {
+        $object = $this->getNewInstance();
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
+
+        self::assertSame($expected, $object->hasOnlyStringItems());
+    }
+
+    /**
+     * testHasOnlyOrderByItems のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerHasOnlyOrderByItems()
+    {
+        return [
+            [ false, [] ],
+            [ false, [ '' ] ],
+            [ true, [ 'a', 'b', 'c' ] ],
+            [ true, [ new Order('col_name', Order::DESCENDING) ] ],
+            [ false, [ new Alias('orig_table', 'as_table') ] ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerHasOnlyOrderByItems
+     *
+     * @param bool  $expected   期待値
+     * @param array $prop_value プロパティ column_list の値
+     */
+    public function testHasOnlyOrderByItems($expected, $prop_value)
+    {
+        $object = $this->getNewInstance();
+        $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
+
+        self::assertSame($expected, $object->hasOnlyOrderByItems());
+    }
+
+    /**
      * testToString のデータプロバイダー
      *
      * @return array

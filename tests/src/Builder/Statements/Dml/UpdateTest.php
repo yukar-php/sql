@@ -8,8 +8,10 @@ use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Statements\Dml\Update;
 use Yukar\Sql\Builder\Statements\Phrases\From;
+use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Statements\Phrases\Set;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Objects\ITable;
 
 /**
@@ -57,6 +59,32 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     public function testGetQueryFormat()
     {
         self::assertSame('UPDATE %s %s %s', $this->getNewInstance()->getQueryFormat());
+    }
+
+    /**
+     * メソッド testSetSqlQuerySourceFailure のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerSetSqlQuerySourceFailure()
+    {
+        return [
+            [ new From(new Table('table_name')) ],
+            [ new Into(new Table('table_name')) ],
+        ];
+    }
+
+    /**
+     * 異常系テスト
+     *
+     * @dataProvider providerSetSqlQuerySourceFailure
+     *
+     * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
+     */
+    public function testSetSqlQuerySourceFailure($sql_query_source)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->getNewInstance()->setSqlQuerySource($sql_query_source);
     }
 
     /**

@@ -8,6 +8,7 @@ use Yukar\Sql\Builder\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
 
 /**
@@ -17,7 +18,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
-    private $from;
+    private $is_distinct = false;
     private $columns;
     private $join;
     private $group_by;
@@ -31,8 +32,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      */
     public function __construct(From $from, IColumns $columns = null)
     {
-        $this->setDataSource($from->getDataSource());
-        $this->setFrom($from);
+        $this->setSqlQuerySource($from);
         $this->setColumns($columns ?? new Columns());
     }
 
@@ -47,23 +47,41 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     }
 
     /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを取得します。
+     * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
-     * @return From 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function getFrom(): From
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
     {
-        return $this->from;
+        if ($sql_query_source instanceof From === false) {
+            throw new \InvalidArgumentException();
+        }
+
+        parent::setSqlQuerySource($sql_query_source);
     }
 
     /**
-     * 検索の問い合わせクエリの対象となる表やサブクエリを設定します。
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
      *
-     * @param From $from 検索の問い合わせクエリの対象となる表やサブクエリ
+     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
      */
-    public function setFrom(From $from)
+    public function getDistinct(): bool
     {
-        $this->from = $from;
+        return $this->is_distinct;
+    }
+
+    /**
+     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
+     *
+     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
+     *
+     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
+     */
+    public function setDistinct(bool $distinct): ISelectQuery
+    {
+        $this->is_distinct = $distinct;
+
+        return $this;
     }
 
     /**
@@ -185,14 +203,10 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      */
     public function __toString(): string
     {
-        $optional_query = implode(
-            ' ',
-            array_filter(
-                [ $this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy() ],
-                'strlen'
-            )
+        return $this->getFormatRightTrim(
+            (($this->getDistinct() === true) ? 'DISTINCT ' : '') . $this->getColumns(),
+            $this->getSqlQuerySource(),
+            $this->joinQuery($this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
         );
-
-        return rtrim(sprintf($this->getQueryFormat(), $this->getColumns(), $this->getFrom(), $optional_query));
     }
 }

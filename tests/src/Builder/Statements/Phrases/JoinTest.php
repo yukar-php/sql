@@ -65,10 +65,17 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGetDataSource()
     {
+        $table_obj = new Table('table_name');
+        $alias_obj = new Alias('table_name', 'alias_name');
+        $query_alias = new Alias('(SELECT * FROM table_name)', 'alias_query');
+        $select_query = new Alias(new Select(new From($table_obj)), 'alias_query');
+
         return [
             [ 'table_name', 'table_name' ],
-            [ 'table_name AS alias_name', 'table_name AS alias_name' ],
-            [ '(SELECT * FROM table_name) AS alias_query', '(SELECT * FROM table_name) AS alias_query' ],
+            [ 'table_name', $table_obj ],
+            [ 'table_name AS alias_name', $alias_obj ],
+            [ '(SELECT * FROM table_name) AS alias_query', $query_alias ],
+            [ '(SELECT * FROM table_name) AS alias_query', $select_query ],
         ];
     }
 
@@ -102,15 +109,15 @@ class JoinTest extends \PHPUnit_Framework_TestCase
 
         return [
             [ 'table_name', null, 'table_name' ],
-            [ 'table_name', null, $table_obj ],
-            [ 'table_name AS alias_name', null, $alias_obj ],
-            [ '(SELECT * FROM table_name) AS alias_query', null, $query_alias ],
-            [ '(SELECT * FROM table_name) AS alias_query', null, $select_query ],
-            [ 'table_name', '(SELECT * FROM table_name) AS alias_query', 'table_name' ],
-            [ 'table_name', '(SELECT * FROM table_name) AS alias_query', $table_obj ],
-            [ 'table_name AS alias_name', '(SELECT * FROM table_name) AS alias_query', $alias_obj ],
-            [ '(SELECT * FROM table_name) AS alias_query', 'table_name', $query_alias ],
-            [ '(SELECT * FROM table_name) AS alias_query', 'table_name', $select_query ],
+            [ $table_obj, null, $table_obj ],
+            [ $alias_obj, null, $alias_obj ],
+            [ $query_alias, null, $query_alias ],
+            [ $select_query, null, $select_query ],
+            [ 'table_name', $alias_obj, 'table_name' ],
+            [ $table_obj, $alias_obj, $table_obj ],
+            [ $alias_obj, $select_query, $alias_obj ],
+            [ $query_alias, $table_obj, $query_alias ],
+            [ $select_query, 'table_name', $select_query ],
         ];
     }
 
@@ -387,9 +394,19 @@ class JoinTest extends \PHPUnit_Framework_TestCase
             [ 'INNER JOIN table_name AS a', $alias_name, Join::INNER_JOIN, null ],
             [ 'INNER JOIN table_name AS a ON origin.x = a.x', $alias_name, Join::INNER_JOIN, $on_as_table ],
             [ 'INNER JOIN (SELECT * FROM table_name) AS a', $alias_query, Join::INNER_JOIN, null ],
-            [ 'INNER JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $alias_query, Join::INNER_JOIN, $on_as_table ],
+            [
+                'INNER JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $alias_query,
+                Join::INNER_JOIN,
+                $on_as_table
+            ],
             [ 'INNER JOIN (SELECT * FROM table_name) AS a', $select_query, Join::INNER_JOIN, null ],
-            [ 'INNER JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $select_query, Join::INNER_JOIN, $on_as_table ],
+            [
+                'INNER JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $select_query,
+                Join::INNER_JOIN,
+                $on_as_table
+            ],
             // 外部結合（左）
             [ 'LEFT JOIN table_name', 'table_name', Join::LEFT_JOIN, null ],
             [ 'LEFT JOIN table_name ON origin.a = table_name.a', 'table_name', Join::LEFT_JOIN, $on_orig_table ],
@@ -400,9 +417,19 @@ class JoinTest extends \PHPUnit_Framework_TestCase
             [ 'LEFT JOIN table_name AS a', $alias_name, Join::LEFT_JOIN, null ],
             [ 'LEFT JOIN table_name AS a ON origin.x = a.x', $alias_name, Join::LEFT_JOIN, $on_as_table ],
             [ 'LEFT JOIN (SELECT * FROM table_name) AS a', $alias_query, Join::LEFT_JOIN, null ],
-            [ 'LEFT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $alias_query, Join::LEFT_JOIN, $on_as_table ],
+            [
+                'LEFT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $alias_query,
+                Join::LEFT_JOIN,
+                $on_as_table
+            ],
             [ 'LEFT JOIN (SELECT * FROM table_name) AS a', $select_query, Join::LEFT_JOIN, null ],
-            [ 'LEFT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $select_query, Join::LEFT_JOIN, $on_as_table ],
+            [
+                'LEFT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $select_query,
+                Join::LEFT_JOIN,
+                $on_as_table
+            ],
             // 外部結合（右）
             [ 'RIGHT JOIN table_name', 'table_name', Join::RIGHT_JOIN, null ],
             [ 'RIGHT JOIN table_name ON origin.a = table_name.a', 'table_name', Join::RIGHT_JOIN, $on_orig_table ],
@@ -413,9 +440,19 @@ class JoinTest extends \PHPUnit_Framework_TestCase
             [ 'RIGHT JOIN table_name AS a', $alias_name, Join::RIGHT_JOIN, null ],
             [ 'RIGHT JOIN table_name AS a ON origin.x = a.x', $alias_name, Join::RIGHT_JOIN, $on_as_table ],
             [ 'RIGHT JOIN (SELECT * FROM table_name) AS a', $alias_query, Join::RIGHT_JOIN, null ],
-            [ 'RIGHT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $alias_query, Join::RIGHT_JOIN, $on_as_table ],
+            [
+                'RIGHT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $alias_query,
+                Join::RIGHT_JOIN,
+                $on_as_table
+            ],
             [ 'RIGHT JOIN (SELECT * FROM table_name) AS a', $select_query, Join::RIGHT_JOIN, null ],
-            [ 'RIGHT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x', $select_query, Join::RIGHT_JOIN, $on_as_table ],
+            [
+                'RIGHT JOIN (SELECT * FROM table_name) AS a ON origin.x = a.x',
+                $select_query,
+                Join::RIGHT_JOIN,
+                $on_as_table
+            ],
             // 交差結合
             [ 'CROSS JOIN table_name', 'table_name', Join::CROSS_JOIN, null ],
             [ 'CROSS JOIN table_name', $table_name, Join::CROSS_JOIN, null ],

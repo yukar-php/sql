@@ -26,6 +26,20 @@ interface IColumns
     public function setColumns(array $columns);
 
     /**
+     * テーブルの任意の列のリストが文字列の項目だけを持つかどうかを判別します。
+     *
+     * @return bool テーブルの任意の列のリストが文字列の項目だけの場合は true。それ以外の場合は false。
+     */
+    public function hasOnlyStringItems(): bool;
+
+    /**
+     * テーブルの任意の列のリストがOrderByに使用可能な項目だけを持つかどうかを判別します。
+     *
+     * @return bool テーブルの任意の列のリストがOrderByに使用可能な項目だけの場合は true。それ以外の場合は false。
+     */
+    public function hasOnlyOrderByItems(): bool;
+
+    /**
      * テーブルの列のリストを文字列で取得します。
      *
      * @return string テーブルの対象の列のリストを「,」で連結した文字列。<br/>

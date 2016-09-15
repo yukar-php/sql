@@ -40,7 +40,7 @@ class Values implements IPhrases
      */
     public function getValues(): array
     {
-        return $this->values;
+        return $this->toArray($this->values);
     }
 
     /**
@@ -56,7 +56,7 @@ class Values implements IPhrases
             throw new \InvalidArgumentException();
         }
 
-        $this->values = $this->toArray($values);
+        $this->values = $values;
     }
 
     /**

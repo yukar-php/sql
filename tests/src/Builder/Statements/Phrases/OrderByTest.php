@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
 
+use Yukar\Sql\Builder\Operators\Alias;
 use Yukar\Sql\Builder\Operators\Order;
 use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
@@ -119,9 +120,15 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function providerSetOrderByFailure()
     {
+        $valid_columns = new Columns([ 'x', 'y', 'z' ]);
+        $empty_columns = new Columns();
+        $alias_columns = new Columns([ new Alias('orig_table', 'as_table') ]);
+
         return [
-            [ \InvalidArgumentException::class, null, new Columns() ],
-            [ \InvalidArgumentException::class, new Columns([ 'a', 'b' ]), new Columns() ],
+            [ \InvalidArgumentException::class, null, $empty_columns ],
+            [ \InvalidArgumentException::class, null, $alias_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $empty_columns ],
+            [ \InvalidArgumentException::class, $valid_columns, $alias_columns ],
         ];
     }
 
