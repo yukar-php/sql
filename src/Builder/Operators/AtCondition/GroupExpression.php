@@ -79,7 +79,7 @@ class GroupExpression extends BaseComparableOperator
      */
     public function setModifier(int $modifier)
     {
-        if (empty(self::MODIFIERS[$modifier]) === true) {
+        if (array_key_exists($modifier, self::MODIFIERS) === false) {
             throw new \InvalidArgumentException();
         }
 

@@ -29,7 +29,7 @@ abstract class BaseComparableOperator extends BaseConditionContainable implement
      */
     public function setSign(int $sign)
     {
-        if (empty(self::SIGNS[$sign]) === true) {
+        if (array_key_exists($sign, self::SIGNS) === false) {
             throw new \InvalidArgumentException();
         }
 
