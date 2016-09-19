@@ -70,7 +70,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetOrderBy
      *
-     * @param array $expected      期待値
+     * @param array    $expected   期待値
      * @param IColumns $prop_value プロパティ order_by_list の値
      */
     public function testGetOrderBy($expected, $prop_value)
@@ -99,9 +99,9 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOrderBy
      *
-     * @param array $expected    期待値
-     * @param mixed $prop_value  プロパティ order_by_list の値
-     * @param IColumns $order_by メソッド setOrderBy の引数 order_by に渡す値
+     * @param array     $expected   期待値
+     * @param mixed     $prop_value プロパティ order_by_list の値
+     * @param IColumns $order_by    メソッド setOrderBy の引数 order_by に渡す値
      */
     public function testSetOrderBy($expected, $prop_value, $order_by)
     {
@@ -137,9 +137,9 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOrderByFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ order_by_list の値
-     * @param IColumns $order_by   メソッド setOrderBy の引数 order_by に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ order_by_list の値
+     * @param IColumns   $order_by   メソッド setOrderBy の引数 order_by に渡す値
      */
     public function testSetOrderByFailure($expected, $prop_value, $order_by)
     {
@@ -185,7 +185,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected   期待値
+     * @param string   $expected 期待値
      * @param IColumns $order_by コンストラクタの引数 order_by に渡す値
      */
     public function testToString($expected, $order_by)

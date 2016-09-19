@@ -40,7 +40,7 @@ abstract class BaseSqlDMLQuery implements ISqlDMLQuery
      *
      * @return string 結合したクエリ文字列
      */
-    protected function joinQuery(...$query_parts)
+    protected function joinQuery(...$query_parts): string
     {
         return implode(' ', array_filter($query_parts, 'strlen'));
     }
@@ -52,7 +52,7 @@ abstract class BaseSqlDMLQuery implements ISqlDMLQuery
      *
      * @return string 書式に従って出力したSQLクエリ文字列
      */
-    protected function getFormatRightTrim(...$query_parts)
+    protected function getFormatRightTrim(...$query_parts): string
     {
         return rtrim(sprintf($this->getQueryFormat(), ...$query_parts));
     }

@@ -103,9 +103,9 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetNeedle
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ needle の値
-     * @param mixed $needle     メソッド setNeedle の引数 needle に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ needle の値
+     * @param mixed  $needle     メソッド setNeedle の引数 needle に渡す値
      */
     public function testSetNeedle($expected, $prop_value, $needle)
     {
@@ -136,9 +136,9 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetNeedleFailure
      *
-     * @param |Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ needle の値
-     * @param mixed $needle        メソッド setNeedle の引数 needle に渡す値
+     * @param |Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ needle の値
+     * @param mixed      $needle     メソッド setNeedle の引数 needle に渡す値
      */
     public function testSetNeedleFailure($expected, $prop_value, $needle)
     {
@@ -173,8 +173,8 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected 期待値
      * @param string $name     コンストラクタの引数 name に渡す値
-     * @param mixed $needle    コンストラクタの引数 needle に渡す値
-     * @param bool $is_not     コンストラクタの引数 is_not に渡す値
+     * @param mixed  $needle   コンストラクタの引数 needle に渡す値
+     * @param bool   $is_not   コンストラクタの引数 is_not に渡す値
      */
     public function testToString($expected, $name, $needle, $is_not)
     {

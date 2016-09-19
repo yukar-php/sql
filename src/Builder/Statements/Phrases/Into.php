@@ -19,8 +19,8 @@ class Into implements IPhrases, ISqlQuerySource
     /**
      * Into クラスの新しいインスタンスを初期化します。
      *
-     * @param ITable $data_source    SQLクエリの対象となる表
-     * @param IColumns|null $columns SQLクエリの対象となる表の列。未指定の場合は、表の全ての列。
+     * @param ITable        $data_source SQLクエリの対象となる表
+     * @param IColumns|null $columns     SQLクエリの対象となる表の列。未指定の場合は、表の全ての列。
      */
     public function __construct(ITable $data_source, IColumns $columns = null)
     {

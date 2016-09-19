@@ -102,7 +102,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetDictionary
      *
      * @param SetValuesHash $expected   期待値
-     * @param mixed $prop_value         プロパティ dictionary の値
+     * @param mixed         $prop_value プロパティ dictionary の値
      * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
     public function testSetDictionary($expected, $prop_value, $dictionary)
@@ -133,8 +133,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDictionaryFailure
      *
-     * @param \Exception $expected      期待値
-     * @param mixed $prop_value         プロパティ dictionary の値
+     * @param \Exception    $expected   期待値
+     * @param mixed         $prop_value プロパティ dictionary の値
      * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
     public function testSetDictionaryFailure($expected, $prop_value, $dictionary)
@@ -167,7 +167,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected          期待値
+     * @param string        $expected   期待値
      * @param SetValuesHash $dictionary コンストラクタの引数 dictionary に渡す値
      */
     public function testToString($expected, $dictionary)

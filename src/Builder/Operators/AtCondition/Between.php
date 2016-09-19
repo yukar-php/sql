@@ -17,7 +17,7 @@ class Between extends BaseDeniableOperator
      * @param string $name       演算子の対象となるカラムの名前または値
      * @param string $from_value BETWEEN演算子の範囲の始端となる値
      * @param string $to_value   BETWEEN演算子の範囲の終端となる値
-     * @param bool $is_not       演算子に NOT を付与するかどうか
+     * @param bool   $is_not     演算子に NOT を付与するかどうか
      */
     public function __construct(string $name, string $from_value, string $to_value, bool $is_not = false)
     {

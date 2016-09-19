@@ -49,9 +49,9 @@ class SetValuesHashTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected 期待値
-     * @param array $input     コンストラクタの引数 input に渡す値
-     * @param int $quote_type  コンストラクタの引数 identifier に渡す値
+     * @param string $expected   期待値
+     * @param array  $input      コンストラクタの引数 input に渡す値
+     * @param int    $quote_type コンストラクタの引数 identifier に渡す値
      */
     public function testToString($expected, $input, $quote_type)
     {

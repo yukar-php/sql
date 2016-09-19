@@ -96,9 +96,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetName
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ name の値
-     * @param string $name      メソッド setName の引数 name に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ name の値
+     * @param string $name       メソッド setName の引数 name に渡す値
      */
     public function testSetName($expected, $prop_value, $name)
     {
@@ -128,9 +128,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetNameFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ name の値
-     * @param mixed $name          メソッド setName の引数 name に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ name の値
+     * @param mixed      $name       メソッド setName の引数 name に渡す値
      */
     public function testSetNameFailure($expected, $prop_value, $name)
     {

@@ -53,8 +53,8 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     /**
      * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
      *
-     * @param \ReflectionClass $object 単体テスト対象となるクラスのインスタンス
-     * @param string $property_name    リフレクションを取得するプロパティの名前
+     * @param \ReflectionClass $object        単体テスト対象となるクラスのインスタンス
+     * @param string           $property_name リフレクションを取得するプロパティの名前
      *
      * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
      */
@@ -234,9 +234,9 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetQuotedString
      *
-     * @param string $expected 期待値
-     * @param int $quote_type  メソッド init の引数 quote_type に渡す値
-     * @param string $text     メソッド getQuotedString の引数 text に渡す値
+     * @param string $expected   期待値
+     * @param int    $quote_type メソッド init の引数 quote_type に渡す値
+     * @param string $text       メソッド getQuotedString の引数 text に渡す値
      */
     public function testGetQuotedString($expected, $quote_type, $text)
     {
@@ -254,9 +254,9 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetQuotedString
      *
-     * @param string $expected 期待値
-     * @param int $quote_type  メソッド init の引数 quote_type に渡す値
-     * @param string $text     メソッド quoted の引数 text に渡す値
+     * @param string $expected   期待値
+     * @param int    $quote_type メソッド init の引数 quote_type に渡す値
+     * @param string $text       メソッド quoted の引数 text に渡す値
      */
     public function testQuoted($expected, $quote_type, $text)
     {
@@ -286,9 +286,9 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetQuotedList
      *
-     * @param array $expected 期待値
-     * @param int $quote_type メソッド init の引数 quote_type に渡す値
-     * @param array $texts    メソッド getQuotedList の引数 list に渡す値
+     * @param array $expected   期待値
+     * @param int   $quote_type メソッド init の引数 quote_type に渡す値
+     * @param array $texts      メソッド getQuotedList の引数 list に渡す値
      */
     public function testGetQuotedList($expected, $quote_type, $texts)
     {
@@ -306,9 +306,9 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetQuotedList
      *
-     * @param array $expected 期待値
-     * @param int $quote_type メソッド init の引数 quote_type に渡す値
-     * @param array $texts    メソッド quotedRange の引数 list に渡す値
+     * @param array $expected   期待値
+     * @param int   $quote_type メソッド init の引数 quote_type に渡す値
+     * @param array $texts      メソッド quotedRange の引数 list に渡す値
      */
     public function testQuotedRange($expected, $quote_type, $texts)
     {

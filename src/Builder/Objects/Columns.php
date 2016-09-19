@@ -21,7 +21,7 @@ class Columns implements IColumns
     /**
      * Columns クラスの新しいインスタンスを初期化します。
      *
-     * @param array $columns                  テーブルの任意の列のリスト
+     * @param array               $columns    テーブルの任意の列のリスト
      * @param DelimitedIdentifier $identifier SQL識別子を区切り識別子で引用する設定
      */
     public function __construct(array $columns = [], DelimitedIdentifier $identifier = null)

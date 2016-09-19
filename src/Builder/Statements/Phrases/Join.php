@@ -35,9 +35,9 @@ class Join implements IPhrases
     /**
      * Join クラスの新しいインスタンスを初期化します。
      *
-     * @param string|IDataSource $data_source JOIN 句の対象となる表またはサブクエリ
-     * @param int $join_type                  JOIN 句の種類
-     * @param ICondition $on_condition        ON 句の条件
+     * @param string|IDataSource $data_source  JOIN 句の対象となる表またはサブクエリ
+     * @param int                $join_type    JOIN 句の種類
+     * @param ICondition         $on_condition ON 句の条件
      */
     public function __construct($data_source, int $join_type = self::INNER_JOIN, ICondition $on_condition = null)
     {

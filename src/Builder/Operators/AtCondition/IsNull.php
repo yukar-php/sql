@@ -11,8 +11,8 @@ class IsNull extends BaseDeniableOperator
     /**
      * IsNull クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name 演算子の対象となるカラムの名前
-     * @param bool $is_not 演算子に NOT を付与するかどうか
+     * @param string $name   演算子の対象となるカラムの名前
+     * @param bool   $is_not 演算子に NOT を付与するかどうか
      */
     public function __construct(string $name, bool $is_not = false)
     {

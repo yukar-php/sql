@@ -115,7 +115,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetOriginName
      *
      * @param string $expected    期待値
-     * @param mixed $prop_value   プロパティ origin_name の値
+     * @param mixed  $prop_value  プロパティ origin_name の値
      * @param string $origin_name メソッド setOriginName の引数 origin_name に渡す値
      */
     public function testSetOriginName($expected, $prop_value, $origin_name)
@@ -146,9 +146,9 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOriginNameFailure
      *
-     * @param |Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ origin_name の値
-     * @param string $origin_name  メソッド setOriginName の引数 origin_name に渡す値
+     * @param |Exception $expected    期待値
+     * @param mixed      $prop_value  プロパティ origin_name の値
+     * @param string     $origin_name メソッド setOriginName の引数 origin_name に渡す値
      */
     public function testSetOriginNameFailure($expected, $prop_value, $origin_name)
     {
@@ -206,7 +206,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetAliasName
      *
      * @param string $expected   期待値
-     * @param mixed $prop_value  プロパティ alias_name の値
+     * @param mixed  $prop_value プロパティ alias_name の値
      * @param string $alias_name メソッド setAliasName の引数 alias_name に渡す値
      */
     public function testSetAliasName($expected, $prop_value, $alias_name)
@@ -237,9 +237,9 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetAliasNameFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ alias_name の値
-     * @param string $alias_name   メソッド setAliasName の引数 alias_name に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ alias_name の値
+     * @param string     $alias_name メソッド setAliasName の引数 alias_name に渡す値
      */
     public function testSetAliasNameFailure($expected, $prop_value, $alias_name)
     {

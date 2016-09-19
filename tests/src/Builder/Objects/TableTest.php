@@ -135,9 +135,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetTableNameFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ table_name の値
-     * @param mixed $table_name    メソッド setTableName の引数 name に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ table_name の値
+     * @param mixed      $table_name メソッド setTableName の引数 name に渡す値
      */
     public function testSetTableNameFailure($expected, $prop_value, $table_name)
     {
@@ -194,8 +194,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetDefinedColumnsFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ column_list の値
+     * @param \Exception $expected  期待値
+     * @param mixed     $prop_value プロパティ column_list の値
      */
     public function testGetDefinedColumnsFailure($expected, $prop_value)
     {
@@ -224,9 +224,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDefinedColumns
      *
-     * @param array $expected   期待値
-     * @param array $prop_value プロパティ column_list の値
-     * @param IColumns $columns メソッド setDefinedColumns の引数 columns に渡す値
+     * @param array    $expected   期待値
+     * @param array    $prop_value プロパティ column_list の値
+     * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testSetDefinedColumns($expected, $prop_value, $columns)
     {
@@ -256,9 +256,9 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDefinedColumnsFailure
      *
-     * @param |Exception $expected 期待値
-     * @param array $prop_value    プロパティ column_list の値
-     * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
+     * @param |Exception $expected   期待値
+     * @param array      $prop_value プロパティ column_list の値
+     * @param IColumns   $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testSetDefinedColumnsFailure($expected, $prop_value, $columns)
     {
@@ -295,10 +295,10 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected   期待値
-     * @param string $table_name コンストラクタの引数 name に渡す値
-     * @param int $quote_type    メソッド init の引数 quote_type に渡す値
-     * @param IColumns $columns  メソッド setDefinedColumns の引数 columns に渡す値
+     * @param string   $expected   期待値
+     * @param string   $table_name コンストラクタの引数 name に渡す値
+     * @param int      $quote_type メソッド init の引数 quote_type に渡す値
+     * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
     public function testToString($expected, $table_name, $quote_type, $columns)
     {

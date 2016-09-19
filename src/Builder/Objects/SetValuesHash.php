@@ -16,7 +16,7 @@ class SetValuesHash extends DictionaryObject
     /**
      * SetValuesHash クラスの新しいインスタンスを初期化します。
      *
-     * @param array $input                    初期化時に保持する要素のリスト
+     * @param array               $input      初期化時に保持する要素のリスト
      * @param DelimitedIdentifier $identifier SQL識別子を区切り識別子で引用する設定
      */
     public function __construct(array $input = [], DelimitedIdentifier $identifier = null)

@@ -18,8 +18,8 @@ class GroupBy implements IPhrases
     /**
      * GroupBy クラスの新しいインスタンスを初期化します。
      *
-     * @param IColumns $group_by GroupBy句に指定するテーブルの任意の列のリスト
-     * @param ICondition $having Having句に指定する条件のリスト
+     * @param IColumns   $group_by GroupBy句に指定するテーブルの任意の列のリスト
+     * @param ICondition $having   Having句に指定する条件のリスト
      */
     public function __construct(IColumns $group_by, ICondition $having = null)
     {

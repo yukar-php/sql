@@ -192,7 +192,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetWhereString
      *
-     * @param string $expected       期待値
+     * @param string     $expected   期待値
      * @param ICondition $prop_value プロパティ where の値
      */
     public function testGetWhereString($expected, $prop_value)
