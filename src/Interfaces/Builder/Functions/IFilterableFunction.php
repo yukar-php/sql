@@ -6,7 +6,7 @@ namespace Yukar\Sql\Interfaces\Builder\Functions;
  *
  * @author hiroki sugawara
  */
-interface IFilterableFunction extends IFunction
+interface IFilterableFunction extends IAggregateFunction
 {
     /** 関数のフィルタが「ALL」であることを示す定数 */
     const FILTER_ALL = 1;
