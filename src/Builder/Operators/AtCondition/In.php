@@ -16,9 +16,9 @@ class In extends BaseDeniableOperator
     /**
      * In クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name  演算子の対象となる表や列の名前
-     * @param mixed $needle 演算子の対象となる列リストまたは問い合わせクエリ
-     * @param bool $is_not  演算子に NOT を付与するかどうか
+     * @param string $name   演算子の対象となる表や列の名前
+     * @param mixed  $needle 演算子の対象となる列リストまたは問い合わせクエリ
+     * @param bool   $is_not 演算子に NOT を付与するかどうか
      */
     public function __construct(string $name, $needle, bool $is_not = false)
     {
@@ -113,11 +113,11 @@ class In extends BaseDeniableOperator
     }
 
     /**
+     * IN 演算子の対象となる列リストの文字列を取得します。
      *
+     * @param array|\Traversable $expression IN 演算子の対象となる列リスト
      *
-     * @param array|\Traversable $expression
-     *
-     * @return string
+     * @return string IN 演算子の対象となる列リストの文字列
      */
     private function getExpressionString($expression): string
     {

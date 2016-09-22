@@ -98,7 +98,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetColumnName
      *
      * @param string $expected    期待値
-     * @param mixed $prop_value   プロパティ column_name の値
+     * @param mixed  $prop_value  プロパティ column_name の値
      * @param string $column_name メソッド setColumnName の引数 column_name に渡す値
      */
     public function testSetColumnName($expected, $prop_value, $column_name)
@@ -129,9 +129,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetColumnNameFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ column_name の値
-     * @param mixed $column_name   メソッド setColumnName の引数 column_name に渡す値
+     * @param \Exception $expected    期待値
+     * @param mixed      $prop_value  プロパティ column_name の値
+     * @param mixed      $column_name メソッド setColumnName の引数 column_name に渡す値
      */
     public function testSetColumnNameFailure($expected, $prop_value, $column_name)
     {
@@ -163,8 +163,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetOrderType
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ order_type の値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ order_type の値
      */
     public function testGetOrderType($expected, $prop_value)
     {
@@ -201,9 +201,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOrderType
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ order_type の値
-     * @param int $order_type   メソッド setOrderType の引数 order_type に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ order_type の値
+     * @param int    $order_type メソッド setOrderType の引数 order_type に渡す値
      */
     public function testSetOrderType($expected, $prop_value, $order_type)
     {
@@ -235,7 +235,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected    期待値
      * @param string $column_name コンストラクタの引数 column_name に渡す値
-     * @param int $order_type     コンストラクタの引数 order_type に渡す値
+     * @param int    $order_type  コンストラクタの引数 order_type に渡す値
      */
     public function testToString($expected, $column_name, $order_type)
     {

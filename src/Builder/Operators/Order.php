@@ -24,7 +24,7 @@ class Order implements IOperator
      * Order クラスの新しいインスタンスを初期化します。
      *
      * @param string $column_name ソートするテーブルの列の名前
-     * @param int $order_type     ソートの種類。<br/>
+     * @param int    $order_type  ソートの種類。<br/>
      *                            昇順の場合は、Order::ASCENDING。降順の場合は、Order::DESCENDING。
      */
     public function __construct(string $column_name, int $order_type = self::ASCENDING)

@@ -108,7 +108,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetDataSource
      *
      * @param ITable $expected    期待値
-     * @param mixed $prop_value   プロパティ data_source の値
+     * @param mixed  $prop_value  プロパティ data_source の値
      * @param ITable $data_source メソッド setDataSource の引数 data_source に渡す値
      */
     public function testSetDataSource($expected, $prop_value, $data_source)
@@ -171,9 +171,9 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetColumns
      *
-     * @param IColumns|null $expected 期待値
-     * @param mixed $prop_value       プロパティ columns の値
-     * @param IColumns|null $columns  メソッド setColumns の引数 columns に渡す値
+     * @param IColumns|null $expected   期待値
+     * @param mixed         $prop_value プロパティ columns の値
+     * @param IColumns|null $columns    メソッド setColumns の引数 columns に渡す値
      */
     public function testSetColumns($expected, $prop_value, $columns)
     {
@@ -246,9 +246,9 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected    期待値
-     * @param ITable $data_source コンストラクタ data_source に渡す値
-     * @param IColumns $columns   コンストラクタ columns に渡す値
+     * @param string   $expected    期待値
+     * @param ITable   $data_source コンストラクタ data_source に渡す値
+     * @param IColumns $columns     コンストラクタ columns に渡す値
      */
     public function testToString($expected, $data_source, $columns)
     {

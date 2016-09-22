@@ -19,8 +19,8 @@ class Alias implements IOperator, IDataSource
     /**
      * Alias クラスの新しいインスタンスを初期化します。
      *
-     * @param mixed $origin_name テーブルや列の本来の名前
-     * @param string $alias_name テーブルや列の別名
+     * @param mixed  $origin_name テーブルや列の本来の名前
+     * @param string $alias_name  テーブルや列の別名
      */
     public function __construct($origin_name, string $alias_name)
     {

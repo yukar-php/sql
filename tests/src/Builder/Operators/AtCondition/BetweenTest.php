@@ -129,9 +129,9 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetFromValueFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ form_value の値
-     * @param string $from_value   メソッド setFromValue の引数 from_value に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ form_value の値
+     * @param string     $from_value メソッド setFromValue の引数 from_value に渡す値
      */
     public function testSetFromValueFailure($expected, $prop_value, $from_value)
     {
@@ -229,9 +229,9 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetToValueFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ form_value の値
-     * @param string $from_value   メソッド setFromValue の引数 from_value に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ form_value の値
+     * @param string     $from_value メソッド setFromValue の引数 from_value に渡す値
      */
     public function testSetToValueFailure($expected, $prop_value, $from_value)
     {
@@ -266,7 +266,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $column     コンストラクタの引数 column に渡す値
      * @param string $from_value コンストラクタの引数 from_value に渡す値
      * @param string $to_value   コンストラクタの引数 to_value に渡す値
-     * @param bool $is_not       コンストラクタの引数 is_not に渡す値
+     * @param bool   $is_not     コンストラクタの引数 is_not に渡す値
      */
     public function testToString($expected, $column, $from_value, $to_value, $is_not)
     {

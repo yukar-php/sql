@@ -142,9 +142,9 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetColumnsFailure
      *
-     * @param \Exception $expected 期待値
-     * @param array $prop_value    プロパティ column_list の値
-     * @param array $set_list      メソッド setColumns の引数 columns に渡す値
+     * @param \Exception $expected   期待値
+     * @param array      $prop_value プロパティ column_list の値
+     * @param array      $set_list   メソッド setColumns の引数 columns に渡す値
      */
     public function testSetColumnsFailure($expected, $prop_value, $set_list)
     {
@@ -249,9 +249,9 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected 期待値
-     * @param array $base_list コンストラクタの引数 columns に渡す値
-     * @param int $quote_type  メソッド init の引数 quote_type に渡す値
+     * @param string $expected   期待値
+     * @param array  $base_list  コンストラクタの引数 columns に渡す値
+     * @param int    $quote_type メソッド init の引数 quote_type に渡す値
      */
     public function testToString($expected, $base_list, $quote_type)
     {

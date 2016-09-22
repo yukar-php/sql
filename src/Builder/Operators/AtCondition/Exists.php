@@ -15,9 +15,9 @@ class Exists extends BaseDeniableOperator
     /**
      * Exists クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name                演算子の対象となる表や列の名前
+     * @param string              $name   演算子の対象となる表や列の名前
      * @param string|ISelectQuery $needle 演算子の対象となる問い合わせクエリ
-     * @param bool $is_not                演算子に NOT を付与するかどうか
+     * @param bool                $is_not 演算子に NOT を付与するかどうか
      */
     public function __construct(string $name, $needle, bool $is_not = false)
     {

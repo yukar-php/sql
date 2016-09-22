@@ -97,9 +97,9 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetValue
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ value の値
-     * @param string $value     メソッド setValue の引数 value に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ value の値
+     * @param string $value      メソッド setValue の引数 value に渡す値
      */
     public function testSetValue($expected, $prop_value, $value)
     {
@@ -129,9 +129,9 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetValueFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ value の値
-     * @param mixed $value         メソッド setValue の引数 value に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ value の値
+     * @param mixed      $value      メソッド setValue の引数 value に渡す値
      */
     public function testSetValueFailure($expected, $prop_value, $value)
     {
@@ -163,7 +163,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected 期待値
      * @param string $name     コンストラクタの引数 name に渡す値
      * @param string $value    コンストラクタの引数 value に渡す値
-     * @param int $sign        メソッド setSign の引数 sign に渡す値
+     * @param int    $sign     メソッド setSign の引数 sign に渡す値
      */
     public function testToString($expected, $name, $value, $sign)
     {

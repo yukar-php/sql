@@ -88,9 +88,9 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetPattern
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ pattern の値
-     * @param string $pattern   メソッド setPattern の引数 pattern に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ pattern の値
+     * @param string $pattern    メソッド setPattern の引数 pattern に渡す値
      */
     public function testSetPattern($expected, $prop_value, $pattern)
     {
@@ -120,9 +120,9 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetPatternFailure
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ pattern の値
-     * @param string $pattern   メソッド setPattern の引数 pattern に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ pattern の値
+     * @param string $pattern    メソッド setPattern の引数 pattern に渡す値
      */
     public function testSetPatternFailure($expected, $prop_value, $pattern)
     {
@@ -154,7 +154,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      * @param string $expected 期待値
      * @param string $column   コンストラクタの引数 column に渡す値
      * @param string $pattern  コンストラクタの引数 pattern に渡す値
-     * @param bool $is_not     コンストラクタの引数 is_not に渡す値
+     * @param bool   $is_not   コンストラクタの引数 is_not に渡す値
      */
     public function testToString($expected, $column, $pattern, $is_not)
     {

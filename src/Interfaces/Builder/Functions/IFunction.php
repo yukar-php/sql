@@ -9,6 +9,13 @@ namespace Yukar\Sql\Interfaces\Builder\Functions;
 interface IFunction
 {
     /**
+     * SQLの関数の名前を取得します。
+     *
+     * @return string SQLの関数の名前
+     */
+    public function getFunctionName(): string;
+
+    /**
      * SQLの関数や計算式の書式を取得します。
      *
      * @return string SQLの関数や計算式の書式

@@ -15,7 +15,7 @@ class Expression extends BaseComparableOperator
      *
      * @param string $name  演算子の対象となる表や列の名前
      * @param string $value 演算子の対象となる表や列の値と比較する値
-     * @param int $sign     演算子の種類。演算子に指定した名前の値と比較に使用する値の比較に使う。<br />
+     * @param int    $sign  演算子の種類。演算子に指定した名前の値と比較に使用する値の比較に使う。<br />
      *                      値が等しい時は、Expression::SIGN_EQ、値が等しくない時は、Expression::SIGN_NE。<br />
      *                      値が比較値よりも小さい時は、Expression::SIGN_LT、大きい時は、Expression::SIGN_GT。<br />
      *                      値が比較値以下の場合は、Expression::SIGN_OU、以上の時は、Expression::SIGN_AO。

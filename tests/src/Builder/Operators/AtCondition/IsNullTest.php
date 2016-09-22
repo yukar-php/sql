@@ -30,7 +30,7 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $expected 期待値
      * @param string $column   コンストラクタの引数 column に渡す値
-     * @param bool $is_not     コンストラクタの引数 is_not に渡す値
+     * @param bool   $is_not   コンストラクタの引数 is_not に渡す値
      */
     public function testToString($expected, $column, $is_not)
     {

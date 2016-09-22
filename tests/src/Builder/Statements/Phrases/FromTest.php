@@ -77,7 +77,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetDataSource
      *
-     * @param string $expected        期待値
+     * @param string      $expected   期待値
      * @param IDataSource $prop_value プロパティ data_source の値
      */
     public function testGetDataSource($expected, $prop_value)
@@ -114,7 +114,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDataSource
      *
-     * @param string $expected         期待値
+     * @param string      $expected    期待値
      * @param IDataSource $prop_value  プロパティ data_source の値
      * @param IDataSource $data_source メソッド setDataSource の引数 data_source に渡す値
      */
@@ -151,7 +151,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected         期待値
+     * @param string      $expected    期待値
      * @param IDataSource $data_source コンストラクタの引数 data_source に渡す値
      */
     public function testToString($expected, $data_source)

@@ -15,7 +15,7 @@ class Like extends BaseDeniableOperator
      *
      * @param string $column  演算子の対象となるカラムの名前
      * @param string $pattern 演算子の対象となる検索パターン
-     * @param bool $is_not    演算子に NOT を付与するかどうか
+     * @param bool   $is_not  演算子に NOT を付与するかどうか
      */
     public function __construct(string $column, string $pattern, bool $is_not = false)
     {

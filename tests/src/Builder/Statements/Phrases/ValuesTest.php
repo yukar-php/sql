@@ -101,9 +101,9 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetValues
      *
-     * @param array $expected            期待値
-     * @param mixed $prop_value          プロパティ values の値
-     * @param array|\Traversable $values メソッド setValues の引数 values に渡す値
+     * @param array              $expected   期待値
+     * @param mixed              $prop_value プロパティ values の値
+     * @param array|\Traversable $values     メソッド setValues の引数 values に渡す値
      */
     public function testSetValues($expected, $prop_value, $values)
     {
@@ -154,9 +154,9 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetValuesFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ values の値
-     * @param mixed $values        メソッド setValues の引数 values に渡す値
+     * @param \Exception $expected   期待値
+     * @param mixed      $prop_value プロパティ values の値
+     * @param mixed      $values     メソッド setValues の引数 values に渡す値
      */
     public function testSetValuesFailure($expected, $prop_value, $values)
     {
@@ -205,8 +205,8 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected           期待値
-     * @param array|\Traversable $values コンストラクタ values に渡す値
+     * @param string             $expected 期待値
+     * @param array|\Traversable $values   コンストラクタ values に渡す値
      */
     public function testToString($expected, $values)
     {

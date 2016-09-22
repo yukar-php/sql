@@ -72,8 +72,8 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerGetOperation
      *
-     * @param string $expected 期待値
-     * @param int $prop_value  プロパティ operator の値
+     * @param string $expected   期待値
+     * @param int    $prop_value プロパティ operator の値
      */
     public function testGetOperation($expected, $prop_value)
     {
@@ -105,8 +105,8 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOperation
      *
-     * @param string $expected 期待値
-     * @param int $prop_value  プロパティ operator の値
+     * @param string $expected   期待値
+     * @param int    $prop_value プロパティ operator の値
      */
     public function testSetOperation($expected, $prop_value)
     {
@@ -170,9 +170,9 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerAddConditions
      *
-     * @param array $expected             期待値
-     * @param array $base_cond            プロパティ conditions の値
-     * @param string|Conditions $add_cond メソッド addCondition の引数として渡す値
+     * @param array             $expected  期待値
+     * @param array             $base_cond プロパティ conditions の値
+     * @param string|Conditions $add_cond  メソッド addCondition の引数として渡す値
      */
     public function testAddConditions($expected, $base_cond, $add_cond)
     {
@@ -217,9 +217,9 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerAddConditionsFailure
      *
-     * @param \Exception $expected 期待する例外
-     * @param array $base_cond    プロパティ conditions の値
-     * @param mixed $add_cond     メソッド addCondition の引数として渡す値
+     * @param \Exception $expected  期待する例外
+     * @param array      $base_cond プロパティ conditions の値
+     * @param mixed      $add_cond  メソッド addCondition の引数として渡す値
      */
     public function testAddConditionsFailure($expected, $base_cond, $add_cond)
     {
@@ -248,10 +248,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetConditions
      *
-     * @param array $expected           期待値
-     * @param array $base_cond          プロパティ conditions の値
-     * @param string|Conditions $first  メソッド setConditions の引数 first に渡す値
-     * @param string|Conditions $second メソッド setConditions の引数 second に渡す値
+     * @param array             $expected  期待値
+     * @param array             $base_cond プロパティ conditions の値
+     * @param string|Conditions $first     メソッド setConditions の引数 first に渡す値
+     * @param string|Conditions $second    メソッド setConditions の引数 second に渡す値
      */
     public function testSetConditions($expected, $base_cond, $first, $second)
     {
@@ -288,9 +288,9 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetConditionsFailure
      *
      * @param |Exception $expected  期待する例外
-     * @param array $base_cond プロパティ conditions の値
-     * @param mixed $first     メソッド setConditions の引数 first に渡す値
-     * @param mixed $second    メソッド setConditions の引数 second に渡す値
+     * @param array      $base_cond プロパティ conditions の値
+     * @param mixed      $first     メソッド setConditions の引数 first に渡す値
+     * @param mixed      $second    メソッド setConditions の引数 second に渡す値
      */
     public function testSetConditionsFailure($expected, $base_cond, $first, $second)
     {
@@ -401,10 +401,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected          期待値
-     * @param int $operator             論理演算子
-     * @param string|Conditions $first  メソッド setConditions の引数 first に渡す値
-     * @param string|Conditions $second メソッド setConditions の引数 second に渡す値
+     * @param string            $expected 期待値
+     * @param int               $operator 論理演算子
+     * @param string|Conditions $first    メソッド setConditions の引数 first に渡す値
+     * @param string|Conditions $second   メソッド setConditions の引数 second に渡す値
      */
     public function testToString($expected, $operator, $first, $second)
     {

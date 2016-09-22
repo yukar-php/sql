@@ -126,9 +126,9 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDataSource
      *
-     * @param string $expected    期待値
-     * @param mixed $prop_value   プロパティ data_source の値
-     * @param mixed $table_source メソッド setDataSource の引数 data_source に渡す値
+     * @param string $expected     期待値
+     * @param mixed  $prop_value   プロパティ data_source の値
+     * @param mixed  $table_source メソッド setDataSource の引数 data_source に渡す値
      */
     public function testSetDataSource($expected, $prop_value, $table_source)
     {
@@ -164,9 +164,9 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetDataSourceFailure
      *
-     * @param \Exception $expected 期待値
-     * @param mixed $prop_value    プロパティ data_source の値
-     * @param mixed $table_source  メソッド setDataSource の引数 data_source に渡す値
+     * @param \Exception $expected     期待値
+     * @param mixed      $prop_value   プロパティ data_source の値
+     * @param mixed      $table_source メソッド setDataSource の引数 data_source に渡す値
      */
     public function testSetDataSourceFailure($expected, $prop_value, $table_source)
     {
@@ -236,9 +236,9 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetJoinType
      *
-     * @param string $expected  期待値
-     * @param mixed $prop_value プロパティ join_type の値
-     * @param int $join_type    メソッド setJoinType の引数 join_type に渡す値
+     * @param string $expected   期待値
+     * @param mixed  $prop_value プロパティ join_type の値
+     * @param int    $join_type  メソッド setJoinType の引数 join_type に渡す値
      */
     public function testSetJoinType($expected, $prop_value, $join_type)
     {
@@ -314,8 +314,8 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetOnCondition
      *
-     * @param array $expected          期待値
-     * @param mixed $prop_value        プロパティ on_condition の値
+     * @param array      $expected     期待値
+     * @param mixed      $prop_value   プロパティ on_condition の値
      * @param ICondition $on_condition メソッド setOnCondition の引数 on_condition に渡す値
      */
     public function testSetOnCondition($expected, $prop_value, $on_condition)
@@ -356,7 +356,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerSetOnConditionFailure
      *
      * @param \Exception $expected     期待値
-     * @param mixed $prop_value        プロパティ on_condition の値
+     * @param mixed      $prop_value   プロパティ on_condition の値
      * @param ICondition $on_condition メソッド setOnCondition の引数 on_condition に渡す値
      */
     public function testSetOnConditionFailure($expected, $prop_value, $on_condition)
@@ -468,9 +468,9 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected         期待値
-     * @param mixed $table_source      コンストラクタの引数 table_source に渡す値
-     * @param int $join_type           コンストラクタの引数 join_type に渡す値
+     * @param string     $expected     期待値
+     * @param mixed      $table_source コンストラクタの引数 table_source に渡す値
+     * @param int        $join_type    コンストラクタの引数 join_type に渡す値
      * @param ICondition $on_condition コンストラクタの引数 on_condition に渡す値
      */
     public function testToString($expected, $table_source, $join_type, $on_condition)
