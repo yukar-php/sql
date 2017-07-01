@@ -25,6 +25,6 @@ class Max extends BaseAggregateFunction
      */
     public function getFunctionName(): string
     {
-        return 'MAX';
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Max::class));
     }
 }

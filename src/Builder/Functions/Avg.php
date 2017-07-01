@@ -27,6 +27,6 @@ class Avg extends BaseFilterableFunction
      */
     public function getFunctionName(): string
     {
-        return 'AVG';
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Avg::class));
     }
 }
