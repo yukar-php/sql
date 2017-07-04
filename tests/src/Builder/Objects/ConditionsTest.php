@@ -388,10 +388,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 new In('j', [ 1, 2, 3 ], true)
             ],
             [
-                'k EXISTS (SELECT * FROM table_k) OR l NOT EXISTS (SELECT * FROM table_l)',
+                'EXISTS (SELECT * FROM table_k) OR NOT EXISTS (SELECT * FROM table_l)',
                 Conditions::OPERATION_OR,
-                new Exists('k', new Select(new From(new Table('table_k')))),
-                new Exists('l', new Select(new From(new Table('table_l'))), true),
+                new Exists(new Select(new From(new Table('table_k')))),
+                new Exists(new Select(new From(new Table('table_l'))), true),
             ],
         ];
     }
