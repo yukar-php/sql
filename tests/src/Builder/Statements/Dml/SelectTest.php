@@ -472,7 +472,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     public function providerToString()
     {
         $from_origin = new From(new Table('table_name'));
-        $from_alias_a = new From(new Alias('table_a', 'a'));
+        $from_alias_a = new From(new Alias(new Table('table_a'), 'a'));
         $from_alias_b = new From(new Alias('table_b', 'b'));
         $columns_abc = new Columns([ 'a', 'b', 'c' ]);
         $columns_xyz = new Columns([ 'x', 'y', 'z' ]);
