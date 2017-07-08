@@ -40,15 +40,7 @@ abstract class BaseDeniableOperator extends BaseConditionContainable implements 
      */
     public function __toString(): string
     {
-        $base_params = [ $this->isNot() === true ? 'NOT' : '', ' ', $this->getOperator() ];
-        $params = ($this->isBackEnd() === true) ? array_reverse($base_params) : $base_params;
-
-        return sprintf(
-            $this->getOperatorFormat(),
-            $this->getName(),
-            trim(sprintf('%s%s%s', ...$params)),
-            $this->getValue()
-        );
+        return sprintf($this->getOperatorFormat(), $this->getName(), $this->getOperatorString(), $this->getValue());
     }
 
     /**
@@ -69,5 +61,18 @@ abstract class BaseDeniableOperator extends BaseConditionContainable implements 
     protected function setIsBackEnd(bool $back_end)
     {
         $this->back_end = $back_end;
+    }
+
+    /**
+     * 演算子を文字列として取得します。インスタンスの状態によっては NOT 演算子も含まれます。
+     *
+     * @return string 演算子の文字列
+     */
+    protected function getOperatorString()
+    {
+        $base_params = [ $this->isNot() === true ? 'NOT' : '', ' ', $this->getOperator() ];
+        $params = ($this->isBackEnd() === true) ? array_reverse($base_params) : $base_params;
+
+        return trim(sprintf('%s%s%s', ...$params));
     }
 }

@@ -1,11 +1,14 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Dml;
 
+use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Objects\SetValuesHash;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\AtCondition\Exists;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Statements\Dml\Select;
 use Yukar\Sql\Builder\Statements\Dml\Update;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
@@ -265,6 +268,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $condition_2 = (new Conditions())->addCondition(new Expression('st.x', 10, Expression::SIGN_LT));
         $source_from = new From($source_table);
         $source_from_as = new From(new Alias($source_table, 'st'));
+        $condition_3 = (new Conditions())->addCondition(new Exists(new Select($source_from, new Columns([ 'a' ]))));
 
         return [
             // 条件なし単一列更新
@@ -307,6 +311,14 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
                 $condition_2,
                 $source_from_as
             ],
+            // 選択条件つき取得元あり複数列更新
+            [
+                'UPDATE target_table SET b = 2, c = 3 FROM source_table WHERE EXISTS (SELECT a FROM source_table)',
+                $target_table,
+                $double_sets,
+                $condition_3,
+                $source_from
+            ]
         ];
     }
 

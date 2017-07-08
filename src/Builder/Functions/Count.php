@@ -27,6 +27,6 @@ class Count extends BaseFilterableFunction
      */
     public function getFunctionName(): string
     {
-        return 'COUNT';
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Count::class));
     }
 }

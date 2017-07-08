@@ -27,6 +27,6 @@ class Sum extends BaseFilterableFunction
      */
     public function getFunctionName(): string
     {
-        return 'SUM';
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Sum::class));
     }
 }

@@ -14,21 +14,31 @@ use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
  */
 interface ISelectQuery extends IConditionalDMLQuery
 {
-    /**
-     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
-     *
-     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
-     */
-    public function getDistinct(): bool;
+    /** 問い合わせクエリのフィルタが「ALL」であることを示す定数 */
+    const FILTER_ALL = 1;
+    /** 問い合わせクエリのフィルタが「DISTINCT」であることを示す定数 */
+    const FILTER_DISTINCT = 2;
+
+    const FILTERS = [
+        self::FILTER_ALL      => 'ALL',
+        self::FILTER_DISTINCT => 'DISTINCT',
+    ];
 
     /**
-     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
+     * 検索の問い合わせ結果から重複データを取り除くフィルタを取得します。
      *
-     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
-     *
-     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
+     * @return string 検索の問い合わせ結果から重複データを取り除くフィルタ
      */
-    public function setDistinct(bool $distinct): ISelectQuery;
+    public function getFilter(): string;
+
+    /**
+     * 検索の問い合わせ結果から重複データを取り除くフィルタを設定します。
+     *
+     * @param int $filter_type 検索の問い合わせ結果から重複データを取り除くフィルタの種類
+     *
+     * @return ISelectQuery 重複データを取り除くフィルタを設定した状態のオブジェクトのインスタンス
+     */
+    public function setFilter(int $filter_type): ISelectQuery;
 
     /**
      * 検索の問い合わせクエリの対象となる列のリストを取得します。

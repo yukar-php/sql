@@ -15,15 +15,45 @@ class Exists extends BaseDeniableOperator
     /**
      * Exists クラスの新しいインスタンスを初期化します。
      *
-     * @param string              $name   演算子の対象となる表や列の名前
      * @param string|ISelectQuery $needle 演算子の対象となる問い合わせクエリ
      * @param bool                $is_not 演算子に NOT を付与するかどうか
      */
-    public function __construct(string $name, $needle, bool $is_not = false)
+    public function __construct($needle, bool $is_not = false)
     {
-        $this->setName($name);
         $this->setNeedle($needle);
         $this->setIsNot($is_not);
+    }
+
+    /**
+     * SQLの演算子を文字列として取得します。
+     *
+     * @return string SQLの演算子
+     */
+    public function __toString(): string
+    {
+        return sprintf($this->getOperatorFormat(), $this->getOperatorString(), $this->getValue());
+    }
+
+    /**
+     * SQLの演算子の書式を取得します。
+     *
+     * @return string SQLの演算子の書式
+     */
+    public function getOperatorFormat(): string
+    {
+        return '%s %s';
+    }
+
+    /**
+     * 演算子の対象となる表や列の名前を設定します。
+     *
+     * @param string $name 演算子の対象となる表や列の名前
+     *
+     * @throws \BadMethodCallException 表や列の名前を設定しようとした場合
+     */
+    public function setName(string $name)
+    {
+        throw new \BadMethodCallException();
     }
 
     /**

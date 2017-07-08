@@ -1,11 +1,14 @@
 <?php
 namespace Yukar\Sql\Tests\Builder\Statements\Dml;
 
+use Yukar\Sql\Builder\Objects\Columns;
 use Yukar\Sql\Builder\Objects\Conditions;
 use Yukar\Sql\Builder\Objects\Table;
 use Yukar\Sql\Builder\Operators\Alias;
+use Yukar\Sql\Builder\Operators\AtCondition\Exists;
 use Yukar\Sql\Builder\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Statements\Dml\Delete;
+use Yukar\Sql\Builder\Statements\Dml\Select;
 use Yukar\Sql\Builder\Statements\Phrases\From;
 use Yukar\Sql\Builder\Statements\Phrases\Into;
 use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
@@ -105,12 +108,16 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
             new Expression('a', 0, Expression::SIGN_GT),
             new Expression('b', 10, Expression::SIGN_OU)
         );
+        $exists_where = (new Conditions())->addCondition(
+            new Exists(new Select(new From(new Table('table')), new Columns([ 'col' ])))
+        );
 
         return [
             [ 'DELETE FROM table_name', $from_orig, null ],
             [ 'DELETE FROM table_name AS alias_table', $from_as, null ],
             [ 'DELETE FROM table_name WHERE a > 0 AND b <= 10', $from_orig, $where ],
             [ 'DELETE FROM table_name AS alias_table WHERE a > 0 AND b <= 10', $from_as, $where ],
+            [ 'DELETE FROM table_name WHERE EXISTS (SELECT col FROM table)', $from_orig, $exists_where ],
         ];
     }
 

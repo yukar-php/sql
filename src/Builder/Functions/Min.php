@@ -25,6 +25,6 @@ class Min extends BaseAggregateFunction
      */
     public function getFunctionName(): string
     {
-        return 'MIN';
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Min::class));
     }
 }

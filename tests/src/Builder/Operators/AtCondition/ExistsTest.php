@@ -46,6 +46,32 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * メソッド testSetNameFailure のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerSetNameFailure()
+    {
+        return [
+            [ \BadMethodCallException::class, 'name' ],
+        ];
+    }
+
+    /**
+     * 異常系テスト
+     *
+     * @dataProvider providerSetNameFailure
+     *
+     * @param |Exception $expected 期待値
+     * @param mixed      $name     メソッド setName の引数 name に渡す値
+     */
+    public function testSetNameFailure($expected, $name)
+    {
+        $this->expectException($expected);
+        $this->getNewInstance()->setName($name);
+    }
+
+    /**
      * メソッド testGetNeedle のデータプロバイダー
      *
      * @return array
@@ -159,10 +185,10 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
         $select = new Select(new From(new Table('table')), new Columns([ 'col' ]));
 
         return [
-            [ 'column EXISTS (SELECT col FROM table)', 'column', 'SELECT col FROM table', false ],
-            [ 'column EXISTS (SELECT col FROM table)', 'column', $select, false ],
-            [ 'column NOT EXISTS (SELECT col FROM table)', 'column', 'SELECT col FROM table', true ],
-            [ 'column NOT EXISTS (SELECT col FROM table)', 'column', $select, true ],
+            [ 'EXISTS (SELECT col FROM table)', 'SELECT col FROM table', false ],
+            [ 'EXISTS (SELECT col FROM table)', $select, false ],
+            [ 'NOT EXISTS (SELECT col FROM table)', 'SELECT col FROM table', true ],
+            [ 'NOT EXISTS (SELECT col FROM table)', $select, true ],
         ];
     }
 
@@ -172,12 +198,11 @@ class ExistsTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerToString
      *
      * @param string $expected 期待値
-     * @param string $name     コンストラクタの引数 name に渡す値
      * @param mixed  $needle   コンストラクタの引数 needle に渡す値
      * @param bool   $is_not   コンストラクタの引数 is_not に渡す値
      */
-    public function testToString($expected, $name, $needle, $is_not)
+    public function testToString($expected, $needle, $is_not)
     {
-        self::assertSame($expected, (string)new Exists($name, $needle, $is_not));
+        self::assertSame($expected, (string)new Exists($needle, $is_not));
     }
 }
