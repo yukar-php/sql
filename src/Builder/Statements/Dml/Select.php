@@ -18,7 +18,7 @@ use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
-    private $is_distinct = false;
+    private $filter_type = self::FILTER_ALL;
     private $columns;
     private $join;
     private $group_by;
@@ -61,25 +61,25 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     }
 
     /**
-     * 検索の問い合わせ結果から重複データを取り除くかどうかを取得します。
+     * 検索の問い合わせ結果から重複データを取り除くフィルタを取得します。
      *
-     * @return bool 検索の問い合わせ結果から重複データを取り除くかどうか
+     * @return string 検索の問い合わせ結果から重複データを取り除くフィルタ
      */
-    public function getDistinct(): bool
+    public function getFilter(): string
     {
-        return $this->is_distinct;
+        return ($this->filter_type === self::FILTER_ALL) ? '' : strval(self::FILTERS[$this->filter_type]);
     }
 
     /**
-     * 検索の問い合わせ結果から重複データを取り除くかどうかを設定します。
+     * 検索の問い合わせ結果から重複データを取り除くフィルタを設定します。
      *
-     * @param bool $distinct 検索の問い合わせ結果から重複データを取り除くかどうか
+     * @param int $filter_type 検索の問い合わせ結果から重複データを取り除くフィルタの種類
      *
-     * @return ISelectQuery 重複データの取り扱いを設定した状態のオブジェクトのインスタンス
+     * @return ISelectQuery 重複データを取り除くフィルタを設定した状態のオブジェクトのインスタンス
      */
-    public function setDistinct(bool $distinct): ISelectQuery
+    public function setFilter(int $filter_type): ISelectQuery
     {
-        $this->is_distinct = $distinct;
+        $this->filter_type = array_key_exists($filter_type, self::FILTERS) ? $filter_type : self::FILTER_ALL;
 
         return $this;
     }
@@ -204,7 +204,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     public function __toString(): string
     {
         return $this->getFormatRightTrim(
-            (($this->getDistinct() === true) ? 'DISTINCT ' : '') . $this->getColumns(),
+            ltrim(sprintf('%s %s', $this->getFilter(), $this->getColumns())),
             $this->getSqlQuerySource(),
             $this->joinQuery($this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
         );

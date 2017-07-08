@@ -24,7 +24,7 @@ use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_IS_DISTINCT = 'is_distinct';
+    const PROP_NAME_FILTER_TYPE = 'filter_type';
     const PROP_NAME_COLUMNS = 'columns';
     const PROP_NAME_JOIN = 'join';
     const PROP_NAME_GROUP_BY = 'group_by';
@@ -95,63 +95,63 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetDistinct のデータプロバイダー
+     * メソッド testGetFilter のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetDistinct()
+    public function providerGetFilter()
     {
         return [
-            [ false, false ],
-            [ true, true ],
+            [ '', Select::FILTER_ALL ],
+            [ 'DISTINCT', Select::FILTER_DISTINCT ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerGetDistinct
+     * @dataProvider providerGetFilter
      *
      * @param bool $expected   期待値
-     * @param bool $prop_value プロパティ is_distinct の値
+     * @param bool $prop_value プロパティ filter_type の値
      */
-    public function testGetDistinct($expected, $prop_value)
+    public function testGetFilter($expected, $prop_value)
     {
         $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_IS_DISTINCT)->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_FILTER_TYPE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDistinct());
+        self::assertSame($expected, $object->getFilter());
     }
 
     /**
-     * メソッド testSetDistinct のデータプロバイダー
+     * メソッド testSetFilter のデータプロバイダー
      *
      * @return array
      */
-    public function providerSetDistinct()
+    public function providerSetFilter()
     {
         return [
-            [ false, true, false ],
-            [ true, false, true ],
+            [ 1, null, Select::FILTER_ALL ],
+            [ 2, Select::FILTER_ALL, Select::FILTER_DISTINCT ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerSetDistinct
+     * @dataProvider providerSetFilter
      *
      * @param bool $expected    期待値
-     * @param bool $prop_value  プロパティ is_distinct の値
-     * @param bool $is_distinct メソッド setDistinct の引数 columns に渡す値
+     * @param bool $prop_value  プロパティ filter_type の値
+     * @param int $filter_type  メソッド setFilter の引数 columns に渡す値
      */
-    public function testSetDistinct($expected, $prop_value, $is_distinct)
+    public function testSetFilter($expected, $prop_value, $filter_type)
     {
         $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_IS_DISTINCT);
+        $reflector = $this->getProperty($object, self::PROP_NAME_FILTER_TYPE);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setDistinct($is_distinct));
+        self::assertInstanceOf(Select::class, $object->setFilter($filter_type));
         self::assertSame($expected, $reflector->getValue($object));
     }
 
@@ -500,9 +500,18 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         return [
             [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null, null ],
-            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, null, true ],
+            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, null, Select::FILTER_DISTINCT ],
             [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, false ],
-            [ 'SELECT DISTINCT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, true ],
+            [
+                'SELECT DISTINCT x, y, z FROM table_b AS b',
+                $from_alias_b,
+                $columns_xyz,
+                null,
+                null,
+                null,
+                null,
+                Select::FILTER_DISTINCT
+            ],
             // JOIN のみ
             [
                 'SELECT x, y, z FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x',
@@ -681,19 +690,19 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected 期待値
-     * @param From   $from     コンストラクタの引数 from に渡す値
-     * @param mixed  $columns  コンストラクタの引数 columns に渡す値
-     * @param mixed  $join     メソッド setJoin の引数 join に渡す値（null以外の時のみ）
-     * @param mixed  $where    メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
-     * @param mixed  $group_by メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
-     * @param mixed  $order_by メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
-     * @param mixed  $distinct メソッド setDistinct の引数 is_distinct に渡す値（null以外の時のみ）
+     * @param string $expected      期待値
+     * @param From   $from          コンストラクタの引数 from に渡す値
+     * @param mixed  $columns       コンストラクタの引数 columns に渡す値
+     * @param mixed  $join          メソッド setJoin の引数 join に渡す値（null以外の時のみ）
+     * @param mixed  $where         メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
+     * @param mixed  $group_by      メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
+     * @param mixed  $order_by      メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param mixed  $filter_type   メソッド setFilter の引数 filter_type に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $distinct)
+    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $filter_type)
     {
         $select = new Select($from, $columns);
-        isset($distinct) && $select->setDistinct($distinct);
+        isset($filter_type) && $select->setFilter($filter_type);
         isset($join) && $select->setJoin($join);
         isset($where) && $select->setWhere($where);
         isset($group_by) && $select->setGroupBy($group_by);
