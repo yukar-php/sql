@@ -317,4 +317,42 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
 
         self::assertSame($expected, DelimitedIdentifier::quotedRange($texts));
     }
+
+    /**
+     * メソッド testGetMultiQuotedList のデータプロバイダー
+     *
+     * @return array
+     */
+    public function providerGetMultiQuotedList()
+    {
+        $base_list = [ 't.a', 't.b', 't.c' ];
+
+        return [
+            [ [ 't.a', 't.b', 't.c' ], DelimitedIdentifier::NONE_QUOTES_TYPE, $base_list, '.' ],
+            [ [ '"t"."a"', '"t"."b"', '"t"."c"' ], DelimitedIdentifier::ANSI_QUOTES_TYPE, $base_list, '.' ],
+            [ [ '`t`.`a`', '`t`.`b`', '`t`.`c`' ], DelimitedIdentifier::MYSQL_QUOTES_TYPE, $base_list, '.' ],
+            [ [ '[t].[a]', '[t].[b]', '[t].[c]' ], DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE, $base_list, '.' ],
+        ];
+    }
+
+    /**
+     * 正常系テスト
+     *
+     * @dataProvider providerGetMultiQuotedList
+     *
+     * @param array $expected   期待値
+     * @param int   $quote_type メソッド init の引数 quote_type に渡す値
+     * @param array $texts      メソッド getMultiQuotedList の引数 list に渡す値
+     * @param string $delimiter メソッド getMultiQuotedList の引数 line_delimiter に渡す値
+     */
+    public function testGetMultiQuotedList($expected, $quote_type, $texts, $delimiter)
+    {
+        /** @var \ReflectionProperty $r_instance */
+        list($reflection, $r_instance) = $this->resetProperties();
+        DelimitedIdentifier::init($quote_type);
+        /** @var DelimitedIdentifier $object */
+        $object = $r_instance->getValue($reflection);
+
+        self::assertSame($expected, $object->getMultiQuotedList($texts, $delimiter));
+    }
 }
