@@ -145,4 +145,20 @@ class DelimitedIdentifier
             return (is_string($v) === true) ? $this->getQuotedString($v) : $v;
         })->toArray();
     }
+
+    /**
+     * インライン区切り文字の前後を区切り識別子で引用した書式に変換した文字列のリストを取得します。
+     *
+     * @param array $list               区切り識別子で引用した書式に変換する文字列のリスト
+     * @param string $line_delimiter    リストの要素の内容を区切る文字または文字列
+     *
+     * @return array インライン区切り文字の前後を区切り識別子で引用した書式に変換した文字列
+     */
+    public function getMultiQuotedList(array $list, string $line_delimiter = '.'): array
+    {
+        return (new ListObject($list))->select(function ($v) use ($line_delimiter) {
+            return (is_string($v) === false) ? $v :
+                implode($line_delimiter, $this->getQuotedList(explode($line_delimiter, $v)));
+        })->toArray();
+    }
 }

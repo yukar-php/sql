@@ -64,4 +64,18 @@ trait TQuoteIdentifier
     {
         return ($this->isPreparedQuote() === false) ? $list : $this->getDelimitedIdentifier()->getQuotedList($list);
     }
+
+    /**
+     * スキーマと表や表と列など二種類以上を連結した名前のリストを区切り識別子を引用した文字列のリストとして取得します。
+     *
+     * @param array $list               区切り識別子で引用する表や列の名前のリスト
+     * @param string $line_delimiter    リストの要素の内容を区切る文字または文字列
+     *
+     * @return array 区切り識別子を引用した表や列の名前文字列ののリスト
+     */
+    protected function getMultiQuotedList(array $list, string $line_delimiter = '.'): array
+    {
+        return ($this->isPreparedQuote() === false) ? $list :
+            $this->getDelimitedIdentifier()->getMultiQuotedList($list, $line_delimiter);
+    }
 }
