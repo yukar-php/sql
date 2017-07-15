@@ -105,7 +105,7 @@ class Columns implements IColumns
     {
         $columns = $this->getColumns();
 
-        return empty($columns) ? "*" : implode(", ", $this->getQuotedList($columns));
+        return empty($columns) ? "*" : implode(", ", $this->getMultiQuotedList($columns));
     }
 
     /**

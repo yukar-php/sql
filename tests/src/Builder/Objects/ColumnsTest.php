@@ -234,9 +234,13 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
         return [
             [ "*", [], null ],
             [ 'a, b, c', [ 'a', 'b', 'c' ], null ],
+            [ 't.a, t.b, t.c', [ 't.a', 't.b', 't.c' ], null ],
             [ '"a", "b", "c"', [ 'a', 'b', 'c' ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
+            [ '"t"."a", "t"."b", "t"."c"', [ 't.a', 't.b', 't.c' ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
             [ '`a`, `b`, `c`', [ 'a', 'b', 'c' ], DelimitedIdentifier::MYSQL_QUOTES_TYPE ],
+            [ '`t`.`a`, `t`.`b`, `t`.`c`', [ 't.a', 't.b', 't.c' ], DelimitedIdentifier::MYSQL_QUOTES_TYPE ],
             [ '[a], [b], [c]', [ 'a', 'b', 'c' ], DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE ],
+            [ '[t].[a], [t].[b], [t].[c]', [ 't.a', 't.b', 't.c' ], DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE ],
             [ 'a AS alias_a, b AS alias_b', [ $alias_a, $alias_b ], null ],
             [ 'a AS alias_a, b AS alias_b', [ $alias_a, $alias_b ], DelimitedIdentifier::ANSI_QUOTES_TYPE ],
             [ 'o ASC, p DESC', [ $order_asc, $order_dsc ], null ],
