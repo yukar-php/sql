@@ -1,12 +1,12 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Dml;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Statements\Dml\BaseSqlDMLQuery;
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Phrases\Into;
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Statements\Dml\BaseSqlDMLQuery;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 
 /**
  * 抽象クラス BaseSqlDMLQuery の単体テスト

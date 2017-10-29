@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 
 /**
  * SQLのデータ操作言語の問い合わせクエリを定義するインターフェイス。

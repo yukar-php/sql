@@ -1,13 +1,13 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\Columns;
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Operators\Order;
-use Yukar\Sql\Builder\Statements\Phrases\Into;
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Objects\ITable;
+use Yukar\Sql\Builder\Common\Objects\Columns;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Operators\Order;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
 
 /**
  * クラス Into の単体テスト

@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Builder\Statements\Phrases\Values;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
 
 /**
  * クラス Values の単体テスト

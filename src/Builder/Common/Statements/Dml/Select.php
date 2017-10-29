@@ -1,15 +1,15 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Dml;
+namespace Yukar\Sql\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Objects\Columns;
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
-use Yukar\Sql\Builder\Statements\Phrases\Join;
-use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Builder\Common\Objects\Columns;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\GroupBy;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
+use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * テーブルからデータを抽出する検索の問い合わせクエリの機能を提供します。

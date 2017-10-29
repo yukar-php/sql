@@ -1,11 +1,11 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Sets;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Sets;
 
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Sets\Intersect;
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Sets\Intersect;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * クラス Intersect の単体テスト

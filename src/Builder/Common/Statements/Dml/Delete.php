@@ -1,9 +1,9 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Dml;
+namespace Yukar\Sql\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 
 /**
  * テーブルのデータを除去する削除の問い合わせクエリの機能を提供します。

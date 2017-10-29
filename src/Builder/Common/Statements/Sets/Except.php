@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Sets;
+namespace Yukar\Sql\Builder\Common\Statements\Sets;
 
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * EXCEPT 演算子による差集合を表します。

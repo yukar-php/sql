@@ -1,9 +1,9 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Phrases\Set;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 
 /**
  * 更新の問い合わせクエリを定義するインターフェイス。

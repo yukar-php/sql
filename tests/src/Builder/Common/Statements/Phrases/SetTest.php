@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\SetValuesHash;
-use Yukar\Sql\Builder\Statements\Phrases\Set;
+use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
 
 /**
  * クラス Set の単体テスト

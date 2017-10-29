@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 
 /**
  * 条件式を付与することができる問い合わせクエリを定義するインターフェイス。

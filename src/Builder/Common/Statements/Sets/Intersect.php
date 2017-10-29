@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Sets;
+namespace Yukar\Sql\Builder\Common\Statements\Sets;
 
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * INTERSECT 演算子による積集合を表します。

@@ -1,11 +1,11 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Dml;
+namespace Yukar\Sql\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Statements\Phrases\Into;
-use Yukar\Sql\Builder\Statements\Phrases\Values;
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
-use Yukar\Sql\Interfaces\Builder\Statements\IInsertQuery;
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IInsertQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * テーブルへデータを追加する挿入の問い合わせクエリの機能を提供します。

@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Sets;
+namespace Yukar\Sql\Builder\Common\Statements\Sets;
 
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
-use Yukar\Sql\Interfaces\Builder\Statements\ISets;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISets;
 
 /**
  * 集合に関する演算子の機能を持つ抽象クラスです。

@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
-use Yukar\Sql\Builder\Statements\Phrases\Values;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
 
 /**
  * 削除の問い合わせクエリを定義するインターフェイス。

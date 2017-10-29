@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Phrases;
+namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
  * SQLクエリのOrderBy句を表します。

@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
 /**
  * 集合に関する演算子を定義するインターフェイス。

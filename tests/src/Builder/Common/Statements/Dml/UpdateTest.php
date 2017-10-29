@@ -1,21 +1,21 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Dml;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Objects\Columns;
-use Yukar\Sql\Builder\Objects\Conditions;
-use Yukar\Sql\Builder\Objects\SetValuesHash;
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Operators\AtCondition\Exists;
-use Yukar\Sql\Builder\Operators\AtCondition\Expression;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Dml\Update;
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Phrases\Into;
-use Yukar\Sql\Builder\Statements\Phrases\Set;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
-use Yukar\Sql\Interfaces\Builder\Objects\ITable;
+use Yukar\Sql\Builder\Common\Objects\Columns;
+use Yukar\Sql\Builder\Common\Objects\Conditions;
+use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Exists;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Dml\Update;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
 
 /**
  * クラス Update の単体テスト

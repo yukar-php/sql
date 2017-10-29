@@ -1,9 +1,9 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Phrases;
+namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
  * SQLクエリのGroupBy句とHaving句を表します。

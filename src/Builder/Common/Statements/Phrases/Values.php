@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Phrases;
+namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
 use Yukar\Linq\Collections\ListObject;
-use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
  * SQLクエリの VALUES 句を表します。

@@ -1,9 +1,9 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Phrases;
+namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
-use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
  * SQLクエリの JOIN 句を表します。

@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Dml;
+namespace Yukar\Sql\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ISqlQuerySource;
-use Yukar\Sql\Interfaces\Builder\Statements\ISqlDMLQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISqlDMLQuery;
 
 /**
  * データ操作言語の問い合わせクエリの基本機能を実装する抽象クラスです。

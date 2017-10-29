@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Dml;
+namespace Yukar\Sql\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Statements\IConditionalDMLQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IConditionalDMLQuery;
 
 /**
  * 条件式を付与することができる問い合わせクエリの機能を持つ抽象クラスです。

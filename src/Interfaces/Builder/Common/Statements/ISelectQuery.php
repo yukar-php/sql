@@ -1,11 +1,11 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Statements;
+namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
-use Yukar\Sql\Builder\Statements\Phrases\GroupBy;
-use Yukar\Sql\Builder\Statements\Phrases\Join;
-use Yukar\Sql\Builder\Statements\Phrases\OrderBy;
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Builder\Common\Statements\Phrases\GroupBy;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
+use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 
 /**
  * 検索の問い合わせクエリを定義するインターフェイス。

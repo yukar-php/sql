@@ -1,14 +1,14 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Phrases;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\Conditions;
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Operators\AtCondition\Expression;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Phrases\From;
-use Yukar\Sql\Builder\Statements\Phrases\Join;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Builder\Common\Objects\Conditions;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 
 /**
  * クラス Join の単体テスト

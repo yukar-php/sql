@@ -1,10 +1,10 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Statements\Dml;
+namespace Yukar\Sql\Tests\Builder\Common\Statements\Dml;
 
-use Yukar\Sql\Builder\Objects\Conditions;
-use Yukar\Sql\Builder\Operators\AtCondition\Expression;
-use Yukar\Sql\Builder\Statements\Dml\BaseConditionalDMLQuery;
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
+use Yukar\Sql\Builder\Common\Objects\Conditions;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Common\Statements\Dml\BaseConditionalDMLQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 
 /**
  * 抽象クラス BaseConditionalDMLQuery の単体テスト

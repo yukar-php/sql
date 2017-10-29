@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Statements\Phrases;
+namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
-use Yukar\Sql\Builder\Objects\SetValuesHash;
-use Yukar\Sql\Interfaces\Builder\Statements\IPhrases;
+use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
  * SQLクエリの SET 句を表します。
