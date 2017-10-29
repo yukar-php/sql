@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
 
 /**
  * 条件式に含めることのできる演算子の基本機能を提供する抽象クラスです。

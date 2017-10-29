@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * EXISTS 演算子または NOT EXISTS 演算子を表現します。

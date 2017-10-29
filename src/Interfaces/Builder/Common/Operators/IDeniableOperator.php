@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Operators;
+namespace Yukar\Sql\Interfaces\Builder\Common\Operators;
 
 /**
  * 否定演算子を付与することができる演算子を定義するインターフェイス。

@@ -1,10 +1,10 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\AtCondition\GroupExpression;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\GroupExpression;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 
 /**
  * クラス GroupExpression の単体テスト

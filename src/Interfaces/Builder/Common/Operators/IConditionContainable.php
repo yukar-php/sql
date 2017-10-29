@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Operators;
+namespace Yukar\Sql\Interfaces\Builder\Common\Operators;
 
 /**
  * 条件式に含めることのできる演算子を定義するインターフェイス。

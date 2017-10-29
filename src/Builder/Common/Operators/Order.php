@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Operators;
+namespace Yukar\Sql\Builder\Common\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IOperator;
 
 /**
  * テーブルの任意の列のソートを表します。

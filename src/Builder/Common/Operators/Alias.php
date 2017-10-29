@@ -1,10 +1,10 @@
 <?php
-namespace Yukar\Sql\Builder\Operators;
+namespace Yukar\Sql\Builder\Common\Operators;
 
-use Yukar\Sql\Interfaces\Builder\Objects\IDataSource;
-use Yukar\Sql\Interfaces\Builder\Objects\ITable;
-use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IOperator;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * テーブルや列の別名または名前をつけた問い合わせクエリを表します。

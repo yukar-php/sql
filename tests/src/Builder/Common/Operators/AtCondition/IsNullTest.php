@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\IsNull;
 
 /**
  * クラス IsNull の単体テスト

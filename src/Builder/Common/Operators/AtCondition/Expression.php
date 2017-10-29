@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
 /**
  * 算術演算子を表現します。

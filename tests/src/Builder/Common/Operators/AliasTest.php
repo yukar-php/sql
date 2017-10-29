@@ -1,10 +1,10 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Common\Operators;
 
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 
 /**
  * クラス Alias の単体テスト

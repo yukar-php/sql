@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Operators;
+namespace Yukar\Sql\Interfaces\Builder\Common\Operators;
 
 /**
  * 比較可能な演算子を定義するインターフェイス。

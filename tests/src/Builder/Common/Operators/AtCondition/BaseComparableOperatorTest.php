@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Builder\Operators\AtCondition\BaseComparableOperator;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\BaseComparableOperator;
 
 /**
  * 抽象クラス BaseComparableOperator の単体テスト

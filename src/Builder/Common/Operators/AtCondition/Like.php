@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
 /**
  * LIKE 演算子または NOT LIKE 演算子を表します。

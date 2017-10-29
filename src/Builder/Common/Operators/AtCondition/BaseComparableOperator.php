@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IComparableOperator;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IComparableOperator;
 
 /**
  * 比較可能な演算子の基本機能を提供する抽象クラスです。

@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
-use Yukar\Sql\Interfaces\Builder\Operators\IDeniableOperator;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
 
 /**
  * 否定演算子を付与することができる演算子の基本機能を提供する抽象クラスです。

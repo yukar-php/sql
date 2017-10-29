@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Operators\AtCondition;
+namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
 use Yukar\Linq\Collections\ListObject;
-use Yukar\Sql\Interfaces\Builder\Statements\ISelectQuery;
+use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
  * IN 演算子または NOT IN 演算子を表現します。

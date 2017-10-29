@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Operators;
+namespace Yukar\Sql\Tests\Builder\Common\Operators;
 
-use Yukar\Sql\Builder\Operators\Order;
+use Yukar\Sql\Builder\Common\Operators\Order;
 
 /**
  * クラス Order の単体テスト
