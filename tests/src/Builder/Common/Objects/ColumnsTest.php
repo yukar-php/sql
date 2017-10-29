@@ -1,12 +1,12 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Objects;
+namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
-use Yukar\Sql\Builder\Objects\Columns;
-use Yukar\Sql\Builder\Objects\DelimitedIdentifier;
-use Yukar\Sql\Builder\Operators\Alias;
-use Yukar\Sql\Builder\Operators\AtCondition\Between;
-use Yukar\Sql\Builder\Operators\AtCondition\Expression;
-use Yukar\Sql\Builder\Operators\Order;
+use Yukar\Sql\Builder\Common\Objects\Columns;
+use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
+use Yukar\Sql\Builder\Common\Operators\Alias;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Between;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Common\Operators\Order;
 
 /**
  * クラス Columns の単体テスト

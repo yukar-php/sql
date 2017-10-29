@@ -1,11 +1,11 @@
 <?php
-namespace Yukar\Sql\Builder\Objects;
+namespace Yukar\Sql\Builder\Common\Objects;
 
 use Yukar\Linq\Collections\ListObject;
-use Yukar\Sql\Builder\Operators\Order;
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
-use Yukar\Sql\Interfaces\Builder\Operators\IOperator;
+use Yukar\Sql\Builder\Common\Operators\Order;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IOperator;
 
 /**
  * テーブルの列のリストを表します。

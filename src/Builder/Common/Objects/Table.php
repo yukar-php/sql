@@ -1,9 +1,9 @@
 <?php
-namespace Yukar\Sql\Builder\Objects;
+namespace Yukar\Sql\Builder\Common\Objects;
 
 use Yukar\Linq\Collections\ListObject;
-use Yukar\Sql\Interfaces\Builder\Objects\IColumns;
-use Yukar\Sql\Interfaces\Builder\Objects\ITable;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
 
 /**
  * テーブルを表します。

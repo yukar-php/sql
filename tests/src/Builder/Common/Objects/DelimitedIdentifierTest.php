@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Objects;
+namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
-use Yukar\Sql\Builder\Objects\DelimitedIdentifier;
+use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
 
 /**
  * クラス DelimitedIdentifier の単体テスト

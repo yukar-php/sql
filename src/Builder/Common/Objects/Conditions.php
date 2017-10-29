@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Builder\Objects;
+namespace Yukar\Sql\Builder\Common\Objects;
 
-use Yukar\Sql\Interfaces\Builder\Objects\ICondition;
-use Yukar\Sql\Interfaces\Builder\Operators\IConditionContainable;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
 
 /**
  * SQLクエリの条件式を定義します。

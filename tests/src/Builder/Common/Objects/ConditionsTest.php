@@ -1,16 +1,16 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Objects;
+namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
-use Yukar\Sql\Builder\Objects\Conditions;
-use Yukar\Sql\Builder\Objects\Table;
-use Yukar\Sql\Builder\Operators\AtCondition\Between;
-use Yukar\Sql\Builder\Operators\AtCondition\Exists;
-use Yukar\Sql\Builder\Operators\AtCondition\Expression;
-use Yukar\Sql\Builder\Operators\AtCondition\In;
-use Yukar\Sql\Builder\Operators\AtCondition\IsNull;
-use Yukar\Sql\Builder\Operators\AtCondition\Like;
-use Yukar\Sql\Builder\Statements\Dml\Select;
-use Yukar\Sql\Builder\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Objects\Conditions;
+use Yukar\Sql\Builder\Common\Objects\Table;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Between;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Exists;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\In;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\IsNull;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Like;
+use Yukar\Sql\Builder\Common\Statements\Dml\Select;
+use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 
 /**
  * クラス Conditions の単体テスト

@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Objects;
+namespace Yukar\Sql\Builder\Common\Objects;
 
 use Yukar\Linq\Collections\ListObject;
 

@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Objects;
+namespace Yukar\Sql\Builder\Common\Objects;
 
 /**
  * SQL識別子を区切り識別子を引用する機能を提供するトレイトです。

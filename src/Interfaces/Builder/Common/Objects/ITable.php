@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Objects;
+namespace Yukar\Sql\Interfaces\Builder\Common\Objects;
 
 /**
  * テーブルを定義するインターフェイス。

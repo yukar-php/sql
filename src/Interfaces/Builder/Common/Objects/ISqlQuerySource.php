@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Objects;
+namespace Yukar\Sql\Interfaces\Builder\Common\Objects;
 
 /**
  * SQLクエリの問い合わせ対象となるデータソースを示すマーカーインターフェイス。

@@ -1,8 +1,8 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Objects;
+namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
-use Yukar\Sql\Builder\Objects\DelimitedIdentifier;
-use Yukar\Sql\Builder\Objects\TQuoteIdentifier;
+use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
+use Yukar\Sql\Builder\Common\Objects\TQuoteIdentifier;
 
 /**
  * トレイト TQuoteIdentifier の単体テスト
