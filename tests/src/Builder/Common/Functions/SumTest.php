@@ -34,6 +34,6 @@ class SumTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $filter): void
     {
-        self::assertSame($expected, (string)(new Sum($column, $filter)));
+        $this->assertSame($expected, (string)(new Sum($column, $filter)));
     }
 }

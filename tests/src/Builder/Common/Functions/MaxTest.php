@@ -32,6 +32,6 @@ class MaxTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column): void
     {
-        self::assertSame($expected, (string)(new Max($column)));
+        $this->assertSame($expected, (string)(new Max($column)));
     }
 }

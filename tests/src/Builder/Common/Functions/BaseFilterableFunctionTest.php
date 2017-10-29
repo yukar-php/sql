@@ -68,7 +68,7 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FILTER)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getFilter());
+        $this->assertSame($expected, $object->getFilter());
     }
 
     /**
@@ -102,6 +102,6 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
         $reflector->setValue($object, $prop_value);
         $object->setFilter($filter);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 }

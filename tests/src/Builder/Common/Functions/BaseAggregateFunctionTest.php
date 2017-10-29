@@ -56,7 +56,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFunctionFormat(): void
     {
-        self::assertSame('%s(%s)', $this->getNewInstance()->getFunctionFormat());
+        $this->assertSame('%s(%s)', $this->getNewInstance()->getFunctionFormat());
     }
 
     /**
@@ -84,7 +84,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getColumn());
+        $this->assertSame($expected, $object->getColumn());
     }
 
     /**
@@ -116,7 +116,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
         $reflector->setValue($object, $prop_value);
         $object->setColumn($column);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**

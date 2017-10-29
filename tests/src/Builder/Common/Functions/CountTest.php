@@ -35,6 +35,6 @@ class CountTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $filter): void
     {
-        self::assertSame($expected, (string)(isset($column) ? new Count($column, $filter) : new Count()));
+        $this->assertSame($expected, (string)(isset($column) ? new Count($column, $filter) : new Count()));
     }
 }
