@@ -6,10 +6,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Functions\IFilterableFunction;
 /**
  * フィルタ可能な関数の基本機能を提供する抽象クラスです。
  *
+ * @package Yukar\Sql\Builder\Common\Functions
  * @author hiroki sugawara
  */
 abstract class BaseFilterableFunction extends BaseAggregateFunction implements IFilterableFunction
 {
+    protected const FILTERS = [
+        self::FILTER_ALL      => 'ALL',
+        self::FILTER_DISTINCT => 'DISTINCT',
+    ];
+
     private $filter = self::FILTER_ALL;
 
     /**
@@ -27,7 +33,7 @@ abstract class BaseFilterableFunction extends BaseAggregateFunction implements I
      *
      * @param int $filter 関数にかけるフィルターの種類
      */
-    public function setFilter(int $filter)
+    public function setFilter(int $filter): void
     {
         $this->filter = array_key_exists($filter, self::FILTERS) ? $filter : self::FILTER_ALL;
     }

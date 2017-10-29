@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Functions;
 /**
  * SQLの関数や計算式を表すインターフェイスです。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Functions
  * @author hiroki sugawara
  */
 interface IFunction

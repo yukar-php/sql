@@ -10,7 +10,7 @@ use Yukar\Sql\Builder\Common\Functions\BaseFilterableFunction;
  */
 class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_FILTER = 'filter';
+    private const PROP_NAME_FILTER = 'filter';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -47,7 +47,7 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetFilter()
+    public function providerGetFilter(): array
     {
         return [
             [ 'ALL', BaseFilterableFunction::FILTER_ALL ],
@@ -63,7 +63,7 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ filter の値
      */
-    public function testGetFilter($expected, $prop_value)
+    public function testGetFilter($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FILTER)->setValue($object, $prop_value);
@@ -76,7 +76,7 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetFilter()
+    public function providerSetFilter(): array
     {
         return [
             [ 1, null, BaseFilterableFunction::FILTER_ALL ],
@@ -95,7 +95,7 @@ class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
      * @param int    $prop_value プロパティ filter の値
      * @param int    $filter     メソッド setFilter の引数 filter に渡す値
      */
-    public function testSetFilter($expected, $prop_value, $filter)
+    public function testSetFilter($expected, $prop_value, $filter): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FILTER);

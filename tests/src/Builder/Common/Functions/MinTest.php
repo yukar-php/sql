@@ -15,7 +15,7 @@ class MinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'MIN(column)', 'column' ],
@@ -30,7 +30,7 @@ class MinTest extends \PHPUnit_Framework_TestCase
      * @param string $expected 期待値
      * @param string $column   コンストラクタの引数 column に渡す値
      */
-    public function testToString($expected, $column)
+    public function testToString($expected, $column): void
     {
         self::assertSame($expected, (string)(new Min($column)));
     }

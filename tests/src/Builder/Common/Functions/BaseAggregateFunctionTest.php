@@ -10,7 +10,7 @@ use Yukar\Sql\Builder\Common\Functions\BaseAggregateFunction;
  */
 class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_COLUMN = 'column';
+    private const PROP_NAME_COLUMN = 'column';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -45,7 +45,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetFunctionFormat()
+    public function testGetFunctionFormat(): void
     {
         self::assertSame('%s(%s)', $this->getNewInstance()->getFunctionFormat());
     }
@@ -55,7 +55,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetColumn()
+    public function providerGetColumn(): array
     {
         return [
             [ 'column', 'column' ],
@@ -70,7 +70,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ column の値
      */
-    public function testGetColumn($expected, $prop_value)
+    public function testGetColumn($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
@@ -83,7 +83,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumn()
+    public function providerSetColumn(): array
     {
         return [
             [ 'column', '', 'column' ],
@@ -100,7 +100,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      * @param int    $prop_value プロパティ column の値
      * @param int    $column     メソッド setColumn の引数 column に渡す値
      */
-    public function testSetColumn($expected, $prop_value, $column)
+    public function testSetColumn($expected, $prop_value, $column): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
@@ -115,7 +115,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumnFailure()
+    public function providerSetColumnFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -132,7 +132,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ column の値
      * @param mixed      $column     メソッド setColumn の引数 column に渡す値
      */
-    public function testSetColumnFailure($expected, $prop_value, $column)
+    public function testSetColumnFailure($expected, $prop_value, $column): void
     {
         $this->expectException($expected);
 

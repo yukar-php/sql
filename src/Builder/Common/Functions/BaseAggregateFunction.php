@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Functions\IAggregateFunction;
 /**
  * 集計関数の基本機能を提供する抽象クラスです。
  *
+ * @package Yukar\Sql\Builder\Common\Functions
  * @author hiroki sugawara
  */
 abstract class BaseAggregateFunction implements IAggregateFunction
@@ -37,7 +38,7 @@ abstract class BaseAggregateFunction implements IAggregateFunction
      *
      * @param string $column 集計関数の対象となる表の列名
      */
-    public function setColumn(string $column)
+    public function setColumn(string $column): void
     {
         if (empty($column) === true) {
             throw new \InvalidArgumentException();

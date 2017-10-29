@@ -15,7 +15,7 @@ class AvgTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'AVG(column)', 'column', Avg::FILTER_ALL ],
@@ -32,7 +32,7 @@ class AvgTest extends \PHPUnit_Framework_TestCase
      * @param string $column   コンストラクタの引数 column に渡す値
      * @param int    $filter   コンストラクタの引数 filter に渡す値
      */
-    public function testToString($expected, $column, $filter)
+    public function testToString($expected, $column, $filter): void
     {
         self::assertSame($expected, (string)(new Avg($column, $filter)));
     }

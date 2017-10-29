@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Functions;
 /**
  * 集計関数を定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Functions
  * @author hiroki sugawara
  */
 interface IAggregateFunction extends IFunction
@@ -20,5 +21,5 @@ interface IAggregateFunction extends IFunction
      *
      * @param string $column 集計関数の対象となる表の列名
      */
-    public function setColumn(string $column);
+    public function setColumn(string $column): void;
 }

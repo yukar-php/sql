@@ -15,7 +15,7 @@ class SumTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'SUM(column)', 'column', Sum::FILTER_ALL ],
@@ -32,7 +32,7 @@ class SumTest extends \PHPUnit_Framework_TestCase
      * @param string $column   コンストラクタの引数 column に渡す値
      * @param int    $filter   コンストラクタの引数 filter に渡す値
      */
-    public function testToString($expected, $column, $filter)
+    public function testToString($expected, $column, $filter): void
     {
         self::assertSame($expected, (string)(new Sum($column, $filter)));
     }
