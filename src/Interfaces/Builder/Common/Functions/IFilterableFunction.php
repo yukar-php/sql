@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Functions;
+namespace Yukar\Sql\Interfaces\Builder\Common\Functions;
 
 /**
  * フィルタ可能な関数を定義するインターフェイス。

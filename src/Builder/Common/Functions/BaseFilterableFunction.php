@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Builder\Functions;
+namespace Yukar\Sql\Builder\Common\Functions;
 
-use Yukar\Sql\Interfaces\Builder\Functions\IFilterableFunction;
+use Yukar\Sql\Interfaces\Builder\Common\Functions\IFilterableFunction;
 
 /**
  * フィルタ可能な関数の基本機能を提供する抽象クラスです。

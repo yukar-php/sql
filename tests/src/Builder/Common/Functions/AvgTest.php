@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\Avg;
+use Yukar\Sql\Builder\Common\Functions\Avg;
 
 /**
  * クラス Avg の単体テスト

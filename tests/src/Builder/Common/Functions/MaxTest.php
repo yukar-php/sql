@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\Max;
+use Yukar\Sql\Builder\Common\Functions\Max;
 
 /**
  * クラス Max の単体テスト

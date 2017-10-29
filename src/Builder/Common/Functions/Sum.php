@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Functions;
+namespace Yukar\Sql\Builder\Common\Functions;
 
 /**
  * SQL の SUM 関数を表します。

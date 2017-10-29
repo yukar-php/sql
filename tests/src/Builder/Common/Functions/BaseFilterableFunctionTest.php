@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\BaseFilterableFunction;
+use Yukar\Sql\Builder\Common\Functions\BaseFilterableFunction;
 
 /**
  * 抽象クラス BaseFilterableFunction の単体テスト

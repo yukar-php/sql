@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\BaseAggregateFunction;
+use Yukar\Sql\Builder\Common\Functions\BaseAggregateFunction;
 
 /**
  * 抽象クラス BaseAggregateFunction の単体テスト

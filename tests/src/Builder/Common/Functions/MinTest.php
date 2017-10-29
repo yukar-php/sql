@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\Min;
+use Yukar\Sql\Builder\Common\Functions\Min;
 
 /**
  * クラス Min の単体テスト

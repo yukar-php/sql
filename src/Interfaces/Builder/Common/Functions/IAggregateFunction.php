@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Interfaces\Builder\Functions;
+namespace Yukar\Sql\Interfaces\Builder\Common\Functions;
 
 /**
  * 集計関数を定義するインターフェイス。

@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\Sum;
+use Yukar\Sql\Builder\Common\Functions\Sum;
 
 /**
  * クラス Sum の単体テスト

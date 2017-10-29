@@ -1,5 +1,5 @@
 <?php
-namespace Yukar\Sql\Builder\Functions;
+namespace Yukar\Sql\Builder\Common\Functions;
 
 /**
  * SQL の MAX 関数を表します。

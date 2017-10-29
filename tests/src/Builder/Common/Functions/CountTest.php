@@ -1,7 +1,7 @@
 <?php
-namespace Yukar\Sql\Tests\Builder\Functions;
+namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
-use Yukar\Sql\Builder\Functions\Count;
+use Yukar\Sql\Builder\Common\Functions\Count;
 
 /**
  * クラス Count の単体テスト
