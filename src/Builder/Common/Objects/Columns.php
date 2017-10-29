@@ -8,8 +8,9 @@ use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
 use Yukar\Sql\Interfaces\Builder\Common\Operators\IOperator;
 
 /**
- * テーブルの列のリストを表します。
+ * SQL で使用するテーブルの列のリストを表します。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class Columns implements IColumns
@@ -48,7 +49,7 @@ class Columns implements IColumns
      * @throws \InvalidArgumentException 引数 $columns が空配列の場合
      * @throws \DomainException          引数 $columns の配列の要素に一つ以上の許容できない型がある場合
      */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): void
     {
         $list = new ListObject($columns);
 

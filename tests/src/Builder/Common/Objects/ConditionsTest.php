@@ -15,12 +15,13 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 /**
  * クラス Conditions の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class ConditionsTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_OPERATOR = 'operator';
-    const PROP_NAME_CONDITIONS = 'conditions';
+    private const PROP_NAME_OPERATOR = 'operator';
+    private const PROP_NAME_CONDITIONS = 'conditions';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -59,10 +60,8 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
     public function providerGetOperation()
     {
         return [
-            [ 'AND', Conditions::OPERATORS[1] ],
-            [ 'AND', Conditions::OPERATORS[Conditions::OPERATION_AND] ],
-            [ 'OR', Conditions::OPERATORS[2] ],
-            [ 'OR', Conditions::OPERATORS[Conditions::OPERATION_OR] ],
+            [ 'AND', 'AND' ],
+            [ 'OR', 'OR' ],
             [ 'AND', null ],
         ];
     }
@@ -80,7 +79,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_OPERATOR)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOperation());
+        $this->assertSame($expected, $object->getOperation());
     }
 
     /**
@@ -114,7 +113,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $property = $this->getProperty($object, self::PROP_NAME_OPERATOR);
         $object->setOperation($prop_value);
 
-        self::assertSame($expected, $property->getValue($object));
+        $this->assertSame($expected, $property->getValue($object));
     }
 
     /**
@@ -144,7 +143,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $conditions);
 
-        self::assertSame($expected, $object->getConditions());
+        $this->assertSame($expected, $object->getConditions());
     }
 
     /**
@@ -182,7 +181,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $reflector->setValue($object, $base_cond);
         $object->addCondition($add_cond);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -260,7 +259,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
         $reflector->setValue($object, $base_cond);
         $object->setConditions($first, $second);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -408,6 +407,6 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $operator, $first, $second)
     {
-        self::assertSame($expected, (string)(new Conditions($operator))->setConditions($first, $second));
+        $this->assertSame($expected, (string)(new Conditions($operator))->setConditions($first, $second));
     }
 }

@@ -21,7 +21,7 @@ interface ICondition
      * @param int $operate_type 論理演算子の種類。
      *                          論理積の場合は、Conditions::OPERATION_ANDを、論理和の場合は、Conditions::OPERATION_OR。
      */
-    public function setOperation(int $operate_type);
+    public function setOperation(int $operate_type): void;
 
     /**
      * 条件式の要素を取得します。

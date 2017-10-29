@@ -9,17 +9,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 /**
  * クラス Table の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class TableTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_TABLE_NAME = 'table_name';
-    const PROP_NAME_COLUMN_LIST = 'column_list';
+    private const PROP_NAME_TABLE_NAME = 'table_name';
+    private const PROP_NAME_COLUMN_LIST = 'column_list';
 
     /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $object = new \ReflectionClass(DelimitedIdentifier::class);
         $property = $object->getProperty('quote_type');
@@ -61,7 +62,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetTableName()
+    public function providerGetTableName(): array
     {
         return [
             [ 'table', 'table' ],
@@ -77,12 +78,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $table_name プロパティ table_name の値
      */
-    public function testGetTableName($expected, $table_name)
+    public function testGetTableName($expected, $table_name): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $table_name);
 
-        self::assertSame($expected, $object->getTableName());
+        $this->assertSame($expected, $object->getTableName());
     }
 
     /**
@@ -90,7 +91,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetTableName()
+    public function providerSetTableName(): array
     {
         return [
             [ 'setTable', null, 'setTable' ],
@@ -107,14 +108,14 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param string $prop_value プロパティ table_name の値
      * @param string $table_name メソッド setTableName の引数 name に渡す値
      */
-    public function testSetTableName($expected, $prop_value, $table_name)
+    public function testSetTableName($expected, $prop_value, $table_name): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TABLE_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setTableName($table_name);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -122,7 +123,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetTableNameFailure()
+    public function providerSetTableNameFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -139,7 +140,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ table_name の値
      * @param mixed      $table_name メソッド setTableName の引数 name に渡す値
      */
-    public function testSetTableNameFailure($expected, $prop_value, $table_name)
+    public function testSetTableNameFailure($expected, $prop_value, $table_name): void
     {
         $this->expectException($expected);
 
@@ -153,7 +154,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDefinedColumns()
+    public function providerGetDefinedColumns(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], [ 'a', 'b', 'c' ] ],
@@ -168,12 +169,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param array $expected   期待値
      * @param array $prop_value プロパティ column_list の値
      */
-    public function testGetDefinedColumns($expected, $prop_value)
+    public function testGetDefinedColumns($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDefinedColumns());
+        $this->assertSame($expected, $object->getDefinedColumns());
     }
 
     /**
@@ -181,7 +182,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDefinedColumnsFailure()
+    public function providerGetDefinedColumnsFailure(): array
     {
         return [
             [ '\BadMethodCallException', [] ],
@@ -197,7 +198,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param \Exception $expected  期待値
      * @param mixed     $prop_value プロパティ column_list の値
      */
-    public function testGetDefinedColumnsFailure($expected, $prop_value)
+    public function testGetDefinedColumnsFailure($expected, $prop_value): void
     {
         $this->expectException($expected);
 
@@ -211,7 +212,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDefinedColumns()
+    public function providerSetDefinedColumns(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], [], new Columns([ 'a', 'b', 'c' ]) ],
@@ -228,14 +229,14 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param array    $prop_value プロパティ column_list の値
      * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
-    public function testSetDefinedColumns($expected, $prop_value, $columns)
+    public function testSetDefinedColumns($expected, $prop_value, $columns): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(get_class($object), $object->setDefinedColumns($columns));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(get_class($object), $object->setDefinedColumns($columns));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -243,7 +244,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDefinedColumnsFailure()
+    public function providerSetDefinedColumnsFailure(): array
     {
         return [
             [ '\InvalidArgumentException', [], new Columns([]) ],
@@ -260,7 +261,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param array      $prop_value プロパティ column_list の値
      * @param IColumns   $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
-    public function testSetDefinedColumnsFailure($expected, $prop_value, $columns)
+    public function testSetDefinedColumnsFailure($expected, $prop_value, $columns): void
     {
         $this->expectException($expected);
 
@@ -274,7 +275,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $columns = new Columns([ 'test1', 'test2' ]);
 
@@ -304,7 +305,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 
-        self::assertSame(
+        $this->assertSame(
             $expected,
             (string)(new Table($table_name, DelimitedIdentifier::get()))->setDefinedColumns($columns)
         );

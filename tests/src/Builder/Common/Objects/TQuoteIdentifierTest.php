@@ -11,16 +11,16 @@ use Yukar\Sql\Builder\Common\Objects\TQuoteIdentifier;
  */
 class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DELIMITED_IDENTIFIER = 'delimited_identifier';
-    const METHOD_NAME_IS_PREPARED_QUOTE = 'isPreparedQuote';
-    const METHOD_NAME_GET_QUOTED_STRING = 'getQuotedString';
-    const METHOD_NAME_GET_QUOTED_LIST = 'getQuotedList';
-    const METHOD_NAME_GET_MULTI_QUOTED_LIST = 'getMultiQuotedList';
+    private const PROP_NAME_DELIMITED_IDENTIFIER = 'delimited_identifier';
+    private const METHOD_NAME_IS_PREPARED_QUOTE = 'isPreparedQuote';
+    private const METHOD_NAME_GET_QUOTED_STRING = 'getQuotedString';
+    private const METHOD_NAME_GET_QUOTED_LIST = 'getQuotedList';
+    private const METHOD_NAME_GET_MULTI_QUOTED_LIST = 'getMultiQuotedList';
 
     /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $object = new \ReflectionClass(DelimitedIdentifier::class);
         $property = $object->getProperty('quote_type');
@@ -93,7 +93,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int $expected   期待値
      * @param int $prop_value メソッド init の引数 quote_type に渡す値
      */
-    public function testGetDelimitedIdentifier($expected, $prop_value)
+    public function testGetDelimitedIdentifier($expected, $prop_value): void
     {
         DelimitedIdentifier::init($prop_value);
 
@@ -102,8 +102,8 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER)
             ->setValue($object, DelimitedIdentifier::get());
 
-        self::assertSame(DelimitedIdentifier::get(), $object->getDelimitedIdentifier());
-        self::assertSame($expected, $object->getDelimitedIdentifier()->getQuoteType());
+        $this->assertSame(DelimitedIdentifier::get(), $object->getDelimitedIdentifier());
+        $this->assertSame($expected, $object->getDelimitedIdentifier()->getQuoteType());
     }
 
     /**
@@ -111,7 +111,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDelimitedIdentifier()
+    public function providerSetDelimitedIdentifier(): array
     {
         return [
             [ DelimitedIdentifier::NONE_QUOTES_TYPE, null, DelimitedIdentifier::NONE_QUOTES_TYPE ],
@@ -131,7 +131,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int $prop_value メソッド init の引数 quote_type に渡す値（初期化に渡す）
      * @param int $set_value  メソッド init の引数 quote_type に渡す値（セッターメソッド直前）
      */
-    public function testSetDelimitedIdentifier($expected, $prop_value, $set_value)
+    public function testSetDelimitedIdentifier($expected, $prop_value, $set_value): void
     {
         DelimitedIdentifier::init($prop_value ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 
@@ -143,8 +143,8 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         DelimitedIdentifier::init($set_value);
         $object->setDelimitedIdentifier(DelimitedIdentifier::get());
 
-        self::assertSame(DelimitedIdentifier::get(), $reflector->getValue($object));
-        self::assertSame($expected, $reflector->getValue($object)->getQuoteType());
+        $this->assertSame(DelimitedIdentifier::get(), $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object)->getQuoteType());
     }
 
     /**
@@ -152,7 +152,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerIsPreparedQuote()
+    public function providerIsPreparedQuote(): array
     {
         return [
             [ false, null ],
@@ -171,7 +171,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param bool $expected        期待値
      * @param int|null $prop_value  メソッド init の引数 quote_type に渡す値（初期化に渡す）
      */
-    public function testIsPreparedQuote($expected, $prop_value)
+    public function testIsPreparedQuote($expected, $prop_value): void
     {
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
@@ -182,7 +182,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
-        self::assertSame($expected, $method_reflector->invoke($object));
+        $this->assertSame($expected, $method_reflector->invoke($object));
     }
 
     /**
@@ -190,7 +190,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetQuotedString()
+    public function providerGetQuotedString(): array
     {
         return [
             [ 'a', null, 'a' ],
@@ -210,7 +210,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int|null $prop_value  メソッド init の引数 quote_type に渡す値（初期化に渡す）
      * @param string $text          メソッド getQuotedString の引数 text に渡す値
      */
-    public function testGetQuotedString($expected, $prop_value, $text)
+    public function testGetQuotedString($expected, $prop_value, $text): void
     {
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
@@ -221,7 +221,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
-        self::assertSame($expected, $method_reflector->invoke($object, $text));
+        $this->assertSame($expected, $method_reflector->invoke($object, $text));
     }
 
     /**
@@ -229,7 +229,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetQuotedList()
+    public function providerGetQuotedList(): array
     {
         $base_list = [ 'a', 'b', 'c' ];
 
@@ -251,7 +251,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int|null $prop_value  メソッド init の引数 quote_type に渡す値（初期化に渡す）
      * @param array $list           メソッド getQuotedList の引数 list に渡す値
      */
-    public function testGetQuotedList($expected, $prop_value, $list)
+    public function testGetQuotedList($expected, $prop_value, $list): void
     {
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
@@ -262,7 +262,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
-        self::assertSame($expected, $method_reflector->invoke($object, $list));
+        $this->assertSame($expected, $method_reflector->invoke($object, $list));
     }
 
     /**
@@ -270,7 +270,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetMultiQuotedList()
+    public function providerGetMultiQuotedList(): array
     {
         $base_list = [ 't.a', 't.b', 't.c' ];
 
@@ -293,7 +293,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param array $list           メソッド getQuotedList の引数 list に渡す値
      * @param string $delimiter     メソッド getQuotedList の引数 line_delimiter に渡す値
      */
-    public function testGetMultiQuotedList($expected, $prop_value, $list, $delimiter)
+    public function testGetMultiQuotedList($expected, $prop_value, $list, $delimiter): void
     {
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
@@ -304,6 +304,6 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
-        self::assertSame($expected, $method_reflector->invoke($object, $list, $delimiter));
+        $this->assertSame($expected, $method_reflector->invoke($object, $list, $delimiter));
     }
 }

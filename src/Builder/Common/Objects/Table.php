@@ -6,8 +6,9 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
 
 /**
- * テーブルを表します。
+ * SQL で使用するテーブルを表します。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class Table implements ITable
@@ -46,7 +47,7 @@ class Table implements ITable
      *
      * @throws \InvalidArgumentException 引数 $columns が空文字列の場合
      */
-    public function setTableName(string $name)
+    public function setTableName(string $name): void
     {
         if (empty($name) === true) {
             throw new \InvalidArgumentException();

@@ -6,12 +6,13 @@ use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
 /**
  * クラス DelimitedIdentifier の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
 {
-    const STATIC_PROP_NAME_INSTANCE = 'instance';
-    const PROP_NAME_QUOTE_TYPE = 'quote_type';
+    private const STATIC_PROP_NAME_INSTANCE = 'instance';
+    private const PROP_NAME_QUOTE_TYPE = 'quote_type';
 
     /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
@@ -89,7 +90,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         list($reflection, $r_instance) = $this->resetProperties();
         DelimitedIdentifier::init();
 
-        self::assertInstanceOf(DelimitedIdentifier::class, $r_instance->getValue($reflection));
+        $this->assertInstanceOf(DelimitedIdentifier::class, $r_instance->getValue($reflection));
     }
 
     /**
@@ -118,7 +119,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $this->resetProperties();
         ($init_flag === true) && DelimitedIdentifier::init();
 
-        self::assertSame($expected, DelimitedIdentifier::isAlreadyInit());
+        $this->assertSame($expected, DelimitedIdentifier::isAlreadyInit());
     }
 
     /**
@@ -129,7 +130,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $this->resetProperties();
         DelimitedIdentifier::init();
 
-        self::assertInstanceOf(DelimitedIdentifier::class, DelimitedIdentifier::get());
+        $this->assertInstanceOf(DelimitedIdentifier::class, DelimitedIdentifier::get());
     }
 
     /**
@@ -172,7 +173,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $object = $this->getNewInstance();
         $this->getProperty($this->getReflection($object), self::PROP_NAME_QUOTE_TYPE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getQuoteType());
+        $this->assertSame($expected, $object->getQuoteType());
     }
 
     /**
@@ -209,7 +210,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $reflector->setValue($object, $prop_value);
         $object->setQuoteType($quote_type);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -246,7 +247,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         /** @var DelimitedIdentifier $object */
         $object = $r_instance->getValue($reflection);
 
-        self::assertSame($expected, $object->getQuotedString($text));
+        $this->assertSame($expected, $object->getQuotedString($text));
     }
 
     /**
@@ -263,7 +264,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $this->resetProperties();
         DelimitedIdentifier::init($quote_type);
 
-        self::assertSame($expected, DelimitedIdentifier::quoted($text));
+        $this->assertSame($expected, DelimitedIdentifier::quoted($text));
     }
 
     /**
@@ -298,7 +299,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         /** @var DelimitedIdentifier $object */
         $object = $r_instance->getValue($reflection);
 
-        self::assertSame($expected, $object->getQuotedList($texts));
+        $this->assertSame($expected, $object->getQuotedList($texts));
     }
 
     /**
@@ -315,7 +316,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         $this->resetProperties();
         DelimitedIdentifier::init($quote_type);
 
-        self::assertSame($expected, DelimitedIdentifier::quotedRange($texts));
+        $this->assertSame($expected, DelimitedIdentifier::quotedRange($texts));
     }
 
     /**
@@ -353,6 +354,6 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
         /** @var DelimitedIdentifier $object */
         $object = $r_instance->getValue($reflection);
 
-        self::assertSame($expected, $object->getMultiQuotedList($texts, $delimiter));
+        $this->assertSame($expected, $object->getMultiQuotedList($texts, $delimiter));
     }
 }

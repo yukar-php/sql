@@ -2,21 +2,22 @@
 namespace Yukar\Sql\Builder\Common\Objects;
 
 /**
- * SQL識別子を区切り識別子を引用する機能を提供するトレイトです。
+ * SQL 識別子を区切り識別子を引用する機能を提供するトレイトです。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 trait TQuoteIdentifier
 {
-    /** @var DelimitedIdentifier|null */
+    /** @var DelimitedIdentifier */
     private $delimited_identifier;
 
     /**
      * SQL識別子を区切り識別子で引用する機能を持つクラスのインスタンスオブジェクトを取得します。
      *
-     * @return null|DelimitedIdentifier SQL識別子を区切り識別子で引用する機能を持つクラスのインスタンスオブジェクト
+     * @return DelimitedIdentifier SQL識別子を区切り識別子で引用する機能を持つクラスのインスタンスオブジェクト
      */
-    public function getDelimitedIdentifier()
+    public function getDelimitedIdentifier(): ?DelimitedIdentifier
     {
         return $this->delimited_identifier;
     }
@@ -26,7 +27,7 @@ trait TQuoteIdentifier
      *
      * @param DelimitedIdentifier $identifier SQL識別子を区切り識別子で引用する機能を持つクラスのインスタンスオブジェクト
      */
-    public function setDelimitedIdentifier(DelimitedIdentifier $identifier)
+    public function setDelimitedIdentifier(DelimitedIdentifier $identifier): void
     {
         $this->delimited_identifier = $identifier;
     }

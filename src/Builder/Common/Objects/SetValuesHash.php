@@ -5,8 +5,9 @@ use Yukar\Linq\Collections\DictionaryObject;
 use Yukar\Linq\Collections\KeyValuePair;
 
 /**
- * SQLクエリの SET 句に使用する表や列の名前とその値のペアを持つ辞書を表します。
+ * SQL クエリの SET 句に使用する表や列の名前とその値のペアを持つ辞書を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class SetValuesHash extends DictionaryObject

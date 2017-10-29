@@ -24,7 +24,7 @@ interface ITable extends IDataSource
      *
      * @throws \InvalidArgumentException 引数 $columns が空文字列の場合
      */
-    public function setTableName(string $name);
+    public function setTableName(string $name): void;
 
     /**
      * テーブルで定義済みの列のリストを取得します。

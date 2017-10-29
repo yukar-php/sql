@@ -5,18 +5,22 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
 
 /**
- * SQLクエリの条件式を定義します。
+ * SQL クエリの条件式を定義します。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class Conditions implements ICondition
 {
     /** 条件式の各項目は「積集合（AND）」であることを示す定数 */
-    const OPERATION_AND = 1;
+    public const OPERATION_AND = 1;
     /** 条件式の各項目は「和集合（OR）」であることを示す定数 */
-    const OPERATION_OR = 2;
+    public const OPERATION_OR = 2;
 
-    const OPERATORS = [ self::OPERATION_AND => 'AND', self::OPERATION_OR => 'OR' ];
+    private const OPERATORS = [
+        self::OPERATION_AND => 'AND',
+        self::OPERATION_OR => 'OR'
+    ];
 
     private $operator = '';
     private $conditions = [];
@@ -48,7 +52,7 @@ class Conditions implements ICondition
      * @param int $operate_type 論理演算子の種類。
      *                          論理積の場合は、Conditions::OPERATION_ANDを、論理和の場合は、Conditions::OPERATION_OR。
      */
-    public function setOperation(int $operate_type)
+    public function setOperation(int $operate_type): void
     {
         $this->operator = self::OPERATORS[$operate_type] ?? self::OPERATORS[self::OPERATION_AND];
     }

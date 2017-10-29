@@ -23,7 +23,7 @@ interface IColumns
      * @throws \InvalidArgumentException 引数 $columns が空配列の場合
      * @throws \DomainException          引数 $columns の配列の要素に一つ以上の許容できない型がある場合
      */
-    public function setColumns(array $columns);
+    public function setColumns(array $columns): void;
 
     /**
      * テーブルの任意の列のリストが文字列の項目だけを持つかどうかを判別します。

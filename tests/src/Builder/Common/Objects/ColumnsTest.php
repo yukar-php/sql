@@ -11,16 +11,17 @@ use Yukar\Sql\Builder\Common\Operators\Order;
 /**
  * クラス Columns の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class ColumnsTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_COLUMN_LIST = 'column_list';
+    private const PROP_NAME_COLUMN_LIST = 'column_list';
 
     /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $object = new \ReflectionClass(DelimitedIdentifier::class);
         $property = $object->getProperty('quote_type');
@@ -62,7 +63,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetColumns()
+    public function providerGetColumns(): array
     {
         $order_obj = new Order('x', Order::DESCENDING);
 
@@ -80,12 +81,12 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param array $expected  期待値
      * @param array $base_list プロパティ column_list の値
      */
-    public function testGetColumns($expected, $base_list)
+    public function testGetColumns($expected, $base_list): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $base_list);
 
-        self::assertSame($expected, $object->getColumns());
+        $this->assertSame($expected, $object->getColumns());
     }
 
     /**
@@ -93,7 +94,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumns()
+    public function providerSetColumns(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], [], [ 'a', 'b', 'c' ] ],
@@ -111,14 +112,14 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param array $prop_value プロパティ column_list の値
      * @param array $set_list   メソッド setColumns の引数 columns に渡す値
      */
-    public function testSetColumns($expected, $prop_value, $set_list)
+    public function testSetColumns($expected, $prop_value, $set_list): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setColumns($set_list);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -126,7 +127,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumnsFailure()
+    public function providerSetColumnsFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, [], [] ],
@@ -146,7 +147,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param array      $prop_value プロパティ column_list の値
      * @param array      $set_list   メソッド setColumns の引数 columns に渡す値
      */
-    public function testSetColumnsFailure($expected, $prop_value, $set_list)
+    public function testSetColumnsFailure($expected, $prop_value, $set_list): void
     {
         $this->expectException($expected);
 
@@ -160,7 +161,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerHasOnlyStringItems()
+    public function providerHasOnlyStringItems(): array
     {
         return [
             [ false, [] ],
@@ -179,12 +180,12 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param bool  $expected   期待値
      * @param array $prop_value プロパティ column_list の値
      */
-    public function testHasOnlyStringItems($expected, $prop_value)
+    public function testHasOnlyStringItems($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->hasOnlyStringItems());
+        $this->assertSame($expected, $object->hasOnlyStringItems());
     }
 
     /**
@@ -192,7 +193,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerHasOnlyOrderByItems()
+    public function providerHasOnlyOrderByItems(): array
     {
         return [
             [ false, [] ],
@@ -211,12 +212,12 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param bool  $expected   期待値
      * @param array $prop_value プロパティ column_list の値
      */
-    public function testHasOnlyOrderByItems($expected, $prop_value)
+    public function testHasOnlyOrderByItems($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->hasOnlyOrderByItems());
+        $this->assertSame($expected, $object->hasOnlyOrderByItems());
     }
 
     /**
@@ -224,7 +225,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $alias_a = new Alias('a', 'alias_a');
         $alias_b = new Alias('b', 'alias_b');
@@ -257,10 +258,10 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      * @param array  $base_list  コンストラクタの引数 columns に渡す値
      * @param int    $quote_type メソッド init の引数 quote_type に渡す値
      */
-    public function testToString($expected, $base_list, $quote_type)
+    public function testToString($expected, $base_list, $quote_type): void
     {
         DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 
-        self::assertSame($expected, (string)new Columns($base_list, DelimitedIdentifier::get()));
+        $this->assertSame($expected, (string)new Columns($base_list, DelimitedIdentifier::get()));
     }
 }

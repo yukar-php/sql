@@ -7,6 +7,7 @@ use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
 /**
  * クラス SetValuesHash の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class SetValuesHashTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +15,7 @@ class SetValuesHashTest extends \PHPUnit_Framework_TestCase
     /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         $object = new \ReflectionClass(DelimitedIdentifier::class);
         $property = $object->getProperty('quote_type');
@@ -27,7 +28,7 @@ class SetValuesHashTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $single = [ 'col1' => 'val1' ];
         $double = [ 'col1' => 'val1', 'col2' => '20' ];
@@ -53,10 +54,10 @@ class SetValuesHashTest extends \PHPUnit_Framework_TestCase
      * @param array  $input      コンストラクタの引数 input に渡す値
      * @param int    $quote_type コンストラクタの引数 identifier に渡す値
      */
-    public function testToString($expected, $input, $quote_type)
+    public function testToString($expected, $input, $quote_type): void
     {
         DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 
-        self::assertSame($expected, (string)new SetValuesHash($input, DelimitedIdentifier::get()));
+        $this->assertSame($expected, (string)new SetValuesHash($input, DelimitedIdentifier::get()));
     }
 }

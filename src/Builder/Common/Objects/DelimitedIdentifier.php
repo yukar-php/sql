@@ -4,22 +4,23 @@ namespace Yukar\Sql\Builder\Common\Objects;
 use Yukar\Linq\Collections\ListObject;
 
 /**
- * SQLの区切り識別子を表します。
+ * SQL の区切り識別子を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class DelimitedIdentifier
 {
     /** 区切り識別子を使用しないことを示す定数 */
-    const NONE_QUOTES_TYPE = -1;
+    public const NONE_QUOTES_TYPE = -1;
     /** ANSI の標準の区切り識別子を使用することを示す定数 */
-    const ANSI_QUOTES_TYPE = 0;
+    public const ANSI_QUOTES_TYPE = 0;
     /** MYSQL の区切り識別子を使用することを示す定数 */
-    const MYSQL_QUOTES_TYPE = 1;
+    public const MYSQL_QUOTES_TYPE = 1;
     /** SQL Server の区切り識別子を使用することを示す定数 */
-    const SQL_SERVER_QUOTES_TYPE = 2;
+    public const SQL_SERVER_QUOTES_TYPE = 2;
 
-    const QUOTES_SET = [
+    private const QUOTES_SET = [
         self::NONE_QUOTES_TYPE => '%s',
         self::ANSI_QUOTES_TYPE => '"%s"',
         self::MYSQL_QUOTES_TYPE => '`%s`',
@@ -43,7 +44,7 @@ class DelimitedIdentifier
      *
      * @param int $quote_type 区切り識別子の種類
      */
-    public static function init(int $quote_type = self::ANSI_QUOTES_TYPE)
+    public static function init(int $quote_type = self::ANSI_QUOTES_TYPE): void
     {
         if (self::$instance instanceof DelimitedIdentifier === false) {
             self::$instance = new DelimitedIdentifier();
@@ -115,7 +116,7 @@ class DelimitedIdentifier
      *
      * @param int $quote_type 使用する区切り識別子の種類
      */
-    public function setQuoteType(int $quote_type)
+    public function setQuoteType(int $quote_type): void
     {
         $this->quote_type = array_key_exists($quote_type, self::QUOTES_SET) ? $quote_type : 0;
     }
