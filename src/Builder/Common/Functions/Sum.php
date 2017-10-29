@@ -4,6 +4,7 @@ namespace Yukar\Sql\Builder\Common\Functions;
 /**
  * SQL の SUM 関数を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class Sum extends BaseFilterableFunction
@@ -18,15 +19,5 @@ class Sum extends BaseFilterableFunction
     {
         $this->setColumn($column);
         $this->setFilter($filter);
-    }
-
-    /**
-     * SQLの関数の名前を取得します。
-     *
-     * @return string SQLの関数の名前
-     */
-    public function getFunctionName(): string
-    {
-        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', Sum::class));
     }
 }

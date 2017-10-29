@@ -14,6 +14,16 @@ abstract class BaseAggregateFunction implements IAggregateFunction
     private $column = '';
 
     /**
+     * SQLの関数の名前を取得します。
+     *
+     * @return string SQLの関数の名前
+     */
+    public function getFunctionName(): string
+    {
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', static::class));
+    }
+
+    /**
      * SQLの関数や計算式の書式を取得します。
      *
      * @return string SQLの関数や計算式の書式

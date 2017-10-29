@@ -45,6 +45,15 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
+    public function testGetFunctionName(): void
+    {
+        $instance = $this->getNewInstance();
+        $this->assertSame(strtoupper(get_class($instance)), $instance->getFunctionName());
+    }
+
+    /**
+     * 正常系テスト
+     */
     public function testGetFunctionFormat(): void
     {
         self::assertSame('%s(%s)', $this->getNewInstance()->getFunctionFormat());
