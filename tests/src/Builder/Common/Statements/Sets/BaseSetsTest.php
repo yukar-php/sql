@@ -10,13 +10,14 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * 抽象クラス BaseSets の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
 class BaseSetsTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_IS_ALL = 'is_all';
-    const PROP_NAME_FIRST_QUERY = 'first_query';
-    const PROP_NAME_SECOND_QUERY = 'second_query';
+    private const PROP_NAME_IS_ALL = 'is_all';
+    private const PROP_NAME_FIRST_QUERY = 'first_query';
+    private const PROP_NAME_SECOND_QUERY = 'second_query';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -53,7 +54,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetIsAll()
+    public function providerGetIsAll(): array
     {
         return [
             [ false, false ],
@@ -69,12 +70,12 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param bool $expected   期待値
      * @param bool $prop_value プロパティ is_all の値
      */
-    public function testGetIsAll($expected, $prop_value)
+    public function testGetIsAll($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_IS_ALL)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getIsAll());
+        $this->assertSame($expected, $object->getIsAll());
     }
 
     /**
@@ -82,7 +83,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetIsAll()
+    public function providerSetIsAll(): array
     {
         return [
             [ false, true, false ],
@@ -99,14 +100,14 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param bool $prop_value プロパティ is_all の値
      * @param bool $is_all     メソッド setIsAll の引数 is_all に渡す値
      */
-    public function testSetIsAll($expected, $prop_value, $is_all)
+    public function testSetIsAll($expected, $prop_value, $is_all): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_IS_ALL);
         $reflector->setValue($object, $prop_value);
         $object->setIsAll($is_all);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -114,7 +115,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetFirstQuery()
+    public function providerGetFirstQuery(): array
     {
         $select = new Select(new From(new Table('table_name')));
 
@@ -131,12 +132,12 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param ISelectQuery $expected   期待値
      * @param ISelectQuery $prop_value プロパティ first_query の値
      */
-    public function testGetFirstQuery($expected, $prop_value)
+    public function testGetFirstQuery($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FIRST_QUERY)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getFirstQuery());
+        $this->assertSame($expected, $object->getFirstQuery());
     }
 
     /**
@@ -144,7 +145,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetFirstQuery()
+    public function providerSetFirstQuery(): array
     {
         $select = new Select(new From(new Table('table_name')));
 
@@ -162,14 +163,14 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param mixed        $prop_value プロパティ first_query の値
      * @param ISelectQuery $query      メソッド setFirstQuery の引数 query に渡す値
      */
-    public function testSetFirstQuery($expected, $prop_value, $query)
+    public function testSetFirstQuery($expected, $prop_value, $query): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FIRST_QUERY);
         $reflector->setValue($object, $prop_value);
         $object->setFirstQuery($query);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -177,7 +178,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetSecondQuery()
+    public function providerGetSecondQuery(): array
     {
         $select = new Select(new From(new Table('table_name')));
 
@@ -194,12 +195,12 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param ISelectQuery $expected   期待値
      * @param ISelectQuery $prop_value プロパティ first_query の値
      */
-    public function testGetSecondQuery($expected, $prop_value)
+    public function testGetSecondQuery($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SECOND_QUERY)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getSecondQuery());
+        $this->assertSame($expected, $object->getSecondQuery());
     }
 
     /**
@@ -207,7 +208,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSecondQuery()
+    public function providerSetSecondQuery(): array
     {
         $select = new Select(new From(new Table('table_name')));
 
@@ -225,13 +226,13 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      * @param mixed        $prop_value プロパティ second_query の値
      * @param ISelectQuery $query      メソッド setSecondQuery の引数 query に渡す値
      */
-    public function testSetSecondQuery($expected, $prop_value, $query)
+    public function testSetSecondQuery($expected, $prop_value, $query): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_SECOND_QUERY);
         $reflector->setValue($object, $prop_value);
         $object->setSecondQuery($query);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 }

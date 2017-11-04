@@ -8,6 +8,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 /**
  * テーブルのデータを除去する削除の問い合わせクエリの機能を提供します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class Delete extends BaseConditionalDMLQuery
@@ -37,7 +38,7 @@ class Delete extends BaseConditionalDMLQuery
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
         if ($sql_query_source instanceof From === false) {
             throw new \InvalidArgumentException();

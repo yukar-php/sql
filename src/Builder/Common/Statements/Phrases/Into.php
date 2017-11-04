@@ -9,6 +9,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリの INTO 句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class Into implements IPhrases, ISqlQuerySource
@@ -53,7 +54,7 @@ class Into implements IPhrases, ISqlQuerySource
      *
      * @param ITable $data_source SQLクエリの対象となる表
      */
-    public function setDataSource(ITable $data_source)
+    public function setDataSource(ITable $data_source): void
     {
         $this->data_source = $data_source;
     }
@@ -61,9 +62,9 @@ class Into implements IPhrases, ISqlQuerySource
     /**
      * SQLクエリの対象となる表の列を取得します。
      *
-     * @return IColumns|null SQLクエリの対象となる表の列
+     * @return IColumns SQLクエリの対象となる表の列
      */
-    public function getColumns()
+    public function getColumns(): ?IColumns
     {
         return $this->columns;
     }
@@ -73,7 +74,7 @@ class Into implements IPhrases, ISqlQuerySource
      *
      * @param IColumns $columns SQLクエリの対象となる表の列
      */
-    public function setColumns(IColumns $columns)
+    public function setColumns(IColumns $columns): void
     {
         if ($columns->hasOnlyStringItems() === false) {
             throw new \InvalidArgumentException();

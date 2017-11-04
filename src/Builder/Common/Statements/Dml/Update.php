@@ -11,6 +11,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IUpdateQuery;
 /**
  * テーブルのデータを書き換える更新の問い合わせクエリの機能を提供します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class Update extends BaseConditionalDMLQuery implements IUpdateQuery
@@ -45,7 +46,7 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
         if ($sql_query_source instanceof ITable === false) {
             throw new \InvalidArgumentException();
@@ -69,7 +70,7 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
      *
      * @param Set $update_sets 更新の問い合わせクエリの対象となる列とその値の組み合わせリスト
      */
-    public function setUpdateSets(Set $update_sets)
+    public function setUpdateSets(Set $update_sets): void
     {
         $this->update_sets = $update_sets;
     }
@@ -93,9 +94,9 @@ class Update extends BaseConditionalDMLQuery implements IUpdateQuery
     /**
      * 更新の問い合わせクエリのデータソースとなる表やサブクエリを取得します。
      *
-     * @return From|null 更新の問い合わせクエリのデータソースとなる表やサブクエリ
+     * @return From 更新の問い合わせクエリのデータソースとなる表やサブクエリ
      */
-    public function getFrom()
+    public function getFrom(): ?From
     {
         return $this->from;
     }

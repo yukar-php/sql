@@ -7,11 +7,12 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
 /**
  * クラス Set の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class SetTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DICTIONARY = 'dictionary';
+    private const PROP_NAME_DICTIONARY = 'dictionary';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -45,9 +46,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('SET %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('SET %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -55,7 +56,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDictionary()
+    public function providerGetDictionary(): array
     {
         $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
 
@@ -72,12 +73,12 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @param SetValuesHash $expected   期待値
      * @param SetValuesHash $prop_value プロパティ dictionary の値
      */
-    public function testGetDictionary($expected, $prop_value)
+    public function testGetDictionary($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DICTIONARY)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDictionary());
+        $this->assertSame($expected, $object->getDictionary());
     }
 
     /**
@@ -85,7 +86,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDictionary()
+    public function providerSetDictionary(): array
     {
         $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
         $dic_2 = new SetValuesHash([ 'col1' => 'val1' ]);
@@ -105,14 +106,14 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @param mixed         $prop_value プロパティ dictionary の値
      * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
-    public function testSetDictionary($expected, $prop_value, $dictionary)
+    public function testSetDictionary($expected, $prop_value, $dictionary): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DICTIONARY);
         $reflector->setValue($object, $prop_value);
         $object->setDictionary($dictionary);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -120,7 +121,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDictionaryFailure()
+    public function providerSetDictionaryFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, new SetValuesHash() ],
@@ -137,7 +138,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @param mixed         $prop_value プロパティ dictionary の値
      * @param SetValuesHash $dictionary メソッド setDictionary の引数 dictionary に渡す値
      */
-    public function testSetDictionaryFailure($expected, $prop_value, $dictionary)
+    public function testSetDictionaryFailure($expected, $prop_value, $dictionary): void
     {
         $this->expectException($expected);
 
@@ -151,7 +152,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $dic_1 = new SetValuesHash([ 'col1' => 'val1', 'col2' => '20' ]);
         $dic_2 = new SetValuesHash([ 'col1' => 'val1' ]);
@@ -170,8 +171,8 @@ class SetTest extends \PHPUnit_Framework_TestCase
      * @param string        $expected   期待値
      * @param SetValuesHash $dictionary コンストラクタの引数 dictionary に渡す値
      */
-    public function testToString($expected, $dictionary)
+    public function testToString($expected, $dictionary): void
     {
-        self::assertSame($expected, (string)new Set($dictionary));
+        $this->assertSame($expected, (string)new Set($dictionary));
     }
 }

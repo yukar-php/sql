@@ -7,6 +7,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IConditionalDMLQuery;
 /**
  * 条件式を付与することができる問い合わせクエリの機能を持つ抽象クラスです。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 abstract class BaseConditionalDMLQuery extends BaseSqlDMLQuery implements IConditionalDMLQuery
@@ -16,9 +17,9 @@ abstract class BaseConditionalDMLQuery extends BaseSqlDMLQuery implements ICondi
     /**
      * 問い合わせクエリの条件式を取得します。
      *
-     * @return ICondition|null 問い合わせクエリの条件式
+     * @return ICondition 問い合わせクエリの条件式
      */
-    public function getWhere()
+    public function getWhere(): ?ICondition
     {
         return $this->where;
     }

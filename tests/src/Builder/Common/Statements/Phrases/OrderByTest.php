@@ -10,11 +10,12 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 /**
  * クラス OrderBy の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class OrderByTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_ORDER_BY_LIST = 'order_by_list';
+    private const PROP_NAME_ORDER_BY_LIST = 'order_by_list';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -48,9 +49,9 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('ORDER BY %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('ORDER BY %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -58,7 +59,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOrderBy()
+    public function providerGetOrderBy(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], new Columns([ 'a', 'b', 'c' ]) ],
@@ -73,12 +74,12 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      * @param array    $expected   期待値
      * @param IColumns $prop_value プロパティ order_by_list の値
      */
-    public function testGetOrderBy($expected, $prop_value)
+    public function testGetOrderBy($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOrderBy()->getColumns());
+        $this->assertSame($expected, $object->getOrderBy()->getColumns());
     }
 
     /**
@@ -86,7 +87,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOrderBy()
+    public function providerSetOrderBy(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], null, new Columns([ 'a', 'b', 'c' ]) ],
@@ -103,14 +104,14 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      * @param mixed     $prop_value プロパティ order_by_list の値
      * @param IColumns $order_by    メソッド setOrderBy の引数 order_by に渡す値
      */
-    public function testSetOrderBy($expected, $prop_value, $order_by)
+    public function testSetOrderBy($expected, $prop_value, $order_by): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setOrderBy($order_by);
 
-        self::assertSame($expected, $reflector->getValue($object)->getColumns());
+        $this->assertSame($expected, $reflector->getValue($object)->getColumns());
     }
 
     /**
@@ -118,7 +119,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOrderByFailure()
+    public function providerSetOrderByFailure(): array
     {
         $valid_columns = new Columns([ 'x', 'y', 'z' ]);
         $empty_columns = new Columns();
@@ -141,7 +142,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ order_by_list の値
      * @param IColumns   $order_by   メソッド setOrderBy の引数 order_by に渡す値
      */
-    public function testSetOrderByFailure($expected, $prop_value, $order_by)
+    public function testSetOrderByFailure($expected, $prop_value, $order_by): void
     {
         $this->expectException($expected);
 
@@ -155,7 +156,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'ORDER BY a', new Columns([ 'a' ]) ],
@@ -188,8 +189,8 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      * @param string   $expected 期待値
      * @param IColumns $order_by コンストラクタの引数 order_by に渡す値
      */
-    public function testToString($expected, $order_by)
+    public function testToString($expected, $order_by): void
     {
-        self::assertSame($expected, (string)new OrderBy($order_by));
+        $this->assertSame($expected, (string)new OrderBy($order_by));
     }
 }

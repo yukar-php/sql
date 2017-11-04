@@ -11,11 +11,12 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
 /**
  * クラス From の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class FromTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DATA_SOURCE = 'data_source';
+    private const PROP_NAME_DATA_SOURCE = 'data_source';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -49,9 +50,9 @@ class FromTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('FROM %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('FROM %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -59,7 +60,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDataSource()
+    public function providerGetDataSource(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
@@ -80,12 +81,12 @@ class FromTest extends \PHPUnit_Framework_TestCase
      * @param string      $expected   期待値
      * @param IDataSource $prop_value プロパティ data_source の値
      */
-    public function testGetDataSource($expected, $prop_value)
+    public function testGetDataSource($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDataSource());
+        $this->assertSame($expected, $object->getDataSource());
     }
 
     /**
@@ -93,7 +94,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDataSource()
+    public function providerSetDataSource(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
@@ -118,14 +119,14 @@ class FromTest extends \PHPUnit_Framework_TestCase
      * @param IDataSource $prop_value  プロパティ data_source の値
      * @param IDataSource $data_source メソッド setDataSource の引数 data_source に渡す値
      */
-    public function testSetDataSource($expected, $prop_value, $data_source)
+    public function testSetDataSource($expected, $prop_value, $data_source): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
         $reflector->setValue($object, $prop_value);
         $object->setDataSource($data_source);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -133,7 +134,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
@@ -154,8 +155,8 @@ class FromTest extends \PHPUnit_Framework_TestCase
      * @param string      $expected    期待値
      * @param IDataSource $data_source コンストラクタの引数 data_source に渡す値
      */
-    public function testToString($expected, $data_source)
+    public function testToString($expected, $data_source): void
     {
-        self::assertSame($expected, (string)new From($data_source));
+        $this->assertSame($expected, (string)new From($data_source));
     }
 }

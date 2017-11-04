@@ -8,20 +8,21 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリの JOIN 句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class Join implements IPhrases
 {
     /** JOIN 句が「内部結合」であることを示す定数 */
-    const INNER_JOIN = 1;
+    public const INNER_JOIN = 1;
     /** JOIN 句が「外部結合（左優先）」であることを示す定数 */
-    const LEFT_JOIN = 2;
+    public const LEFT_JOIN = 2;
     /** JOIN 句が「外部結合（右優先）」であることを示す定数 */
-    const RIGHT_JOIN = 3;
+    public const RIGHT_JOIN = 3;
     /** JOIN 句が「交差結合」であることを示す定数 */
-    const CROSS_JOIN = 4;
+    public const CROSS_JOIN = 4;
 
-    const JOIN_TYPE = [
+    private const JOIN_TYPE = [
         self::INNER_JOIN => 'INNER',
         self::LEFT_JOIN => 'LEFT',
         self::RIGHT_JOIN => 'RIGHT',
@@ -73,7 +74,7 @@ class Join implements IPhrases
      *
      * @throws \InvalidArgumentException 引数 data_source に不適切な型の値を渡した場合
      */
-    public function setDataSource($data_source)
+    public function setDataSource($data_source): void
     {
         if ($this->isAcceptableDataSource($data_source) === false) {
             throw new \InvalidArgumentException();
@@ -97,7 +98,7 @@ class Join implements IPhrases
      *
      * @param int $join_type JOIN 句の種類
      */
-    public function setJoinType(int $join_type)
+    public function setJoinType(int $join_type): void
     {
         $this->join_type = self::JOIN_TYPE[$join_type] ?? self::JOIN_TYPE[self::INNER_JOIN];
     }
@@ -105,9 +106,9 @@ class Join implements IPhrases
     /**
      * HAVING 句の条件を取得します
      *
-     * @return ICondition|null HAVING 句の条件
+     * @return ICondition HAVING 句の条件
      */
-    public function getOnCondition()
+    public function getOnCondition(): ?ICondition
     {
         return $this->on_condition;
     }
@@ -119,7 +120,7 @@ class Join implements IPhrases
      *
      * @throws \InvalidArgumentException 引数 on_condition に渡した条件式の内容が空の場合
      */
-    public function setOnCondition(ICondition $on_condition)
+    public function setOnCondition(ICondition $on_condition): void
     {
         if (empty($on_condition->getConditions()) === true) {
             throw new \InvalidArgumentException();

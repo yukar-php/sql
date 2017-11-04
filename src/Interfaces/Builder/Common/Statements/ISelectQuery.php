@@ -10,19 +10,15 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 /**
  * 検索の問い合わせクエリを定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface ISelectQuery extends IConditionalDMLQuery
 {
     /** 問い合わせクエリのフィルタが「ALL」であることを示す定数 */
-    const FILTER_ALL = 1;
+    public const FILTER_ALL = 1;
     /** 問い合わせクエリのフィルタが「DISTINCT」であることを示す定数 */
-    const FILTER_DISTINCT = 2;
-
-    const FILTERS = [
-        self::FILTER_ALL      => 'ALL',
-        self::FILTER_DISTINCT => 'DISTINCT',
-    ];
+    public const FILTER_DISTINCT = 2;
 
     /**
      * 検索の問い合わせ結果から重複データを取り除くフィルタを取得します。
@@ -59,9 +55,9 @@ interface ISelectQuery extends IConditionalDMLQuery
     /**
      * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
      *
-     * @return Join|null 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     * @return Join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
      */
-    public function getJoin();
+    public function getJoin(): ?Join;
 
     /**
      * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を設定します。
@@ -86,9 +82,9 @@ interface ISelectQuery extends IConditionalDMLQuery
     /**
      * 問い合わせクエリのグループ化に関する表リストや条件式を取得します。
      *
-     * @return GroupBy|null 問い合わせクエリのグループ化に関する表リストや条件式
+     * @return GroupBy 問い合わせクエリのグループ化に関する表リストや条件式
      */
-    public function getGroupBy();
+    public function getGroupBy(): ?GroupBy;
 
     /**
      * 問い合わせクエリのグループ化に関する表リストや条件式を設定します。
@@ -102,9 +98,9 @@ interface ISelectQuery extends IConditionalDMLQuery
     /**
      * 問い合わせクエリの結果のカラムのソート順を取得します。
      *
-     * @return OrderBy|null 問い合わせクエリの結果のカラムのソート順
+     * @return OrderBy 問い合わせクエリの結果のカラムのソート順
      */
-    public function getOrderBy();
+    public function getOrderBy(): ?OrderBy;
 
     /**
      * 問い合わせクエリの結果のカラムのソート順を設定します。

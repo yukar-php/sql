@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
 /**
  * 削除の問い合わせクエリを定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface IInsertQuery

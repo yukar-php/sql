@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * EXCEPT 演算子による差集合を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
 class Except extends BaseSets

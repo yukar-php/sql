@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 /**
  * 集合に関する演算子を定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface ISets
@@ -20,7 +21,7 @@ interface ISets
      *
      * @param bool $is_all 集合の重複を削除しない場合は true。それ以外は false。
      */
-    public function setIsAll(bool $is_all);
+    public function setIsAll(bool $is_all): void;
 
     /**
      * SQLクエリの句の書式文字列を取得します。
@@ -41,7 +42,7 @@ interface ISets
      *
      * @param ISelectQuery $query 集合演算の対象となる一つ目の集合
      */
-    public function setFirstQuery(ISelectQuery $query);
+    public function setFirstQuery(ISelectQuery $query): void;
 
     /**
      * 集合演算の対象となるもう一方の集合を取得します。
@@ -55,7 +56,7 @@ interface ISets
      *
      * @param ISelectQuery $query 集合演算の対象となるもう一方の集合
      */
-    public function setSecondQuery(ISelectQuery $query);
+    public function setSecondQuery(ISelectQuery $query): void;
 
     /**
      * SQLクエリの句を文字列として取得します。

@@ -7,6 +7,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリのOrderBy句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class OrderBy implements IPhrases
@@ -50,7 +51,7 @@ class OrderBy implements IPhrases
      *
      * @throws \InvalidArgumentException OrderBy句に指定するテーブルの任意の列のリストの要素が空の場合
      */
-    public function setOrderBy(IColumns $order_by)
+    public function setOrderBy(IColumns $order_by): void
     {
         if ($order_by->hasOnlyOrderByItems() === false) {
             throw new \InvalidArgumentException();

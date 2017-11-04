@@ -13,13 +13,14 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 /**
  * クラス Join の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class JoinTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DATA_SOURCE = 'data_source';
-    const PROP_NAME_JOIN_TYPE = 'join_type';
-    const PROP_NAME_ON_CONDITION = 'on_condition';
+    private const PROP_NAME_DATA_SOURCE = 'data_source';
+    private const PROP_NAME_JOIN_TYPE = 'join_type';
+    private const PROP_NAME_ON_CONDITION = 'on_condition';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -53,9 +54,9 @@ class JoinTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('%s JOIN %s%s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('%s JOIN %s%s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -63,7 +64,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDataSource()
+    public function providerGetDataSource(): array
     {
         $table_obj = new Table('table_name');
         $alias_obj = new Alias('table_name', 'alias_name');
@@ -87,12 +88,12 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ data_source の値
      */
-    public function testGetDataSource($expected, $prop_value)
+    public function testGetDataSource($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDataSource());
+        $this->assertSame($expected, $object->getDataSource());
     }
 
     /**
@@ -100,7 +101,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDataSource()
+    public function providerSetDataSource(): array
     {
         $table_obj = new Table('table_name');
         $alias_obj = new Alias('table_name', 'alias_name');
@@ -130,14 +131,14 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value   プロパティ data_source の値
      * @param mixed  $table_source メソッド setDataSource の引数 data_source に渡す値
      */
-    public function testSetDataSource($expected, $prop_value, $table_source)
+    public function testSetDataSource($expected, $prop_value, $table_source): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
         $reflector->setValue($object, $prop_value);
         $object->setDataSource($table_source);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -145,7 +146,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDataSourceFailure()
+    public function providerSetDataSourceFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, 0 ],
@@ -168,7 +169,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value   プロパティ data_source の値
      * @param mixed      $table_source メソッド setDataSource の引数 data_source に渡す値
      */
-    public function testSetDataSourceFailure($expected, $prop_value, $table_source)
+    public function testSetDataSourceFailure($expected, $prop_value, $table_source): void
     {
         $this->expectException($expected);
 
@@ -182,13 +183,13 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetJoinType()
+    public function providerGetJoinType(): array
     {
         return [
-            [ 'INNER', Join::JOIN_TYPE[Join::INNER_JOIN] ],
-            [ 'LEFT', Join::JOIN_TYPE[Join::LEFT_JOIN] ],
-            [ 'RIGHT', Join::JOIN_TYPE[Join::RIGHT_JOIN] ],
-            [ 'CROSS', Join::JOIN_TYPE[Join::CROSS_JOIN] ],
+            [ 'INNER', 'INNER' ],
+            [ 'LEFT', 'LEFT' ],
+            [ 'RIGHT', 'RIGHT' ],
+            [ 'CROSS', 'CROSS' ],
         ];
     }
 
@@ -200,12 +201,12 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ join_type の値
      */
-    public function testGetJoinType($expected, $prop_value)
+    public function testGetJoinType($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_JOIN_TYPE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getJoinType());
+        $this->assertSame($expected, $object->getJoinType());
     }
 
     /**
@@ -213,7 +214,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetJoinType()
+    public function providerSetJoinType(): array
     {
         return [
             [ 'INNER', null, Join::INNER_JOIN ],
@@ -240,14 +241,14 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ join_type の値
      * @param int    $join_type  メソッド setJoinType の引数 join_type に渡す値
      */
-    public function testSetJoinType($expected, $prop_value, $join_type)
+    public function testSetJoinType($expected, $prop_value, $join_type): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_JOIN_TYPE);
         $reflector->setValue($object, $prop_value);
         $object->setJoinType($join_type);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -255,7 +256,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOnCondition()
+    public function providerGetOnCondition(): array
     {
         $on_condition = (new Conditions())->setConditions(new Expression('a', 1), new Expression('b', 2));
 
@@ -273,12 +274,12 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expected   期待値
      * @param mixed $prop_value プロパティ on_condition の値
      */
-    public function testGetOnCondition($expected, $prop_value)
+    public function testGetOnCondition($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ON_CONDITION)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOnCondition());
+        $this->assertSame($expected, $object->getOnCondition());
     }
 
     /**
@@ -286,7 +287,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOnCondition()
+    public function providerSetOnCondition(): array
     {
         $base_condition = (new Conditions())->addCondition('x = 1');
         $expression_a = new Expression('a', 1);
@@ -318,14 +319,14 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value   プロパティ on_condition の値
      * @param ICondition $on_condition メソッド setOnCondition の引数 on_condition に渡す値
      */
-    public function testSetOnCondition($expected, $prop_value, $on_condition)
+    public function testSetOnCondition($expected, $prop_value, $on_condition): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ON_CONDITION);
         $reflector->setValue($object, $prop_value);
         $object->setOnCondition($on_condition);
 
-        self::assertSame($expected, $reflector->getValue($object)->getConditions());
+        $this->assertSame($expected, $reflector->getValue($object)->getConditions());
     }
 
     /**
@@ -333,7 +334,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOnConditionFailure()
+    public function providerSetOnConditionFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, new Conditions() ],
@@ -359,7 +360,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value   プロパティ on_condition の値
      * @param ICondition $on_condition メソッド setOnCondition の引数 on_condition に渡す値
      */
-    public function testSetOnConditionFailure($expected, $prop_value, $on_condition)
+    public function testSetOnConditionFailure($expected, $prop_value, $on_condition): void
     {
         $this->expectException($expected);
 
@@ -373,7 +374,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $table_name = new Table('table_name');
         $alias_name = new Alias($table_name, 'a');
@@ -473,8 +474,8 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      * @param int        $join_type    コンストラクタの引数 join_type に渡す値
      * @param ICondition $on_condition コンストラクタの引数 on_condition に渡す値
      */
-    public function testToString($expected, $table_source, $join_type, $on_condition)
+    public function testToString($expected, $table_source, $join_type, $on_condition): void
     {
-        self::assertSame($expected, (string)new Join($table_source, $join_type, $on_condition));
+        $this->assertSame($expected, (string)new Join($table_source, $join_type, $on_condition));
     }
 }

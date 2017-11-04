@@ -10,6 +10,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * テーブルへデータを追加する挿入の問い合わせクエリの機能を提供します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class Insert extends BaseSqlDMLQuery implements IInsertQuery
@@ -43,7 +44,7 @@ class Insert extends BaseSqlDMLQuery implements IInsertQuery
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
         if ($sql_query_source instanceof Into === false) {
             throw new \InvalidArgumentException();
@@ -69,7 +70,7 @@ class Insert extends BaseSqlDMLQuery implements IInsertQuery
      *
      * @throws \InvalidArgumentException 引数 values に許容できない型の値が渡された場合
      */
-    public function setValues($values)
+    public function setValues($values): void
     {
         if ($this->isAcceptableValues($values) === false) {
             throw new \InvalidArgumentException();

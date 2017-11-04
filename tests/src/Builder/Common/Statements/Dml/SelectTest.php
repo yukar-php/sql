@@ -20,15 +20,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 /**
  * クラス Select の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_FILTER_TYPE = 'filter_type';
-    const PROP_NAME_COLUMNS = 'columns';
-    const PROP_NAME_JOIN = 'join';
-    const PROP_NAME_GROUP_BY = 'group_by';
-    const PROP_NAME_ORDER_BY = 'order_by';
+    private const PROP_NAME_FILTER_TYPE = 'filter_type';
+    private const PROP_NAME_COLUMNS = 'columns';
+    private const PROP_NAME_JOIN = 'join';
+    private const PROP_NAME_GROUP_BY = 'group_by';
+    private const PROP_NAME_ORDER_BY = 'order_by';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -62,9 +63,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetQueryFormat()
+    public function testGetQueryFormat(): void
     {
-        self::assertSame('SELECT %s %s %s', $this->getNewInstance()->getQueryFormat());
+        $this->assertSame('SELECT %s %s %s', $this->getNewInstance()->getQueryFormat());
     }
 
     /**
@@ -72,7 +73,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSqlQuerySourceFailure()
+    public function providerSetSqlQuerySourceFailure(): array
     {
         return [
             [ new Table('table_name') ],
@@ -88,7 +89,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testSetSqlQuerySourceFailure($sql_query_source)
+    public function testSetSqlQuerySourceFailure($sql_query_source): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->getNewInstance()->setSqlQuerySource($sql_query_source);
@@ -99,7 +100,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetFilter()
+    public function providerGetFilter(): array
     {
         return [
             [ '', Select::FILTER_ALL ],
@@ -115,12 +116,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param bool $expected   期待値
      * @param bool $prop_value プロパティ filter_type の値
      */
-    public function testGetFilter($expected, $prop_value)
+    public function testGetFilter($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FILTER_TYPE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getFilter());
+        $this->assertSame($expected, $object->getFilter());
     }
 
     /**
@@ -128,7 +129,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetFilter()
+    public function providerSetFilter(): array
     {
         return [
             [ 1, null, Select::FILTER_ALL ],
@@ -145,14 +146,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param bool $prop_value  プロパティ filter_type の値
      * @param int $filter_type  メソッド setFilter の引数 columns に渡す値
      */
-    public function testSetFilter($expected, $prop_value, $filter_type)
+    public function testSetFilter($expected, $prop_value, $filter_type): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FILTER_TYPE);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setFilter($filter_type));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(Select::class, $object->setFilter($filter_type));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -160,7 +161,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetColumns()
+    public function providerGetColumns(): array
     {
         $columns = new Columns([ 'a', 'b', 'c' ]);
 
@@ -177,12 +178,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param IColumns $expected   期待値
      * @param IColumns $prop_value プロパティ columns の値
      */
-    public function testGetColumns($expected, $prop_value)
+    public function testGetColumns($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getColumns());
+        $this->assertSame($expected, $object->getColumns());
     }
 
     /**
@@ -190,7 +191,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumns()
+    public function providerSetColumns(): array
     {
         $normal_columns = new Columns([ 'a', 'b', 'c' ]);
         $no_set_columns = new Columns();
@@ -212,14 +213,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value  プロパティ columns の値
      * @param IColumns $columns  メソッド setColumns の引数 columns に渡す値
      */
-    public function testSetColumns($expected, $prop_value, $columns)
+    public function testSetColumns($expected, $prop_value, $columns): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMNS);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setColumns($columns));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(Select::class, $object->setColumns($columns));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -227,7 +228,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetWhere()
+    public function providerSetWhere(): array
     {
         return [
             [ (new Conditions())->addCondition(new Expression('a', 1)) ],
@@ -241,10 +242,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @param ICondition $condition メソッド setWhere の引数 condition に渡す値
      */
-    public function testSetWhere($condition)
+    public function testSetWhere($condition): void
     {
         // wrapしているsetWhereメソッドの単体テストは別のところで実施済みなので戻り値のチェックだけをする
-        self::assertInstanceOf(Select::class, $this->getNewInstance()->setWhere($condition));
+        $this->assertInstanceOf(Select::class, $this->getNewInstance()->setWhere($condition));
     }
 
     /**
@@ -252,9 +253,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetJoin()
+    public function providerGetJoin(): array
     {
-        $join = (new Join(new Alias(new Table('table_name'), 'b')))->setOnCondition(
+        $join = (new Join(new Alias(new Table('table_name'), 'b')));
+        $join->setOnCondition(
             (new Conditions())->addCondition(new Expression('a.column_1', 'b.column_1'))
         );
 
@@ -271,12 +273,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param Join $expected   期待値
      * @param Join $prop_value プロパティ join の値
      */
-    public function testGetJoin($expected, $prop_value)
+    public function testGetJoin($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_JOIN)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getJoin());
+        $this->assertSame($expected, $object->getJoin());
     }
 
     /**
@@ -284,7 +286,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetJoin()
+    public function providerSetJoin(): array
     {
         $join_table = new Join(
             new Alias(new Table('table_name'), 'b'),
@@ -314,14 +316,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value プロパティ join の値
      * @param JOIN $join        メソッド setJoin の引数 join に渡す値
      */
-    public function testSetJoin($expected, $prop_value, $join)
+    public function testSetJoin($expected, $prop_value, $join): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_JOIN);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setJoin($join));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(Select::class, $object->setJoin($join));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -329,7 +331,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetGroupBy()
+    public function providerGetGroupBy(): array
     {
         $group_by = new GroupBy(
             new Columns([ 'a', 'b', 'c' ]),
@@ -349,12 +351,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param GroupBy $expected   期待値
      * @param GroupBy $prop_value プロパティ group_by の値
      */
-    public function testGetGroupBy($expected, $prop_value)
+    public function testGetGroupBy($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_GROUP_BY)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getGroupBy());
+        $this->assertSame($expected, $object->getGroupBy());
     }
 
     /**
@@ -362,7 +364,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetGroupBy()
+    public function providerSetGroupBy(): array
     {
         $group_by_a = new GroupBy(new Columns([ 'x', 'y' ]));
         $group_by_b = new GroupBy(
@@ -387,14 +389,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value プロパティ group_by の値
      * @param GroupBy $group_by メソッド setGroupBy の引数 group_by に渡す値
      */
-    public function testSetGroupBy($expected, $prop_value, $group_by)
+    public function testSetGroupBy($expected, $prop_value, $group_by): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setGroupBy($group_by));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(Select::class, $object->setGroupBy($group_by));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -402,7 +404,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOrderBy()
+    public function providerGetOrderBy(): array
     {
         $order_by = new OrderBy(new Columns([ new Order('a', Order::DESCENDING) ]));
 
@@ -419,12 +421,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param OrderBy $expected   期待値
      * @param OrderBy $prop_value プロパティ order_by の値
      */
-    public function testGetOrderBy($expected, $prop_value)
+    public function testGetOrderBy($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOrderBy());
+        $this->assertSame($expected, $object->getOrderBy());
     }
 
     /**
@@ -432,7 +434,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOrderBy()
+    public function providerSetOrderBy(): array
     {
         $order_by_a = new OrderBy(new Columns([ new Order('a') ]));
         $order_by_b = new OrderBy(new Columns([ new Order('b', Order::DESCENDING) ]));
@@ -454,14 +456,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value プロパティ order_by の値
      * @param OrderBy $order_by メソッド setOrderBy の引数 order_by に渡す値
      */
-    public function testSetOrderBy($expected, $prop_value, $order_by)
+    public function testSetOrderBy($expected, $prop_value, $order_by): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_BY);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(Select::class, $object->setOrderBy($order_by));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(Select::class, $object->setOrderBy($order_by));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -469,7 +471,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $from_origin = new From(new Table('table_name'));
         $from_alias_a = new From(new Alias(new Table('table_a'), 'a'));
@@ -699,7 +701,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $order_by      メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
      * @param mixed  $filter_type   メソッド setFilter の引数 filter_type に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $filter_type)
+    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $filter_type): void
     {
         $select = new Select($from, $columns);
         isset($filter_type) && $select->setFilter($filter_type);
@@ -708,6 +710,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         isset($group_by) && $select->setGroupBy($group_by);
         isset($order_by) && $select->setOrderBy($order_by);
 
-        self::assertSame($expected, (string)$select);
+        $this->assertSame($expected, (string)$select);
     }
 }

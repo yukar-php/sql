@@ -10,6 +10,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * クラス Except の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
 class ExceptTest extends \PHPUnit_Framework_TestCase
@@ -19,7 +20,7 @@ class ExceptTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $first_query = new Select(new From(new Table('first_table')));
         $second_query = new Select(new From(new Table('second_table')));
@@ -38,8 +39,8 @@ class ExceptTest extends \PHPUnit_Framework_TestCase
      * @param ISelectQuery $first_query  コンストラクタの引数 first_query に渡す値
      * @param ISelectQuery $second_query コンストラクタの引数 second_query に渡す値
      */
-    public function testToString($expected, $first_query, $second_query)
+    public function testToString($expected, $first_query, $second_query): void
     {
-        self::assertSame($expected, (string)(new Except($first_query, $second_query)));
+        $this->assertSame($expected, (string)(new Except($first_query, $second_query)));
     }
 }

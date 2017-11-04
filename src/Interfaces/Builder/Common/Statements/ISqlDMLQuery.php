@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 /**
  * SQLのデータ操作言語の問い合わせクエリを定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface ISqlDMLQuery
@@ -29,7 +30,7 @@ interface ISqlDMLQuery
      *
      * @param ISqlQuerySource $data_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $data_source);
+    public function setSqlQuerySource(ISqlQuerySource $data_source): void;
 
     /**
      * SQLのデータ操作言語の問い合わせクエリを文字列として取得します。

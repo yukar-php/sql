@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * UNION 演算子による和集合を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
 class Union extends BaseSets

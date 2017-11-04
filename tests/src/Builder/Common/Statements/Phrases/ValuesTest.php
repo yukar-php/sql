@@ -6,11 +6,12 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
 /**
  * クラス Values の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class ValuesTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_VALUES = 'values';
+    private const PROP_NAME_VALUES = 'values';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -44,9 +45,9 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('VALUES (%s)', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('VALUES (%s)', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -54,7 +55,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetValues()
+    public function providerGetValues(): array
     {
         return [
             [ [ [ 'a', 'b', 'c' ] ], [ [ 'a', 'b', 'c' ] ] ],
@@ -70,12 +71,12 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      * @param array $expected   期待値
      * @param array $prop_value プロパティ values の値
      */
-    public function testGetValues($expected, $prop_value)
+    public function testGetValues($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUES)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getValues());
+        $this->assertSame($expected, $object->getValues());
     }
 
     /**
@@ -83,7 +84,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValues()
+    public function providerSetValues(): array
     {
         $array_obj_1 = new \ArrayObject([ [ 'a', 'b', 'c' ] ]);
         $array_obj_2 = new \ArrayObject([ [ 'x', 'y', 'z' ] ]);
@@ -101,18 +102,18 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerSetValues
      *
-     * @param array              $expected   期待値
-     * @param mixed              $prop_value プロパティ values の値
-     * @param array|\Traversable $values     メソッド setValues の引数 values に渡す値
+     * @param array    $expected   期待値
+     * @param mixed    $prop_value プロパティ values の値
+     * @param iterable $values     メソッド setValues の引数 values に渡す値
      */
-    public function testSetValues($expected, $prop_value, $values)
+    public function testSetValues($expected, $prop_value, $values): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUES);
         $reflector->setValue($object, $prop_value);
         $object->setValues($values);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -120,32 +121,32 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValuesFailure()
+    public function providerSetValuesFailure(): array
     {
         return [
             // 初回設定時
-            [ \InvalidArgumentException::class, null, null ],
-            [ \InvalidArgumentException::class, null, 0 ],
-            [ \InvalidArgumentException::class, null, 100 ],
-            [ \InvalidArgumentException::class, null, 0.1 ],
-            [ \InvalidArgumentException::class, null, true ],
-            [ \InvalidArgumentException::class, null, '' ],
-            [ \InvalidArgumentException::class, null, '2' ],
-            [ \InvalidArgumentException::class, null, 'abc' ],
+            [ \TypeError::class, null, null ],
+            [ \TypeError::class, null, 0 ],
+            [ \TypeError::class, null, 100 ],
+            [ \TypeError::class, null, 0.1 ],
+            [ \TypeError::class, null, true ],
+            [ \TypeError::class, null, '' ],
+            [ \TypeError::class, null, '2' ],
+            [ \TypeError::class, null, 'abc' ],
             [ \InvalidArgumentException::class, null, [] ],
             [ \InvalidArgumentException::class, null, new \ArrayObject() ],
-            [ \InvalidArgumentException::class, null, new \stdClass() ],
+            [ \TypeError::class, null, new \stdClass() ],
             // 二回目以降の設定時
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], null ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], 1 ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], 1.2 ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], false ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], '' ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], '3' ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], 'xyz' ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], null ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], 1 ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], 1.2 ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], false ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], '' ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], '3' ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], 'xyz' ],
             [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], [] ],
             [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], new \ArrayObject() ],
-            [ \InvalidArgumentException::class, [ [ 'a', 'b' ] ], new \stdClass() ],
+            [ \TypeError::class, [ [ 'a', 'b' ] ], new \stdClass() ],
         ];
     }
 
@@ -158,7 +159,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ values の値
      * @param mixed      $values     メソッド setValues の引数 values に渡す値
      */
-    public function testSetValuesFailure($expected, $prop_value, $values)
+    public function testSetValuesFailure($expected, $prop_value, $values): void
     {
         $this->expectException($expected);
 
@@ -172,7 +173,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ "VALUES ('a', 'b', 'c')", [ [ 'a', 'b', 'c' ] ] ],
@@ -205,11 +206,11 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string             $expected 期待値
-     * @param array|\Traversable $values   コンストラクタ values に渡す値
+     * @param string   $expected 期待値
+     * @param iterable $values   コンストラクタ values に渡す値
      */
-    public function testToString($expected, $values)
+    public function testToString($expected, $values): void
     {
-        self::assertSame($expected, (string)new Values($values));
+        $this->assertSame($expected, (string)new Values($values));
     }
 }

@@ -7,6 +7,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリの VALUES 句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class Values implements IPhrases
@@ -16,9 +17,9 @@ class Values implements IPhrases
     /**
      * Values クラスの新しいインスタンスを初期化します。
      *
-     * @param array|\Traversable $values SQLクエリの対象となる値のリスト
+     * @param iterable $values SQLクエリの対象となる値のリスト
      */
-    public function __construct($values)
+    public function __construct(iterable $values)
     {
         $this->setValues($values);
     }
@@ -46,13 +47,13 @@ class Values implements IPhrases
     /**
      * SQLクエリの対象となる値のリストを設定します。
      *
-     * @param array|\Traversable $values SQLクエリの対象となる値のリスト
+     * @param iterable $values SQLクエリの対象となる値のリスト
      *
-     * @throws \InvalidArgumentException 引数 values に許容できない型の値を渡した場合
+     * @throws \InvalidArgumentException 引数 values に要素の数が0のiterable型の値を渡した場合
      */
-    public function setValues($values)
+    public function setValues(iterable $values): void
     {
-        if ($this->isAcceptableValues($values) === false) {
+        if (count($values) < 1) {
             throw new \InvalidArgumentException();
         }
 
@@ -90,11 +91,11 @@ class Values implements IPhrases
     /**
      * クラス ListObject のオブジェクトインスタンスを取得します。
      *
-     * @param array|\Traversable $values 初期化時に保持するリスト
+     * @param iterable $values 初期化時に保持するリスト
      *
      * @return ListObject クラス ListObject のオブジェクトインスタンス
      */
-    private function getListObject($values)
+    private function getListObject(iterable $values): ListObject
     {
         return new ListObject($this->toArray($values));
     }
@@ -102,45 +103,12 @@ class Values implements IPhrases
     /**
      * リストを配列に変換したものを取得します。配列の場合は、その配列をそのまま返します。
      *
-     * @param array|\Traversable $values 変換するリスト
+     * @param iterable $values 変換するリスト
      *
      * @return array リストを変換した配列
      */
-    private function toArray($values): array
+    private function toArray(iterable $values): array
     {
         return ($values instanceof \Traversable) ? iterator_to_array($values) : $values;
-    }
-
-    /**
-     * クエリの対象となる値のリストに含めることができる値かどうかを判別します。
-     *
-     * @param mixed $values 判別対象となる値
-     *
-     * @return bool クエリの対象となる値のリストに含めることができる場合は true。それ以外の場合は false。
-     */
-    private function isAcceptableValues($values): bool
-    {
-        if ($this->isIterable($values) === true) {
-            $list = $this->getListObject($values);
-            $all_matched = function ($v) {
-                return (is_string($v) === true || $this->isIterable($v) === true);
-            };
-
-            return ($list->getSize() > 0 && $list->trueForAll($all_matched));
-        }
-
-        return false;
-    }
-
-    /**
-     * 反復可能な型の値であるかどうかを判別します。
-     *
-     * @param mixed $value 判別対象となる値
-     *
-     * @return bool 反復可能な型の値である場合は true。それ以外の場合は false。
-     */
-    private function isIterable($value): bool
-    {
-        return (is_array($value) === true || $value instanceof \Traversable === true);
     }
 }

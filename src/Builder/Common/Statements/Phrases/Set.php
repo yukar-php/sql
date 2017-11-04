@@ -7,6 +7,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリの SET 句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class Set implements IPhrases
@@ -48,7 +49,7 @@ class Set implements IPhrases
      *
      * @param SetValuesHash $dictionary SET 句の対象となる表の列名とその値の辞書
      */
-    public function setDictionary(SetValuesHash $dictionary)
+    public function setDictionary(SetValuesHash $dictionary): void
     {
         if ($dictionary->getSize() === 0) {
             throw new \InvalidArgumentException();

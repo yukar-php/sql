@@ -14,10 +14,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * テーブルからデータを抽出する検索の問い合わせクエリの機能を提供します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
+    private const FILTERS = [
+        self::FILTER_ALL      => 'ALL',
+        self::FILTER_DISTINCT => 'DISTINCT',
+    ];
+
     private $filter_type = self::FILTER_ALL;
     private $columns;
     private $join;
@@ -51,7 +57,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
         if ($sql_query_source instanceof From === false) {
             throw new \InvalidArgumentException();
@@ -111,9 +117,9 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     /**
      * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
      *
-     * @return Join|null 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     * @return Join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
      */
-    public function getJoin()
+    public function getJoin(): ?Join
     {
         return $this->join;
     }
@@ -151,9 +157,9 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     /**
      * 問い合わせクエリのグループ化に関する表リストや条件式を取得します。
      *
-     * @return GroupBy|null 問い合わせクエリのグループ化に関する表リストや条件式
+     * @return GroupBy 問い合わせクエリのグループ化に関する表リストや条件式
      */
-    public function getGroupBy()
+    public function getGroupBy(): ?GroupBy
     {
         return $this->group_by;
     }
@@ -175,9 +181,9 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     /**
      * 問い合わせクエリの結果のカラムのソート順を取得します。
      *
-     * @return OrderBy|null 問い合わせクエリの結果のカラムのソート順
+     * @return OrderBy 問い合わせクエリの結果のカラムのソート順
      */
-    public function getOrderBy()
+    public function getOrderBy(): ?OrderBy
     {
         return $this->order_by;
     }

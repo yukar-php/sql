@@ -7,6 +7,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISqlDMLQuery;
 /**
  * データ操作言語の問い合わせクエリの基本機能を実装する抽象クラスです。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 abstract class BaseSqlDMLQuery implements ISqlDMLQuery
@@ -28,7 +29,7 @@ abstract class BaseSqlDMLQuery implements ISqlDMLQuery
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
      */
-    public function setSqlQuerySource(ISqlQuerySource $sql_query_source)
+    public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
         $this->sql_query_source = $sql_query_source;
     }

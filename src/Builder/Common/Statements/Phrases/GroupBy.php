@@ -8,6 +8,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリのGroupBy句とHaving句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class GroupBy implements IPhrases
@@ -54,7 +55,7 @@ class GroupBy implements IPhrases
      *
      * @throws \InvalidArgumentException GroupBy句に指定するテーブルの任意の列のリストの要素が空の場合
      */
-    public function setGroupBy(IColumns $group_by)
+    public function setGroupBy(IColumns $group_by): void
     {
         if ($group_by->hasOnlyStringItems() === false) {
             throw new \InvalidArgumentException();
@@ -66,9 +67,9 @@ class GroupBy implements IPhrases
     /**
      * Having句に指定する条件のリストを取得します。
      *
-     * @return mixed Having句に指定する条件のリスト。未設定の場合は null。
+     * @return ICondition Having句に指定する条件のリスト。未設定の場合は null。
      */
-    public function getHaving()
+    public function getHaving(): ?ICondition
     {
         return $this->having_cond;
     }

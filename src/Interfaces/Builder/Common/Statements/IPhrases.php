@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 /**
  * SQLクエリの句を定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface IPhrases

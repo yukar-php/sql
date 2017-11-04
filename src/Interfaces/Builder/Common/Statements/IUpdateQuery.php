@@ -8,6 +8,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 /**
  * 更新の問い合わせクエリを定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Statements
  * @author hiroki sugawara
  */
 interface IUpdateQuery extends IConditionalDMLQuery
@@ -24,7 +25,7 @@ interface IUpdateQuery extends IConditionalDMLQuery
      *
      * @param Set $update_sets 更新の問い合わせクエリの対象となる列とその値の組み合わせリスト
      */
-    public function setUpdateSets(Set $update_sets);
+    public function setUpdateSets(Set $update_sets): void;
 
     /**
      * 問い合わせクエリの条件式を設定します。
@@ -40,9 +41,9 @@ interface IUpdateQuery extends IConditionalDMLQuery
     /**
      * 更新の問い合わせクエリのデータソースとなる表やサブクエリを取得します。
      *
-     * @return From|null 更新の問い合わせクエリのデータソースとなる表やサブクエリ
+     * @return From 更新の問い合わせクエリのデータソースとなる表やサブクエリ
      */
-    public function getFrom();
+    public function getFrom(): ?From;
 
     /**
      * 更新の問い合わせクエリのデータソースとなる表やサブクエリを設定します。

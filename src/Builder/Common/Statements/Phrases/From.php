@@ -8,6 +8,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 /**
  * SQLクエリの FROM 句を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class From implements IPhrases, ISqlQuerySource
@@ -49,7 +50,7 @@ class From implements IPhrases, ISqlQuerySource
      *
      * @param IDataSource $data_source SQLクエリの対象となる表やサブクエリ
      */
-    public function setDataSource(IDataSource $data_source)
+    public function setDataSource(IDataSource $data_source): void
     {
         $this->data_source = $data_source;
     }

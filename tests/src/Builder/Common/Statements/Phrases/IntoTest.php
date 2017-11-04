@@ -12,12 +12,13 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
 /**
  * クラス Into の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class IntoTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_DATA_SOURCE = 'data_source';
-    const PROP_NAME_COLUMNS = 'columns';
+    private const PROP_NAME_DATA_SOURCE = 'data_source';
+    private const PROP_NAME_COLUMNS = 'columns';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -51,9 +52,9 @@ class IntoTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('INTO %s %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('INTO %s %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -61,7 +62,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDataSource()
+    public function providerGetDataSource(): array
     {
         $table_name = new Table('table_name');
 
@@ -78,12 +79,12 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param ITable $expected   期待値
      * @param ITable $prop_value プロパティ data_source の値
      */
-    public function testGetDataSource($expected, $prop_value)
+    public function testGetDataSource($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getDataSource());
+        $this->assertSame($expected, $object->getDataSource());
     }
 
     /**
@@ -91,7 +92,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetDataSource()
+    public function providerSetDataSource(): array
     {
         $table_name_a = new Table('table_name_a');
         $table_name_b = new Table('table_name_b');
@@ -111,14 +112,14 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value  プロパティ data_source の値
      * @param ITable $data_source メソッド setDataSource の引数 data_source に渡す値
      */
-    public function testSetDataSource($expected, $prop_value, $data_source)
+    public function testSetDataSource($expected, $prop_value, $data_source): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
         $reflector->setValue($object, $prop_value);
         $object->setDataSource($data_source);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -126,7 +127,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetColumns()
+    public function providerGetColumns(): array
     {
         $columns = new Columns([ 'a', 'b', 'c' ]);
 
@@ -144,12 +145,12 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param IColumns|null $expected   期待値
      * @param IColumns|null $prop_value プロパティ columns の値
      */
-    public function testGetColumns($expected, $prop_value)
+    public function testGetColumns($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getColumns());
+        $this->assertSame($expected, $object->getColumns());
     }
 
     /**
@@ -157,7 +158,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumns()
+    public function providerSetColumns(): array
     {
         $columns = new Columns([ 'a', 'b', 'c' ]);
 
@@ -175,14 +176,14 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param mixed         $prop_value プロパティ columns の値
      * @param IColumns|null $columns    メソッド setColumns の引数 columns に渡す値
      */
-    public function testSetColumns($expected, $prop_value, $columns)
+    public function testSetColumns($expected, $prop_value, $columns): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMNS);
         $reflector->setValue($object, $prop_value);
         $object->setColumns($columns);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -190,7 +191,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumnsFailure()
+    public function providerSetColumnsFailure(): array
     {
         $valid_columns = new Columns([ 'x', 'y', 'z' ]);
         $empty_columns = new Columns();
@@ -216,7 +217,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param mixed         $prop_value プロパティ columns の値
      * @param IColumns|null $columns    メソッド setColumns の引数 columns に渡す値
      */
-    public function testSetColumnsFailure($expected, $prop_value, $columns)
+    public function testSetColumnsFailure($expected, $prop_value, $columns): void
     {
         $this->expectException($expected);
 
@@ -230,7 +231,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $table_name = new Table('table_name');
         $columns = new Columns([ 'a', 'b', 'c' ]);
@@ -250,8 +251,8 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      * @param ITable   $data_source コンストラクタ data_source に渡す値
      * @param IColumns $columns     コンストラクタ columns に渡す値
      */
-    public function testToString($expected, $data_source, $columns)
+    public function testToString($expected, $data_source, $columns): void
     {
-        self::assertSame($expected, (string)new Into($data_source, $columns));
+        $this->assertSame($expected, (string)new Into($data_source, $columns));
     }
 }

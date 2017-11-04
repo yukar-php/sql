@@ -15,11 +15,12 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * クラス Insert の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class InsertTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_VALUES = 'values';
+    private const PROP_NAME_VALUES = 'values';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -53,9 +54,9 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetQueryFormat()
+    public function testGetQueryFormat(): void
     {
-        self::assertSame('INSERT %s %s', $this->getNewInstance()->getQueryFormat());
+        $this->assertSame('INSERT %s %s', $this->getNewInstance()->getQueryFormat());
     }
 
     /**
@@ -63,7 +64,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSqlQuerySourceFailure()
+    public function providerSetSqlQuerySourceFailure(): array
     {
         return [
             [ new Table('table_name') ],
@@ -79,7 +80,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testSetSqlQuerySourceFailure($sql_query_source)
+    public function testSetSqlQuerySourceFailure($sql_query_source): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->getNewInstance()->setSqlQuerySource($sql_query_source);
@@ -90,7 +91,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetValues()
+    public function providerGetValues(): array
     {
         $values = new Values([ [ 1, 2, 3 ], [ 4, 5, 6 ] ]);
         $select = new Select(new From(new Table('table_name')));
@@ -109,12 +110,12 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      * @param Values|ISelectQuery $expected   期待値
      * @param Values|ISelectQuery $prop_value プロパティ values の値
      */
-    public function testGetValues($expected, $prop_value)
+    public function testGetValues($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUES)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getValues());
+        $this->assertSame($expected, $object->getValues());
     }
 
     /**
@@ -122,7 +123,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValues()
+    public function providerSetValues(): array
     {
         $values = new Values([ [ 1, 2, 3 ], [ 4, 5, 6 ] ]);
         $select = new Select(new From(new Table('table_name')));
@@ -144,14 +145,14 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value             プロパティ values の値
      * @param Values|ISelectQuery $values   メソッド setValues の引数 values に渡す値
      */
-    public function testSetValues($expected, $prop_value, $values)
+    public function testSetValues($expected, $prop_value, $values): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUES);
         $reflector->setValue($object, $prop_value);
         $object->setValues($values);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -159,7 +160,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValuesFailure()
+    public function providerSetValuesFailure(): array
     {
         $values = new Values([ [ 1, 2, 3 ], [ 4, 5, 6 ] ]);
 
@@ -196,7 +197,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      * @param mixed $prop_value    プロパティ values の値
      * @param mixed $values        メソッド setValues の引数 values に渡す値
      */
-    public function testSetValuesFailure($expected, $prop_value, $values)
+    public function testSetValuesFailure($expected, $prop_value, $values): void
     {
         $this->expectException($expected);
 
@@ -211,7 +212,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $into_table_name = new Into(new Table('table_name'));
         $into_table_columns = new Into(new Table('table_name'), new Columns([ 'a', 'b', 'c' ]));
@@ -234,8 +235,8 @@ class InsertTest extends \PHPUnit_Framework_TestCase
      * @param Into $into                  コンストラクタの引数 into に渡す値
      * @param Values|ISelectQuery $values コンストラクタの引数 values に渡す値
      */
-    public function testToString($expected, $into, $values)
+    public function testToString($expected, $into, $values): void
     {
-        self::assertSame($expected, (string)new Insert($into, $values));
+        $this->assertSame($expected, (string)new Insert($into, $values));
     }
 }

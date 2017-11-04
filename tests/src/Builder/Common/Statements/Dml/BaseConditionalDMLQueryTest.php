@@ -9,13 +9,14 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 /**
  * 抽象クラス BaseConditionalDMLQuery の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_WHERE = 'where';
-    const METHOD_NAME_SET_WHERE_CONDITION = 'setWhereCondition';
-    const METHOD_NAME_GET_WHERE_STRING = 'getWhereString';
+    private const PROP_NAME_WHERE = 'where';
+    private const METHOD_NAME_SET_WHERE_CONDITION = 'setWhereCondition';
+    private const METHOD_NAME_GET_WHERE_STRING = 'getWhereString';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -68,7 +69,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetWhere()
+    public function providerGetWhere(): array
     {
         $one_condition = (new Conditions())->addCondition(new Expression('a', 1));
         $two_condition = (new Conditions())->addCondition(new Expression('a', 1))->addCondition(new Expression('b', 1));
@@ -89,12 +90,12 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param ICondition $expected   期待値
      * @param ICondition $prop_value プロパティ where の値
      */
-    public function testGetWhere($expected, $prop_value)
+    public function testGetWhere($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getWhere());
+        $this->assertSame($expected, $object->getWhere());
     }
 
     /**
@@ -102,7 +103,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetWhereCondition()
+    public function providerSetWhereCondition(): array
     {
         $one_condition = (new Conditions())->addCondition(new Expression('a', 1));
         $two_condition = (new Conditions())->addCondition(new Expression('a', 1))->addCondition(new Expression('b', 1));
@@ -127,7 +128,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param ICondition $prop_value プロパティ where の値
      * @param ICondition $where      メソッド setWhere の引数 condition に渡す値
      */
-    public function testSetWhereCondition($expected, $prop_value, $where)
+    public function testSetWhereCondition($expected, $prop_value, $where): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_WHERE);
@@ -135,7 +136,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
         $method = $this->getMethod($object, self::METHOD_NAME_SET_WHERE_CONDITION);
         $method->invoke($object, $where);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -143,7 +144,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetWhereConditionFailure()
+    public function providerSetWhereConditionFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, new Conditions() ],
@@ -159,7 +160,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param ICondition $prop_value プロパティ where の値
      * @param ICondition $where      メソッド setWhere の引数 condition に渡す値
      */
-    public function testSetWhereConditionFailure($expected, $prop_value, $where)
+    public function testSetWhereConditionFailure($expected, $prop_value, $where): void
     {
         $this->expectException($expected);
 
@@ -174,7 +175,7 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetWhereString()
+    public function providerGetWhereString(): array
     {
         $one_condition = (new Conditions())->addCondition(new Expression('a', 1));
         $two_condition = (new Conditions())->addCondition(new Expression('a', 1))->addCondition(new Expression('b', 1));
@@ -195,11 +196,11 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param string     $expected   期待値
      * @param ICondition $prop_value プロパティ where の値
      */
-    public function testGetWhereString($expected, $prop_value)
+    public function testGetWhereString($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $this->getMethod($object, self::METHOD_NAME_GET_WHERE_STRING)->invoke($object));
+        $this->assertSame($expected, $this->getMethod($object, self::METHOD_NAME_GET_WHERE_STRING)->invoke($object));
     }
 }

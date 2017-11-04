@@ -12,12 +12,13 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 /**
  * クラス GroupBy の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
 class GroupByTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_GROUP_BY_LIST = 'group_by_list';
-    const PROP_NAME_HAVING_COND = 'having_cond';
+    private const PROP_NAME_GROUP_BY_LIST = 'group_by_list';
+    private const PROP_NAME_HAVING_COND = 'having_cond';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -51,9 +52,9 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetPhraseString()
+    public function testGetPhraseString(): void
     {
-        self::assertSame('GROUP BY %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('GROUP BY %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
@@ -61,7 +62,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetGroupBy()
+    public function providerGetGroupBy(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], new Columns([ 'a', 'b', 'c' ]) ],
@@ -76,12 +77,12 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param array    $expected   期待値
      * @param IColumns $prop_value プロパティ group_by_list の値
      */
-    public function testGetGroupBy($expected, $prop_value)
+    public function testGetGroupBy($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getGroupBy()->getColumns());
+        $this->assertSame($expected, $object->getGroupBy()->getColumns());
     }
 
     /**
@@ -89,7 +90,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetGroupBy()
+    public function providerSetGroupBy(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], null, new Columns([ 'a', 'b', 'c' ]) ],
@@ -106,14 +107,14 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param mixed    $prop_value プロパティ group_by_list の値
      * @param IColumns $group_by   メソッド setGroupBy の引数 group_by に渡す値
      */
-    public function testSetGroupBy($expected, $prop_value, $group_by)
+    public function testSetGroupBy($expected, $prop_value, $group_by): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
         $object->setGroupBy($group_by);
 
-        self::assertSame($expected, $reflector->getValue($object)->getColumns());
+        $this->assertSame($expected, $reflector->getValue($object)->getColumns());
     }
 
     /**
@@ -121,7 +122,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetGroupByFailure()
+    public function providerSetGroupByFailure(): array
     {
         $valid_columns = new Columns([ 'x', 'y', 'z' ]);
         $empty_columns = new Columns();
@@ -147,7 +148,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ group_by_list の値
      * @param IColumns   $group_by   メソッド setGroupBy の引数 group_by に渡す値
      */
-    public function testSetGroupByFailure($expected, $prop_value, $group_by)
+    public function testSetGroupByFailure($expected, $prop_value, $group_by): void
     {
         $this->expectException($expected);
 
@@ -162,7 +163,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetHaving()
+    public function providerGetHaving(): array
     {
         $condition_1 = (new Conditions())->addCondition('a = 1');
         $condition_2 = (new Conditions())->setConditions('a = 1', 'b = 1');
@@ -184,12 +185,12 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param mixed $expected   期待値
      * @param mixed $prop_value プロパティ having_cond の値
      */
-    public function testGetHaving($expected, $prop_value)
+    public function testGetHaving($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getHaving());
+        $this->assertSame($expected, $object->getHaving());
     }
 
     /**
@@ -197,7 +198,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetHaving()
+    public function providerSetHaving(): array
     {
         $base_condition = (new Conditions())->addCondition('a = 1');
 
@@ -218,14 +219,14 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ having_cond の値
      * @param ICondition $having     メソッド setHaving の引数 conditions の値
      */
-    public function testSetHaving($expected, $prop_value, $having)
+    public function testSetHaving($expected, $prop_value, $having): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_HAVING_COND);
         $reflector->setValue($object, $prop_value);
         $object->setHaving($having);
 
-        self::assertSame($expected, $reflector->getValue($object)->getConditions());
+        $this->assertSame($expected, $reflector->getValue($object)->getConditions());
     }
 
     /**
@@ -233,7 +234,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetHavingFailure()
+    public function providerSetHavingFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, new Conditions() ],
@@ -252,7 +253,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ having_cond の値
      * @param ICondition $having     メソッド setHaving の引数 conditions の値
      */
-    public function testSetHavingFailure($expected, $prop_value, $having)
+    public function testSetHavingFailure($expected, $prop_value, $having): void
     {
         $this->expectException($expected);
 
@@ -266,7 +267,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'GROUP BY a', new Columns([ 'a' ]), null ],
@@ -297,8 +298,8 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      * @param IColumns $group_by コンストラクタの引数 group_by に渡す値
      * @param mixed    $having   コンストラクタの引数 having に渡す値
      */
-    public function testToString($expected, $group_by, $having)
+    public function testToString($expected, $group_by, $having): void
     {
-        self::assertSame($expected, (string)new GroupBy($group_by, $having));
+        $this->assertSame($expected, (string)new GroupBy($group_by, $having));
     }
 }

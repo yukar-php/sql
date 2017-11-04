@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * INTERSECT 演算子による積集合を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
 class Intersect extends BaseSets

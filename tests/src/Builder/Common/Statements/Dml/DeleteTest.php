@@ -17,6 +17,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 /**
  * クラス Delete の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class DeleteTest extends \PHPUnit_Framework_TestCase
@@ -37,9 +38,9 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetQueryFormat()
+    public function testGetQueryFormat(): void
     {
-        self::assertSame('DELETE %s %s', $this->getNewInstance()->getQueryFormat());
+        $this->assertSame('DELETE %s %s', $this->getNewInstance()->getQueryFormat());
     }
 
     /**
@@ -47,7 +48,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSqlQuerySourceFailure()
+    public function providerSetSqlQuerySourceFailure(): array
     {
         return [
             [ new Table('table_name') ],
@@ -63,7 +64,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      *
      * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testSetSqlQuerySourceFailure($sql_query_source)
+    public function testSetSqlQuerySourceFailure($sql_query_source): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->getNewInstance()->setSqlQuerySource($sql_query_source);
@@ -74,7 +75,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetWhere()
+    public function providerSetWhere(): array
     {
         return [
             [ (new Conditions())->addCondition(new Expression('a', 1)) ],
@@ -88,10 +89,10 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      *
      * @param ICondition $condition メソッド setWhere の引数 condition に渡す値
      */
-    public function testSetWhere($condition)
+    public function testSetWhere($condition): void
     {
         // wrapしているsetWhereメソッドの単体テストは別のところで実施済みなので戻り値のチェックだけをする
-        self::assertInstanceOf(Delete::class, $this->getNewInstance()->setWhere($condition));
+        $this->assertInstanceOf(Delete::class, $this->getNewInstance()->setWhere($condition));
     }
 
 
@@ -100,7 +101,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $from_orig = new From(new Table('table_name'));
         $from_as = new From(new Alias(new Table('table_name'), 'alias_table'));
@@ -130,11 +131,11 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
      * @param From   $from     コンストラクタの引数 from に渡す値
      * @param mixed  $where    メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $where)
+    public function testToString($expected, $from, $where): void
     {
         $delete = new Delete($from);
         isset($where) && $delete->setWhere($where);
 
-        self::assertSame($expected, (string)$delete);
+        $this->assertSame($expected, (string)$delete);
     }
 }

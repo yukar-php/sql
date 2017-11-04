@@ -11,11 +11,12 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 /**
  * 抽象クラス BaseSqlDMLQuery の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
 class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_SQL_QUERY_SOURCE = 'sql_query_source';
+    private const PROP_NAME_SQL_QUERY_SOURCE = 'sql_query_source';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -52,7 +53,7 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetSqlQuerySource()
+    public function providerGetSqlQuerySource(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
@@ -75,12 +76,12 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param string          $expected   期待値
      * @param ISqlQuerySource $prop_value プロパティ sql_query_source の値
      */
-    public function testGetSqlQuerySource($expected, $prop_value)
+    public function testGetSqlQuerySource($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getSqlQuerySource());
+        $this->assertSame($expected, $object->getSqlQuerySource());
     }
 
     /**
@@ -88,7 +89,7 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSqlQuerySource()
+    public function providerSetSqlQuerySource(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
@@ -116,13 +117,13 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      * @param ISqlQuerySource $prop_value       プロパティ sql_query_source の値
      * @param ISqlQuerySource $sql_query_source メソッド setSqlQuerySource の引数 sql_query_source に渡す値
      */
-    public function testSetSqlQuerySource($expected, $prop_value, $sql_query_source)
+    public function testSetSqlQuerySource($expected, $prop_value, $sql_query_source): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE);
         $reflector->setValue($object, $prop_value);
         $object->setSqlQuerySource($sql_query_source);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 }
