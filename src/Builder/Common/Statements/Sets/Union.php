@@ -24,14 +24,4 @@ class Union extends BaseSets
         $this->setSecondQuery($second);
         $this->setIsAll($is_all);
     }
-
-    /**
-     * SQLクエリの句の書式文字列を取得します。
-     *
-     * @return string SQLクエリの句の書式
-     */
-    public function getSetsFormat(): string
-    {
-        return '%s UNION %s';
-    }
 }

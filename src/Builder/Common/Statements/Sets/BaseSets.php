@@ -37,6 +37,16 @@ abstract class BaseSets implements ISets
     }
 
     /**
+     * SQLクエリの句の書式文字列を取得します。
+     *
+     * @return string SQLクエリの句の書式
+     */
+    public function getSetsFormat(): string
+    {
+        return '%s ' . strtoupper(str_replace(__NAMESPACE__ . "\\", '', static::class)) . ' %s';
+    }
+
+    /**
      * 集合演算の対象となる一つ目の集合を取得します。
      *
      * @return ISelectQuery 集合演算の対象となる一つ目の集合

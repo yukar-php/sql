@@ -50,6 +50,15 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * 正常系テスト
+     */
+    public function testGetSetsFormat()
+    {
+        $instance = $this->getNewInstance();
+        $this->assertSame('%s ' . strtoupper(get_class($instance)) . ' %s', $instance->getSetsFormat());
+    }
+
+    /**
      * メソッド testGetIsAll のデータプロバイダー
      *
      * @return array
