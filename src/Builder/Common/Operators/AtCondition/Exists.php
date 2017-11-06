@@ -1,14 +1,16 @@
 <?php
 namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
- * EXISTS 演算子または NOT EXISTS 演算子を表現します。
+ * SQL の EXISTS 演算子を表現します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class Exists extends BaseDeniableOperator
+class Exists extends BaseConditionContainable implements IDeniableOperator
 {
     private $needle;
 
@@ -16,12 +18,10 @@ class Exists extends BaseDeniableOperator
      * Exists クラスの新しいインスタンスを初期化します。
      *
      * @param string|ISelectQuery $needle 演算子の対象となる問い合わせクエリ
-     * @param bool                $is_not 演算子に NOT を付与するかどうか
      */
-    public function __construct($needle, bool $is_not = false)
+    public function __construct($needle)
     {
         $this->setNeedle($needle);
-        $this->setIsNot($is_not);
     }
 
     /**
@@ -31,7 +31,7 @@ class Exists extends BaseDeniableOperator
      */
     public function __toString(): string
     {
-        return sprintf($this->getOperatorFormat(), $this->getOperatorString(), $this->getValue());
+        return sprintf($this->getOperatorFormat(), $this->getOperator(), $this->getValue());
     }
 
     /**
@@ -51,19 +51,9 @@ class Exists extends BaseDeniableOperator
      *
      * @throws \BadMethodCallException 表や列の名前を設定しようとした場合
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         throw new \BadMethodCallException();
-    }
-
-    /**
-     * 演算子を取得します。
-     *
-     * @return string 演算子
-     */
-    public function getOperator(): string
-    {
-        return 'EXISTS';
     }
 
     /**
@@ -93,7 +83,7 @@ class Exists extends BaseDeniableOperator
      *
      * @throws \InvalidArgumentException 引数 expression に渡した値が不正な場合
      */
-    public function setNeedle($needle)
+    public function setNeedle($needle): void
     {
         if ($this->isAcceptableSubQuery($needle) === false) {
             throw new \InvalidArgumentException();

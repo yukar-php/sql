@@ -6,11 +6,12 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
 /**
  * クラス Expression の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class ExpressionTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_VALUE = 'value';
+    private const PROP_NAME_VALUE = 'value';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -46,7 +47,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetValue()
+    public function providerGetValue(): array
     {
         return [
             [ 'value', 'value' ],
@@ -61,12 +62,12 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ value の値
      */
-    public function testGetValue($expected, $prop_value)
+    public function testGetValue($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getValue());
+        $this->assertSame($expected, $object->getValue());
     }
 
     /**
@@ -74,7 +75,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValue()
+    public function providerSetValue(): array
     {
         return [
             [ 'value', null, 'value' ],
@@ -101,14 +102,14 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ value の値
      * @param string $value      メソッド setValue の引数 value に渡す値
      */
-    public function testSetValue($expected, $prop_value, $value)
+    public function testSetValue($expected, $prop_value, $value): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setValue($value);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -116,7 +117,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetValueFailure()
+    public function providerSetValueFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -133,7 +134,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ value の値
      * @param mixed      $value      メソッド setValue の引数 value に渡す値
      */
-    public function testSetValueFailure($expected, $prop_value, $value)
+    public function testSetValueFailure($expected, $prop_value, $value): void
     {
         $this->expectException($expected);
 
@@ -147,7 +148,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'column_a < 1', 'column_a', 1, Expression::SIGN_LT ],
@@ -165,8 +166,8 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      * @param string $value    コンストラクタの引数 value に渡す値
      * @param int    $sign     メソッド setSign の引数 sign に渡す値
      */
-    public function testToString($expected, $name, $value, $sign)
+    public function testToString($expected, $name, $value, $sign): void
     {
-        self::assertSame($expected, (string)(new Expression($name, $value, $sign)));
+        $this->assertSame($expected, (string)(new Expression($name, $value, $sign)));
     }
 }

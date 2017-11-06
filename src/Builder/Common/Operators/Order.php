@@ -6,16 +6,20 @@ use Yukar\Sql\Interfaces\Builder\Common\Operators\IOperator;
 /**
  * テーブルの任意の列のソートを表します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators
  * @author hiroki sugawara
  */
 class Order implements IOperator
 {
     /** SQLクエリの実行結果が「昇順ソート」であることを示す定数 */
-    const ASCENDING = 1;
+    public const ASCENDING = 1;
     /** SQLクエリの実行結果が「降順ソート」であることを示す定数 */
-    const DESCENDING = 2;
+    public const DESCENDING = 2;
 
-    const SORTS = [ self::ASCENDING => 'ASC', self::DESCENDING => 'DESC' ];
+    private const SORTS = [
+        self::ASCENDING => 'ASC',
+        self::DESCENDING => 'DESC'
+    ];
 
     private $column_name = '';
     private $order_type = '';
@@ -60,7 +64,7 @@ class Order implements IOperator
      *
      * @throws \InvalidArgumentException 引数 $column_name に渡した値が空文字列の場合
      */
-    public function setColumnName(string $column_name)
+    public function setColumnName(string $column_name): void
     {
         if (empty($column_name) === true) {
             throw new \InvalidArgumentException();

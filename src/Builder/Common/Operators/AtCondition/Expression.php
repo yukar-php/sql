@@ -44,7 +44,7 @@ class Expression extends BaseComparableOperator
      *
      * @throws \InvalidArgumentException 引数 value に渡した値が空文字列の場合
      */
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         if (empty($value) === true && is_numeric($value) === false) {
             throw new \InvalidArgumentException();

@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Operators\IConditionContainable;
 /**
  * 条件式に含めることのできる演算子の基本機能を提供する抽象クラスです。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 abstract class BaseConditionContainable implements IConditionContainable
@@ -20,6 +21,16 @@ abstract class BaseConditionContainable implements IConditionContainable
     public function getOperatorFormat(): string
     {
         return '%s %s %s';
+    }
+
+    /**
+     * 演算子の名前を取得します。
+     *
+     * @return string 演算子の名前
+     */
+    public function getOperator(): string
+    {
+        return strtoupper(str_replace(__NAMESPACE__ . "\\", '', static::class));
     }
 
     /**
@@ -39,7 +50,7 @@ abstract class BaseConditionContainable implements IConditionContainable
      *
      * @throws \InvalidArgumentException 引数 name に渡した値が空文字列の場合
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         if (empty($name) === true) {
             throw new \InvalidArgumentException();

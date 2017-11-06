@@ -9,12 +9,13 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 /**
  * クラス Alias の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators
  * @author hiroki sugawara
  */
 class AliasTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_ORIGIN_NAME = 'origin_name';
-    const PROP_NAME_ALIAS_NAME = 'alias_name';
+    private const PROP_NAME_ORIGIN_NAME = 'origin_name';
+    private const PROP_NAME_ALIAS_NAME = 'alias_name';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -48,9 +49,9 @@ class AliasTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetOperatorFormat()
+    public function testGetOperatorFormat(): void
     {
-        self::assertSame('%s AS %s', $this->getNewInstance()->getOperatorFormat());
+        $this->assertSame('%s AS %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -58,7 +59,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOriginName()
+    public function providerGetOriginName(): array
     {
         $table_name = new Table('table_name');
         $select_query = new Select(new From($table_name));
@@ -81,12 +82,12 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ origin_name の値
      */
-    public function testGetOriginName($expected, $prop_value)
+    public function testGetOriginName($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOriginName());
+        $this->assertSame($expected, $object->getOriginName());
     }
 
     /**
@@ -94,7 +95,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOriginName()
+    public function providerSetOriginName(): array
     {
         $table_name = new Table('table_name');
         $select_query = new Select(new From($table_name));
@@ -118,14 +119,14 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value  プロパティ origin_name の値
      * @param string $origin_name メソッド setOriginName の引数 origin_name に渡す値
      */
-    public function testSetOriginName($expected, $prop_value, $origin_name)
+    public function testSetOriginName($expected, $prop_value, $origin_name): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORIGIN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setOriginName($origin_name);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -133,7 +134,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOriginNameFailure()
+    public function providerSetOriginNameFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -150,7 +151,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value  プロパティ origin_name の値
      * @param string     $origin_name メソッド setOriginName の引数 origin_name に渡す値
      */
-    public function testSetOriginNameFailure($expected, $prop_value, $origin_name)
+    public function testSetOriginNameFailure($expected, $prop_value, $origin_name): void
     {
         $this->expectException($expected);
 
@@ -164,7 +165,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetAliasName()
+    public function providerGetAliasName(): array
     {
         return [
             [ 'alias_name', 'alias_name' ],
@@ -179,12 +180,12 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ alias_name の値
      */
-    public function testGetAliasName($expected, $prop_value)
+    public function testGetAliasName($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ALIAS_NAME)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getAliasName());
+        $this->assertSame($expected, $object->getAliasName());
     }
 
     /**
@@ -192,7 +193,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetAliasName()
+    public function providerSetAliasName(): array
     {
         return [
             [ 'alias_name', null, 'alias_name' ],
@@ -209,14 +210,14 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ alias_name の値
      * @param string $alias_name メソッド setAliasName の引数 alias_name に渡す値
      */
-    public function testSetAliasName($expected, $prop_value, $alias_name)
+    public function testSetAliasName($expected, $prop_value, $alias_name): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ALIAS_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setAliasName($alias_name);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -224,7 +225,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetAliasNameFailure()
+    public function providerSetAliasNameFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -241,7 +242,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ alias_name の値
      * @param string     $alias_name メソッド setAliasName の引数 alias_name に渡す値
      */
-    public function testSetAliasNameFailure($expected, $prop_value, $alias_name)
+    public function testSetAliasNameFailure($expected, $prop_value, $alias_name): void
     {
         $this->expectException($expected);
 
@@ -255,7 +256,7 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $table_name = new Table('table_name');
         $select_query = new Select(new From($table_name));
@@ -276,8 +277,8 @@ class AliasTest extends \PHPUnit_Framework_TestCase
      * @param string $origin_name コンストラクタの引数 origin_name に渡す値
      * @param string $alias_name  コンストラクタの引数 alias_name に渡す値
      */
-    public function testToString($expected, $origin_name, $alias_name)
+    public function testToString($expected, $origin_name, $alias_name): void
     {
-        self::assertSame($expected, (string)new Alias($origin_name, $alias_name));
+        $this->assertSame($expected, (string)new Alias($origin_name, $alias_name));
     }
 }

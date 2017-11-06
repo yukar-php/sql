@@ -1,12 +1,15 @@
 <?php
 namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
+
 /**
- * BETWEEN 演算子または NOT BETWEEN 演算子を表現します。
+ * SQL の BETWEEN 演算子を表現します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class Between extends BaseDeniableOperator
+class Between extends BaseConditionContainable implements IDeniableOperator
 {
     private $from_value = '';
     private $to_value = '';
@@ -17,24 +20,12 @@ class Between extends BaseDeniableOperator
      * @param string $name       演算子の対象となるカラムの名前または値
      * @param string $from_value BETWEEN演算子の範囲の始端となる値
      * @param string $to_value   BETWEEN演算子の範囲の終端となる値
-     * @param bool   $is_not     演算子に NOT を付与するかどうか
      */
-    public function __construct(string $name, string $from_value, string $to_value, bool $is_not = false)
+    public function __construct(string $name, string $from_value, string $to_value)
     {
         $this->setName($name);
         $this->setFromValue($from_value);
         $this->setToValue($to_value);
-        $this->setIsNot($is_not);
-    }
-
-    /**
-     * 演算子の名前を取得します。
-     *
-     * @return string 演算子の名前
-     */
-    public function getOperator(): string
-    {
-        return 'BETWEEN';
     }
 
     /**
@@ -64,7 +55,7 @@ class Between extends BaseDeniableOperator
      *
      * @throws \InvalidArgumentException 引数 from_value に空文字列を渡した場合
      */
-    public function setFromValue(string $from_value)
+    public function setFromValue(string $from_value): void
     {
         if (empty($from_value) === true) {
             throw new \InvalidArgumentException();
@@ -90,7 +81,7 @@ class Between extends BaseDeniableOperator
      *
      * @throws \InvalidArgumentException 引数 to_value に空文字列を渡した場合
      */
-    public function setToValue(string $to_value)
+    public function setToValue(string $to_value): void
     {
         if (empty($to_value) === true) {
             throw new \InvalidArgumentException();

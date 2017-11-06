@@ -9,6 +9,7 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\IsNull;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Like;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
 use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 
@@ -57,7 +58,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOperation()
+    public function providerGetOperation(): array
     {
         return [
             [ 'AND', 'AND' ],
@@ -74,7 +75,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ operator の値
      */
-    public function testGetOperation($expected, $prop_value)
+    public function testGetOperation($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_OPERATOR)->setValue($object, $prop_value);
@@ -87,7 +88,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOperation()
+    public function providerSetOperation(): array
     {
         return [
             [ 'AND', 1 ],
@@ -107,7 +108,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ operator の値
      */
-    public function testSetOperation($expected, $prop_value)
+    public function testSetOperation($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $property = $this->getProperty($object, self::PROP_NAME_OPERATOR);
@@ -121,7 +122,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetConditions()
+    public function providerGetConditions(): array
     {
         return [
             [ [], [] ],
@@ -138,7 +139,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param array $expected   期待値
      * @param array $conditions プロパティ conditions の値
      */
-    public function testGetConditions($expected, $conditions)
+    public function testGetConditions($expected, $conditions): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_CONDITIONS)->setValue($object, $conditions);
@@ -151,7 +152,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerAddConditions()
+    public function providerAddConditions(): array
     {
         $condition = new Conditions(Conditions::OPERATION_AND);
         $condition->setConditions('sa = 1', 'sb = 2');
@@ -173,7 +174,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param array             $base_cond プロパティ conditions の値
      * @param string|Conditions $add_cond  メソッド addCondition の引数として渡す値
      */
-    public function testAddConditions($expected, $base_cond, $add_cond)
+    public function testAddConditions($expected, $base_cond, $add_cond): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
@@ -189,7 +190,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerAddConditionsFailure()
+    public function providerAddConditionsFailure(): array
     {
         $condition = new Conditions(Conditions::OPERATION_AND);
         $condition->setConditions('sa = 1', 'sb = 2');
@@ -220,7 +221,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param array      $base_cond プロパティ conditions の値
      * @param mixed      $add_cond  メソッド addCondition の引数として渡す値
      */
-    public function testAddConditionsFailure($expected, $base_cond, $add_cond)
+    public function testAddConditionsFailure($expected, $base_cond, $add_cond): void
     {
         $this->expectException($expected);
 
@@ -234,7 +235,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetConditions()
+    public function providerSetConditions(): array
     {
         return [
             [ [ 'a = 1', 'b = 2' ], [], 'a = 1', 'b = 2' ],
@@ -252,7 +253,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param string|Conditions $first     メソッド setConditions の引数 first に渡す値
      * @param string|Conditions $second    メソッド setConditions の引数 second に渡す値
      */
-    public function testSetConditions($expected, $base_cond, $first, $second)
+    public function testSetConditions($expected, $base_cond, $first, $second): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_CONDITIONS);
@@ -267,7 +268,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetConditionsFailure()
+    public function providerSetConditionsFailure(): array
     {
         $condition = new Conditions(Conditions::OPERATION_AND);
         $condition->setConditions('sa = 1', 'sb = 2');
@@ -291,7 +292,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $first     メソッド setConditions の引数 first に渡す値
      * @param mixed      $second    メソッド setConditions の引数 second に渡す値
      */
-    public function testSetConditionsFailure($expected, $base_cond, $first, $second)
+    public function testSetConditionsFailure($expected, $base_cond, $first, $second): void
     {
         $this->expectException($expected);
 
@@ -305,7 +306,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $condition = new Conditions(Conditions::OPERATION_AND);
         $condition->setConditions('sa = 1', new Expression('sb', 2));
@@ -366,31 +367,31 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
                 'c BETWEEN 10 AND 20 OR d NOT BETWEEN 5 AND 50',
                 Conditions::OPERATION_OR,
                 new Between('c', 10, 20),
-                new Between('d', 5, 50, true)
+                new Not(new Between('d', 5, 50))
             ],
             [
                 'e IS NULL AND f IS NOT NULL',
                 Conditions::OPERATION_AND,
                 new IsNull('e'),
-                new IsNull('f', true)
+                new Not(new IsNull('f'))
             ],
             [
                 "g LIKE 'patter%' OR h NOT LIKE '_eed%'",
                 Conditions::OPERATION_OR,
                 new Like('g', 'patter%'),
-                new Like('h', '_eed%', true)
+                new Not(new Like('h', '_eed%'))
             ],
             [
                 "i IN ('x', 'y', 'z') AND j NOT IN (1, 2, 3)",
                 Conditions::OPERATION_AND,
                 new In('i', [ 'x', 'y', 'z' ]),
-                new In('j', [ 1, 2, 3 ], true)
+                new Not(new In('j', [ 1, 2, 3 ]))
             ],
             [
                 'EXISTS (SELECT * FROM table_k) OR NOT EXISTS (SELECT * FROM table_l)',
                 Conditions::OPERATION_OR,
                 new Exists(new Select(new From(new Table('table_k')))),
-                new Exists(new Select(new From(new Table('table_l'))), true),
+                new Not(new Exists(new Select(new From(new Table('table_l'))))),
             ],
         ];
     }
@@ -405,7 +406,7 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
      * @param string|Conditions $first    メソッド setConditions の引数 first に渡す値
      * @param string|Conditions $second   メソッド setConditions の引数 second に渡す値
      */
-    public function testToString($expected, $operator, $first, $second)
+    public function testToString($expected, $operator, $first, $second): void
     {
         $this->assertSame($expected, (string)(new Conditions($operator))->setConditions($first, $second));
     }

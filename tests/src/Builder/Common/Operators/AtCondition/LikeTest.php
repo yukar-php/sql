@@ -2,16 +2,17 @@
 namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Like;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
 
 /**
  * クラス Like の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class LikeTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_PATTERN = 'pattern';
-    const PROP_NAME_IS_NOT = 'is_not';
+    private const PROP_NAME_PATTERN = 'pattern';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -47,7 +48,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetPattern()
+    public function providerGetPattern(): array
     {
         return [
             [ '_col%', '_col%' ],
@@ -62,12 +63,12 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ pattern の値
      */
-    public function testGetPattern($expected, $prop_value)
+    public function testGetPattern($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_PATTERN)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getPattern());
+        $this->assertSame($expected, $object->getPattern());
     }
 
     /**
@@ -75,7 +76,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetPattern()
+    public function providerSetPattern(): array
     {
         return [
             [ 'column', null, 'column' ],
@@ -92,14 +93,14 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ pattern の値
      * @param string $pattern    メソッド setPattern の引数 pattern に渡す値
      */
-    public function testSetPattern($expected, $prop_value, $pattern)
+    public function testSetPattern($expected, $prop_value, $pattern): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_PATTERN);
         $reflector->setValue($object, $prop_value);
         $object->setPattern($pattern);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -107,7 +108,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetPatternFailure()
+    public function providerSetPatternFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -124,7 +125,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ pattern の値
      * @param string $pattern    メソッド setPattern の引数 pattern に渡す値
      */
-    public function testSetPatternFailure($expected, $prop_value, $pattern)
+    public function testSetPatternFailure($expected, $prop_value, $pattern): void
     {
         $this->expectException($expected);
 
@@ -138,7 +139,7 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ "a LIKE '%bcd_'", 'a', '%bcd_', false ],
@@ -156,8 +157,11 @@ class LikeTest extends \PHPUnit_Framework_TestCase
      * @param string $pattern  コンストラクタの引数 pattern に渡す値
      * @param bool   $is_not   コンストラクタの引数 is_not に渡す値
      */
-    public function testToString($expected, $column, $pattern, $is_not)
+    public function testToString($expected, $column, $pattern, $is_not): void
     {
-        self::assertSame($expected, (string)(new Like($column, $pattern, $is_not)));
+        $like = new Like($column, $pattern);
+        ($is_not === true) && $like = new Not($like);
+
+        $this->assertSame($expected, (string)$like);
     }
 }

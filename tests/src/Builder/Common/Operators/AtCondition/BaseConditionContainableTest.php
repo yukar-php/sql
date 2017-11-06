@@ -6,11 +6,12 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\BaseConditionContainable;
 /**
  * 抽象クラス BaseConditionContainable の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_NAME = 'name';
+    private const PROP_NAME_NAME = 'name';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -45,9 +46,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetOperatorFormat()
+    public function testGetOperatorFormat(): void
     {
-        self::assertSame('%s %s %s', $this->getNewInstance()->getOperatorFormat());
+        $this->assertSame('%s %s %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -55,7 +56,7 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetName()
+    public function providerGetName(): array
     {
         return [
             [ 'column', 'column' ],
@@ -70,12 +71,12 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ name の値
      */
-    public function testGetName($expected, $prop_value)
+    public function testGetName($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getName());
+        $this->assertSame($expected, $object->getName());
     }
 
     /**
@@ -83,7 +84,7 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetName()
+    public function providerSetName(): array
     {
         return [
             [ 'column', null, 'column' ],
@@ -100,14 +101,14 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ name の値
      * @param string $name       メソッド setName の引数 name に渡す値
      */
-    public function testSetName($expected, $prop_value, $name)
+    public function testSetName($expected, $prop_value, $name): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setName($name);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -115,7 +116,7 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetNameFailure()
+    public function providerSetNameFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -132,7 +133,7 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ name の値
      * @param mixed      $name       メソッド setName の引数 name に渡す値
      */
-    public function testSetNameFailure($expected, $prop_value, $name)
+    public function testSetNameFailure($expected, $prop_value, $name): void
     {
         $this->expectException($expected);
 

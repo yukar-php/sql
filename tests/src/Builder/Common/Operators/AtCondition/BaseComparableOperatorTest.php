@@ -6,11 +6,12 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\BaseComparableOperator;
 /**
  * 抽象クラス BaseComparableOperator の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_SIGN = 'sign';
+    private const PROP_NAME_SIGN = 'sign';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -47,7 +48,7 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetSign()
+    public function providerGetSign(): array
     {
         return [
             [ '=', BaseComparableOperator::SIGN_EQ ],
@@ -67,12 +68,12 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ sign の値
      */
-    public function testGetSign($expected, $prop_value)
+    public function testGetSign($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_SIGN)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getSign());
+        $this->assertSame($expected, $object->getSign());
     }
 
     /**
@@ -80,7 +81,7 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSign()
+    public function providerSetSign(): array
     {
         return [
             [ 2, 1, BaseComparableOperator::SIGN_NE ],
@@ -101,14 +102,14 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      * @param int    $prop_value プロパティ sign の値
      * @param int    $sign       メソッド setSign の引数 sign に渡す値
      */
-    public function testSetSign($expected, $prop_value, $sign)
+    public function testSetSign($expected, $prop_value, $sign): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_SIGN);
         $reflector->setValue($object, $prop_value);
         $object->setSign($sign);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -116,7 +117,7 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetSignFailure()
+    public function providerSetSignFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, BaseComparableOperator::SIGN_EQ, 0 ],
@@ -133,7 +134,7 @@ class BaseComparableOperatorTest extends \PHPUnit_Framework_TestCase
      * @param int        $prop_value プロパティ sign の値
      * @param int        $sign       メソッド setSign の引数 sign に渡す値
      */
-    public function testSetSignFailure($expected, $prop_value, $sign)
+    public function testSetSignFailure($expected, $prop_value, $sign): void
     {
         $this->expectException($expected);
 

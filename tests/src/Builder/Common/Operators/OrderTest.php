@@ -45,9 +45,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGetOperatorFormat()
+    public function testGetOperatorFormat(): void
     {
-        self::assertSame('%s %s', $this->getNewInstance()->getOperatorFormat());
+        $this->assertSame('%s %s', $this->getNewInstance()->getOperatorFormat());
     }
 
     /**
@@ -55,7 +55,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetColumnName()
+    public function providerGetColumnName(): array
     {
         return [
             [ 'TableName', 'TableName' ],
@@ -71,12 +71,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ column_name の値
      */
-    public function testGetColumnName($expected, $prop_value)
+    public function testGetColumnName($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getColumnName());
+        $this->assertSame($expected, $object->getColumnName());
     }
 
     /**
@@ -84,7 +84,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumnName()
+    public function providerSetColumnName(): array
     {
         return [
             [ 'TableName', null, 'TableName' ],
@@ -101,14 +101,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value  プロパティ column_name の値
      * @param string $column_name メソッド setColumnName の引数 column_name に渡す値
      */
-    public function testSetColumnName($expected, $prop_value, $column_name)
+    public function testSetColumnName($expected, $prop_value, $column_name): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setColumnName($column_name);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -116,7 +116,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetColumnNameFailure()
+    public function providerSetColumnNameFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '' ],
@@ -133,7 +133,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value  プロパティ column_name の値
      * @param mixed      $column_name メソッド setColumnName の引数 column_name に渡す値
      */
-    public function testSetColumnNameFailure($expected, $prop_value, $column_name)
+    public function testSetColumnNameFailure($expected, $prop_value, $column_name): void
     {
         $this->expectException($expected);
 
@@ -147,14 +147,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetOrderType()
+    public function providerGetOrderType(): array
     {
         return [
             [ 'ASC', null ],
-            [ 'ASC', Order::SORTS[Order::ASCENDING] ],
-            [ 'ASC', Order::SORTS[1] ],
-            [ 'DESC', Order::SORTS[Order::DESCENDING] ],
-            [ 'DESC', Order::SORTS[2] ],
+            [ 'ASC', 'ASC' ],
+            [ 'DESC', 'DESC' ],
         ];
     }
 
@@ -166,12 +164,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param mixed  $prop_value プロパティ order_type の値
      */
-    public function testGetOrderType($expected, $prop_value)
+    public function testGetOrderType($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_TYPE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getOrderType());
+        $this->assertSame($expected, $object->getOrderType());
     }
 
     /**
@@ -179,7 +177,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetOrderType()
+    public function providerSetOrderType(): array
     {
         return [
             [ 'ASC', null, 1 ],
@@ -205,14 +203,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ order_type の値
      * @param int    $order_type メソッド setOrderType の引数 order_type に渡す値
      */
-    public function testSetOrderType($expected, $prop_value, $order_type)
+    public function testSetOrderType($expected, $prop_value, $order_type): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_TYPE);
         $reflector->setValue($object, $prop_value);
 
-        self::assertInstanceOf(get_class($object), $object->setOrderType($order_type));
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertInstanceOf(get_class($object), $object->setOrderType($order_type));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -220,7 +218,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'ColumnName ASC', 'ColumnName', Order::ASCENDING ],
@@ -237,8 +235,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param string $column_name コンストラクタの引数 column_name に渡す値
      * @param int    $order_type  コンストラクタの引数 order_type に渡す値
      */
-    public function testToString($expected, $column_name, $order_type)
+    public function testToString($expected, $column_name, $order_type): void
     {
-        self::assertSame($expected, (string)new Order($column_name, $order_type));
+        $this->assertSame($expected, (string)new Order($column_name, $order_type));
     }
 }

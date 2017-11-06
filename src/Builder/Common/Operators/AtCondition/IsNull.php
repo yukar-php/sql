@@ -1,24 +1,24 @@
 <?php
 namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
+
 /**
- * IS NULL 演算子または IS NOT NULL 演算子を表します。
+ * SQL の IS NULL 演算子を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class IsNull extends BaseDeniableOperator
+class IsNull extends BaseConditionContainable implements IDeniableOperator
 {
     /**
      * IsNull クラスの新しいインスタンスを初期化します。
      *
-     * @param string $name   演算子の対象となるカラムの名前
-     * @param bool   $is_not 演算子に NOT を付与するかどうか
+     * @param string $name 演算子の対象となるカラムの名前
      */
-    public function __construct(string $name, bool $is_not = false)
+    public function __construct(string $name)
     {
         $this->setName($name);
-        $this->setIsNot($is_not);
-        $this->setIsBackEnd(true);
     }
 
     /**

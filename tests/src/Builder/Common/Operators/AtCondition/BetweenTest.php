@@ -2,16 +2,18 @@
 namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Between;
+use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
 
 /**
  * クラス Between の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class BetweenTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_FROM_VALUE = 'from_value';
-    const PROP_NAME_TO_VALUE = 'to_value';
+    private const PROP_NAME_FROM_VALUE = 'from_value';
+    private const PROP_NAME_TO_VALUE = 'to_value';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -47,7 +49,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetFromValue()
+    public function providerGetFromValue(): array
     {
         return [
             [ '1', '1' ],
@@ -63,12 +65,12 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ form_value の値
      */
-    public function testGetFromValue($expected, $prop_value)
+    public function testGetFromValue($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM_VALUE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getFromValue());
+        $this->assertSame($expected, $object->getFromValue());
     }
 
     /**
@@ -76,7 +78,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetFromValue()
+    public function providerSetFromValue(): array
     {
         return [
             [ '1', null, '1' ],
@@ -95,14 +97,14 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $prop_value プロパティ form_value の値
      * @param string $from_value メソッド setFromValue の引数 from_value に渡す値
      */
-    public function testSetFromValue($expected, $prop_value, $from_value)
+    public function testSetFromValue($expected, $prop_value, $from_value): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FROM_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setFromValue($from_value);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -110,7 +112,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetFromValueFailure()
+    public function providerSetFromValueFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '0' ],
@@ -133,7 +135,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ form_value の値
      * @param string     $from_value メソッド setFromValue の引数 from_value に渡す値
      */
-    public function testSetFromValueFailure($expected, $prop_value, $from_value)
+    public function testSetFromValueFailure($expected, $prop_value, $from_value): void
     {
         $this->expectException($expected);
 
@@ -147,7 +149,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetToValue()
+    public function providerGetToValue(): array
     {
         return [
             [ '1', '1' ],
@@ -163,12 +165,12 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ to_value の値
      */
-    public function testGetToValue($expected, $prop_value)
+    public function testGetToValue($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TO_VALUE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getToValue());
+        $this->assertSame($expected, $object->getToValue());
     }
 
     /**
@@ -176,7 +178,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetToValue()
+    public function providerSetToValue(): array
     {
         return [
             [ '1', null, '1' ],
@@ -195,14 +197,14 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $prop_value プロパティ to_value の値
      * @param string $from_value メソッド setToValue の引数 to_value に渡す値
      */
-    public function testSetToValue($expected, $prop_value, $from_value)
+    public function testSetToValue($expected, $prop_value, $from_value): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TO_VALUE);
         $reflector->setValue($object, $prop_value);
         $object->setToValue($from_value);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -210,7 +212,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetToValueFailure()
+    public function providerSetToValueFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, '0' ],
@@ -233,7 +235,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ form_value の値
      * @param string     $from_value メソッド setFromValue の引数 from_value に渡す値
      */
-    public function testSetToValueFailure($expected, $prop_value, $from_value)
+    public function testSetToValueFailure($expected, $prop_value, $from_value): void
     {
         $this->expectException($expected);
 
@@ -247,7 +249,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         return [
             [ 'a BETWEEN 1 AND 2', 'a', '1', '2', false ],
@@ -268,8 +270,11 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      * @param string $to_value   コンストラクタの引数 to_value に渡す値
      * @param bool   $is_not     コンストラクタの引数 is_not に渡す値
      */
-    public function testToString($expected, $column, $from_value, $to_value, $is_not)
+    public function testToString($expected, $column, $from_value, $to_value, $is_not): void
     {
-        self::assertSame($expected, (string)(new Between($column, $from_value, $to_value, $is_not)));
+        $between = new Between($column, $from_value, $to_value, $is_not);
+        ($is_not === true) && $between = new Not($between);
+
+        $this->assertSame($expected, (string)$between);
     }
 }

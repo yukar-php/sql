@@ -9,12 +9,13 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 /**
  * クラス GroupExpression の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class GroupExpressionTest extends \PHPUnit_Framework_TestCase
 {
-    const PROP_NAME_MODIFIER = 'modifier';
-    const PROP_NAME_NEEDLE = 'needle';
+    private const PROP_NAME_MODIFIER = 'modifier';
+    private const PROP_NAME_NEEDLE = 'needle';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -50,7 +51,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetModifier()
+    public function providerGetModifier(): array
     {
         return [
             [ 'ANY', GroupExpression::ANY_MODIFIER ],
@@ -67,12 +68,12 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param int    $prop_value プロパティ sign の値
      */
-    public function testGetModifier($expected, $prop_value)
+    public function testGetModifier($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_MODIFIER)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getModifier());
+        $this->assertSame($expected, $object->getModifier());
     }
 
     /**
@@ -80,7 +81,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetModifier()
+    public function providerSetModifier(): array
     {
         return [
             [ 1, null, GroupExpression::ANY_MODIFIER ],
@@ -99,14 +100,14 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param int    $prop_value プロパティ sign の値
      * @param int    $modifier   メソッド setModifier の引数 modifier に渡す値
      */
-    public function testSetModifier($expected, $prop_value, $modifier)
+    public function testSetModifier($expected, $prop_value, $modifier): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_MODIFIER);
         $reflector->setValue($object, $prop_value);
         $object->setModifier($modifier);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -114,7 +115,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetModifierFailure()
+    public function providerSetModifierFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, GroupExpression::ANY_MODIFIER, 0 ],
@@ -131,7 +132,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param int        $prop_value プロパティ sign の値
      * @param int        $modifier   メソッド setModifier の引数 modifier に渡す値
      */
-    public function testSetModifierFailure($expected, $prop_value, $modifier)
+    public function testSetModifierFailure($expected, $prop_value, $modifier): void
     {
         $this->expectException($expected);
 
@@ -145,7 +146,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetNeedle()
+    public function providerGetNeedle(): array
     {
         return [
             [ 'SELECT * FROM table', 'SELECT * FROM table' ],
@@ -161,12 +162,12 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param string $expected   期待値
      * @param string $prop_value プロパティ needle の値
      */
-    public function testGetNeedle($expected, $prop_value)
+    public function testGetNeedle($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
 
-        self::assertSame($expected, $object->getNeedle());
+        $this->assertSame($expected, $object->getNeedle());
     }
 
     /**
@@ -174,7 +175,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetNeedle()
+    public function providerSetNeedle(): array
     {
         $select = new Select(new From(new Table('table_name')));
 
@@ -194,14 +195,14 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param mixed  $prop_value プロパティ needle の値
      * @param mixed  $needle     メソッド setNeedle の引数 needle に渡す値
      */
-    public function testSetNeedle($expected, $prop_value, $needle)
+    public function testSetNeedle($expected, $prop_value, $needle): void
     {
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_NEEDLE);
         $reflector->setValue($object, $prop_value);
         $object->setNeedle($needle);
 
-        self::assertSame($expected, $reflector->getValue($object));
+        $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
@@ -209,7 +210,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetNeedleFailure()
+    public function providerSetNeedleFailure(): array
     {
         return [
             [ \InvalidArgumentException::class, null, null ],
@@ -231,7 +232,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param mixed      $prop_value プロパティ needle の値
      * @param mixed      $needle     メソッド setNeedle の引数 needle に渡す値
      */
-    public function testSetNeedleFailure($expected, $prop_value, $needle)
+    public function testSetNeedleFailure($expected, $prop_value, $needle): void
     {
         $this->expectException($expected);
 
@@ -245,7 +246,7 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerToString()
+    public function providerToString(): array
     {
         $select = new Select(new From(new Table('table')));
 
@@ -285,8 +286,8 @@ class GroupExpressionTest extends \PHPUnit_Framework_TestCase
      * @param int    $modifier コンストラクタの引数 modifier に渡す値
      * @param int    $sign     コンストラクタの引数 sign に渡す値
      */
-    public function testToString($expected, $name, $needle, $modifier, $sign)
+    public function testToString($expected, $name, $needle, $modifier, $sign): void
     {
-        self::assertSame($expected, (string)(new GroupExpression($name, $needle, $modifier, $sign)));
+        $this->assertSame($expected, (string)(new GroupExpression($name, $needle, $modifier, $sign)));
     }
 }

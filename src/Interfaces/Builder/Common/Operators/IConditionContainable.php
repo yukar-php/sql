@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Operators;
 /**
  * 条件式に含めることのできる演算子を定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Operators
  * @author hiroki sugawara
  */
 interface IConditionContainable extends IOperator
@@ -29,7 +30,7 @@ interface IConditionContainable extends IOperator
      *
      * @throws \InvalidArgumentException 引数 name に渡した値が空文字列の場合
      */
-    public function setName(string $name);
+    public function setName(string $name): void;
 
     /**
      * 演算子の対象となる表や列の値と比較する値を取得します。

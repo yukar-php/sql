@@ -2,14 +2,16 @@
 namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
 use Yukar\Linq\Collections\ListObject;
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 
 /**
- * IN 演算子または NOT IN 演算子を表現します。
+ * SQL の IN 演算子を表現します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class In extends BaseDeniableOperator
+class In extends BaseConditionContainable implements IDeniableOperator
 {
     private $needle;
 
@@ -18,23 +20,11 @@ class In extends BaseDeniableOperator
      *
      * @param string $name   演算子の対象となる表や列の名前
      * @param mixed  $needle 演算子の対象となる列リストまたは問い合わせクエリ
-     * @param bool   $is_not 演算子に NOT を付与するかどうか
      */
-    public function __construct(string $name, $needle, bool $is_not = false)
+    public function __construct(string $name, $needle)
     {
         $this->setName($name);
         $this->setNeedle($needle);
-        $this->setIsNot($is_not);
-    }
-
-    /**
-     * 演算子の名前を取得します。
-     *
-     * @return string 演算子の名前
-     */
-    public function getOperator(): string
-    {
-        return 'IN';
     }
 
     /**
@@ -65,7 +55,7 @@ class In extends BaseDeniableOperator
      *
      * @throws \InvalidArgumentException 引数 needle に渡した値が不正な場合
      */
-    public function setNeedle($needle)
+    public function setNeedle($needle): void
     {
         if ($this->isAcceptableNeedle($needle) === false) {
             throw new \InvalidArgumentException();

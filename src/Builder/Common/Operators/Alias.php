@@ -9,6 +9,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * テーブルや列の別名または名前をつけた問い合わせクエリを表します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators
  * @author hiroki sugawara
  */
 class Alias implements IOperator, IDataSource
@@ -55,7 +56,7 @@ class Alias implements IOperator, IDataSource
      *
      * @throws \InvalidArgumentException 引数 origin_name に空文字列を渡した場合
      */
-    public function setOriginName($origin_name)
+    public function setOriginName($origin_name): void
     {
         if ($this->isAcceptableAlias($origin_name) === false) {
             throw new \InvalidArgumentException();
@@ -81,7 +82,7 @@ class Alias implements IOperator, IDataSource
      *
      * @throws \InvalidArgumentException 引数 alias_name に空文字列を渡した場合
      */
-    public function setAliasName(string $alias_name)
+    public function setAliasName(string $alias_name): void
     {
         if (empty($alias_name) === true) {
             throw new \InvalidArgumentException();

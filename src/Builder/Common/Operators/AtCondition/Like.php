@@ -1,12 +1,15 @@
 <?php
 namespace Yukar\Sql\Builder\Common\Operators\AtCondition;
 
+use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
+
 /**
- * LIKE 演算子または NOT LIKE 演算子を表します。
+ * SQL の LIKE 演算子を表します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class Like extends BaseDeniableOperator
+class Like extends BaseConditionContainable implements IDeniableOperator
 {
     private $pattern = '';
 
@@ -15,23 +18,11 @@ class Like extends BaseDeniableOperator
      *
      * @param string $column  演算子の対象となるカラムの名前
      * @param string $pattern 演算子の対象となる検索パターン
-     * @param bool   $is_not  演算子に NOT を付与するかどうか
      */
-    public function __construct(string $column, string $pattern, bool $is_not = false)
+    public function __construct(string $column, string $pattern)
     {
         $this->setName($column);
         $this->setPattern($pattern);
-        $this->setIsNot($is_not);
-    }
-
-    /**
-     * 演算子の名前を取得します。
-     *
-     * @return string 演算子の名前
-     */
-    public function getOperator(): string
-    {
-        return 'LIKE';
     }
 
     /**
@@ -61,7 +52,7 @@ class Like extends BaseDeniableOperator
      *
      * @throws \InvalidArgumentException 引数 pattern に渡した値が空文字列の場合
      */
-    public function setPattern(string $pattern)
+    public function setPattern(string $pattern): void
     {
         if (empty($pattern) === true) {
             throw new \InvalidArgumentException();

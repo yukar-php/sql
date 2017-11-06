@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Operators;
 /**
  * 演算子を表すインターフェイスです。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Operators
  * @author hiroki sugawara
  */
 interface IOperator

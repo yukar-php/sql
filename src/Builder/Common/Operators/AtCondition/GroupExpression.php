@@ -11,13 +11,13 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 class GroupExpression extends BaseComparableOperator
 {
     /** ANY演算子であることを示す定数 */
-    const ANY_MODIFIER = 1;
+    public const ANY_MODIFIER = 1;
     /** SOME演算子であることを示す定数 */
-    const SOME_MODIFIER = 2;
+    public const SOME_MODIFIER = 2;
     /** ALL演算子であることを示す定数 */
-    const ALL_MODIFIER = 3;
+    public const ALL_MODIFIER = 3;
 
-    const MODIFIERS = [
+    private const MODIFIERS = [
         self::ANY_MODIFIER => 'ANY',
         self::SOME_MODIFIER => 'SOME',
         self::ALL_MODIFIER => 'ALL',
@@ -77,7 +77,7 @@ class GroupExpression extends BaseComparableOperator
      *
      * @param int $modifier 演算子の修飾子
      */
-    public function setModifier(int $modifier)
+    public function setModifier(int $modifier): void
     {
         if (array_key_exists($modifier, self::MODIFIERS) === false) {
             throw new \InvalidArgumentException();
@@ -103,7 +103,7 @@ class GroupExpression extends BaseComparableOperator
      *
      * @throws \InvalidArgumentException 引数 needle に渡した値が不正な場合
      */
-    public function setNeedle($needle)
+    public function setNeedle($needle): void
     {
         if ($this->isAcceptableSubQuery($needle) === false) {
             throw new \InvalidArgumentException();
