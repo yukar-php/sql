@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\Min;
 /**
  * クラス Min の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class MinTest extends \PHPUnit_Framework_TestCase

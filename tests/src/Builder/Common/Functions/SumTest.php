@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\Sum;
 /**
  * クラス Sum の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class SumTest extends \PHPUnit_Framework_TestCase

@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\Max;
 /**
  * クラス Max の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class MaxTest extends \PHPUnit_Framework_TestCase

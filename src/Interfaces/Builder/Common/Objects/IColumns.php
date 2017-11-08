@@ -2,8 +2,9 @@
 namespace Yukar\Sql\Interfaces\Builder\Common\Objects;
 
 /**
- * テーブルの任意の列のリストを表すインターフェイスです。
+ * テーブルの任意の列のリストを表すインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Objects
  * @author hiroki sugawara
  */
 interface IColumns

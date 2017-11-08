@@ -7,6 +7,7 @@ use Yukar\Sql\Builder\Common\Objects\TQuoteIdentifier;
 /**
  * トレイト TQuoteIdentifier の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
 class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
@@ -75,7 +76,7 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetDelimitedIdentifier()
+    public function providerGetDelimitedIdentifier(): array
     {
         return [
             [ DelimitedIdentifier::NONE_QUOTES_TYPE, DelimitedIdentifier::NONE_QUOTES_TYPE ],

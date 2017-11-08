@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\Avg;
 /**
  * クラス Avg の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class AvgTest extends \PHPUnit_Framework_TestCase

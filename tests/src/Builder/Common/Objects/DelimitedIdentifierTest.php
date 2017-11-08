@@ -84,7 +84,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testInit()
+    public function testInit(): void
     {
         /** @var \ReflectionProperty $r_instance */
         list($reflection, $r_instance) = $this->resetProperties();
@@ -98,7 +98,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerIsAlreadyInit()
+    public function providerIsAlreadyInit(): array
     {
         return [
             [ false, false ],
@@ -114,7 +114,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param bool $expected  期待値
      * @param bool $init_flag メソッド init を実行するかどうか
      */
-    public function testIsAlreadyInit($expected, $init_flag)
+    public function testIsAlreadyInit($expected, $init_flag): void
     {
         $this->resetProperties();
         ($init_flag === true) && DelimitedIdentifier::init();
@@ -125,7 +125,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     /**
      * 正常系テスト
      */
-    public function testGet()
+    public function testGet(): void
     {
         $this->resetProperties();
         DelimitedIdentifier::init();
@@ -136,7 +136,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     /**
      * 異常系テスト
      */
-    public function testGetFailure()
+    public function testGetFailure(): void
     {
         $this->resetProperties();
         $this->expectException(\BadFunctionCallException::class);
@@ -149,7 +149,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetQuoteType()
+    public function providerGetQuoteType(): array
     {
         return [
             [ -1, DelimitedIdentifier::NONE_QUOTES_TYPE ],
@@ -167,7 +167,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int $expected   期待値
      * @param int $prop_value プロパティ quote_type の値
      */
-    public function testGetQuoteType($expected, $prop_value)
+    public function testGetQuoteType($expected, $prop_value): void
     {
         $this->resetProperties();
         $object = $this->getNewInstance();
@@ -181,7 +181,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerSetQuoteType()
+    public function providerSetQuoteType(): array
     {
         return [
             [ -1, DelimitedIdentifier::SQL_SERVER_QUOTES_TYPE, DelimitedIdentifier::NONE_QUOTES_TYPE ],
@@ -202,7 +202,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int $prop_value プロパティ quote_type の値
      * @param int $quote_type メソッド setQuoteType の引数 quote_type に渡す値
      */
-    public function testSetQuoteType($expected, $prop_value, $quote_type)
+    public function testSetQuoteType($expected, $prop_value, $quote_type): void
     {
         $this->resetProperties();
         $object = $this->getNewInstance();
@@ -218,7 +218,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetQuotedString()
+    public function providerGetQuotedString(): array
     {
         return [
             [ 'column', DelimitedIdentifier::NONE_QUOTES_TYPE, 'column' ],
@@ -239,7 +239,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int    $quote_type メソッド init の引数 quote_type に渡す値
      * @param string $text       メソッド getQuotedString の引数 text に渡す値
      */
-    public function testGetQuotedString($expected, $quote_type, $text)
+    public function testGetQuotedString($expected, $quote_type, $text): void
     {
         /** @var \ReflectionProperty $r_instance */
         list($reflection, $r_instance) = $this->resetProperties();
@@ -259,7 +259,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int    $quote_type メソッド init の引数 quote_type に渡す値
      * @param string $text       メソッド quoted の引数 text に渡す値
      */
-    public function testQuoted($expected, $quote_type, $text)
+    public function testQuoted($expected, $quote_type, $text): void
     {
         $this->resetProperties();
         DelimitedIdentifier::init($quote_type);
@@ -272,7 +272,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetQuotedList()
+    public function providerGetQuotedList(): array
     {
         return [
             [ [ 'a', 'b', 'c' ], DelimitedIdentifier::NONE_QUOTES_TYPE, [ 'a', 'b', 'c' ] ],
@@ -291,7 +291,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int   $quote_type メソッド init の引数 quote_type に渡す値
      * @param array $texts      メソッド getQuotedList の引数 list に渡す値
      */
-    public function testGetQuotedList($expected, $quote_type, $texts)
+    public function testGetQuotedList($expected, $quote_type, $texts): void
     {
         /** @var \ReflectionProperty $r_instance */
         list($reflection, $r_instance) = $this->resetProperties();
@@ -311,7 +311,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param int   $quote_type メソッド init の引数 quote_type に渡す値
      * @param array $texts      メソッド quotedRange の引数 list に渡す値
      */
-    public function testQuotedRange($expected, $quote_type, $texts)
+    public function testQuotedRange($expected, $quote_type, $texts): void
     {
         $this->resetProperties();
         DelimitedIdentifier::init($quote_type);
@@ -324,7 +324,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function providerGetMultiQuotedList()
+    public function providerGetMultiQuotedList(): array
     {
         $base_list = [ 't.a', 't.b', 't.c' ];
 
@@ -346,7 +346,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      * @param array $texts      メソッド getMultiQuotedList の引数 list に渡す値
      * @param string $delimiter メソッド getMultiQuotedList の引数 line_delimiter に渡す値
      */
-    public function testGetMultiQuotedList($expected, $quote_type, $texts, $delimiter)
+    public function testGetMultiQuotedList($expected, $quote_type, $texts, $delimiter): void
     {
         /** @var \ReflectionProperty $r_instance */
         list($reflection, $r_instance) = $this->resetProperties();

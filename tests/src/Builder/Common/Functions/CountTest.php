@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\Count;
 /**
  * クラス Count の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class CountTest extends \PHPUnit_Framework_TestCase

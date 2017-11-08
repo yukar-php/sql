@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Objects;
 /**
  * SQLクエリの条件式を定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Objects
  * @author hiroki sugawara
  */
 interface ICondition

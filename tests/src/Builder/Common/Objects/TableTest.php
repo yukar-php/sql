@@ -301,7 +301,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * @param int      $quote_type メソッド init の引数 quote_type に渡す値
      * @param IColumns $columns    メソッド setDefinedColumns の引数 columns に渡す値
      */
-    public function testToString($expected, $table_name, $quote_type, $columns)
+    public function testToString($expected, $table_name, $quote_type, $columns): void
     {
         DelimitedIdentifier::init($quote_type ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 

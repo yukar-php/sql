@@ -4,6 +4,7 @@ namespace Yukar\Sql\Interfaces\Builder\Common\Objects;
 /**
  * テーブルを定義するインターフェイス。
  *
+ * @package Yukar\Sql\Interfaces\Builder\Common\Objects
  * @author hiroki sugawara
  */
 interface ITable extends IDataSource

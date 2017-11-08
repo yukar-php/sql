@@ -6,6 +6,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 /**
  * ANY 演算子、SOME 演算子、ALL 演算子のいずれかを表現します。
  *
+ * @package Yukar\Sql\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
 class GroupExpression extends BaseComparableOperator

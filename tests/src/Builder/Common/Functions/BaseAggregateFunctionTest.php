@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\BaseAggregateFunction;
 /**
  * 抽象クラス BaseAggregateFunction の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase

@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Functions\BaseFilterableFunction;
 /**
  * 抽象クラス BaseFilterableFunction の単体テスト
  *
+ * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
 class BaseFilterableFunctionTest extends \PHPUnit_Framework_TestCase
