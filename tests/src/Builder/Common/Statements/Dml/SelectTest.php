@@ -27,7 +27,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 {
     private const PROP_NAME_FILTER_TYPE = 'filter_type';
     private const PROP_NAME_COLUMNS = 'columns';
-    private const PROP_NAME_JOIN = 'join';
     private const PROP_NAME_GROUP_BY = 'group_by';
     private const PROP_NAME_ORDER_BY = 'order_by';
 
@@ -249,84 +248,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * メソッド testGetJoin のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerGetJoin(): array
-    {
-        $join = (new Join(new Alias(new Table('table_name'), 'b')));
-        $join->setOnCondition(
-            (new Conditions())->addCondition(new Expression('a.column_1', 'b.column_1'))
-        );
-
-        return [
-            [ $join, $join ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerGetJoin
-     *
-     * @param Join $expected   期待値
-     * @param Join $prop_value プロパティ join の値
-     */
-    public function testGetJoin($expected, $prop_value): void
-    {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_JOIN)->setValue($object, $prop_value);
-
-        $this->assertSame($expected, $object->getJoin());
-    }
-
-    /**
-     * メソッド testSetJoin のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetJoin(): array
-    {
-        $join_table = new Join(
-            new Alias(new Table('table_name'), 'b'),
-            Join::INNER_JOIN,
-            (new Conditions())->addCondition(new Expression('a.column_1', 'b.column_1'))
-        );
-        $join_query = new Join(
-            new Alias('(SELECT * FROM table_name)', 'b'),
-            Join::INNER_JOIN,
-            (new Conditions())->addCondition(new Expression('a.column_2', 'b.column_2'))
-        );
-
-        return [
-            [ $join_table, null, $join_table ],
-            [ $join_query, null, $join_query ],
-            [ $join_table, $join_query, $join_table ],
-            [ $join_query, $join_table, $join_query ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetJoin
-     *
-     * @param JOIN $expected    期待値
-     * @param mixed $prop_value プロパティ join の値
-     * @param JOIN $join        メソッド setJoin の引数 join に渡す値
-     */
-    public function testSetJoin($expected, $prop_value, $join): void
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_JOIN);
-        $reflector->setValue($object, $prop_value);
-
-        $this->assertInstanceOf(Select::class, $object->setJoin($join));
-        $this->assertSame($expected, $reflector->getValue($object));
-    }
-
-    /**
      * メソッド testGetGroupBy のデータプロバイダー
      *
      * @return array
@@ -473,14 +394,22 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function providerToString(): array
     {
+        $alias_a = new Alias(new Table('table_a'), 'a');
+        $alias_b = new Alias('table_b', 'b');
         $from_origin = new From(new Table('table_name'));
-        $from_alias_a = new From(new Alias(new Table('table_a'), 'a'));
-        $from_alias_b = new From(new Alias('table_b', 'b'));
+        $from_alias_a = new From($alias_a);
+        $from_alias_b = new From($alias_b);
         $columns_abc = new Columns([ 'a', 'b', 'c' ]);
         $columns_xyz = new Columns([ 'x', 'y', 'z' ]);
         $join_cond = (new Conditions())->addCondition(new Expression('a.x', 'b.x'));
-        $join_b = new Join($from_alias_b->getDataSource(), Join::INNER_JOIN, $join_cond);
-        $join_a = new Join($from_alias_a->getDataSource(), Join::INNER_JOIN, $join_cond);
+        $from_alias_a_join_b = new From(
+            $alias_a,
+            new Join($from_alias_b->getDataSource(), Join::INNER_JOIN, $join_cond)
+        );
+        $from_alias_b_join_a = new From(
+            $alias_b,
+            new Join($from_alias_a->getDataSource(), Join::INNER_JOIN, $join_cond)
+        );
         $where_abc = (new Conditions())->setConditions(
             new Expression('a', 0, Expression::SIGN_GT),
             new Expression('b', 10, Expression::SIGN_OU)
@@ -501,14 +430,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $order_by_xyz = new OrderBy(new Columns([ new Order('x', Order::DESCENDING), new Order('z') ]));
 
         return [
-            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null, null ],
-            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, null, Select::FILTER_DISTINCT ],
-            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, null, false ],
+            [ 'SELECT * FROM table_name', $from_origin, null, null, null, null, null ],
+            [ 'SELECT DISTINCT * FROM table_name', $from_origin, null, null, null, null, Select::FILTER_DISTINCT ],
+            [ 'SELECT x, y, z FROM table_b AS b', $from_alias_b, $columns_xyz, null, null, null, false ],
             [
                 'SELECT DISTINCT x, y, z FROM table_b AS b',
                 $from_alias_b,
                 $columns_xyz,
-                null,
                 null,
                 null,
                 null,
@@ -517,9 +445,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             // JOIN のみ
             [
                 'SELECT x, y, z FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x',
-                $from_alias_a,
+                $from_alias_a_join_b,
                 $columns_xyz,
-                $join_b,
                 null,
                 null,
                 null,
@@ -530,7 +457,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 'SELECT a, b, c FROM table_b AS b WHERE a > 0 AND b <= 10',
                 $from_alias_b,
                 $columns_abc,
-                null,
                 $where_abc,
                 null,
                 null,
@@ -541,7 +467,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 'SELECT x, y, z FROM table_a AS a GROUP BY x, y, z HAVING z > 0',
                 $from_alias_a,
                 $columns_xyz,
-                null,
                 null,
                 $group_by_xyz,
                 null,
@@ -554,16 +479,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $columns_abc,
                 null,
                 null,
-                null,
                 $order_by_abc,
                 null,
             ],
             // JOIN + WHERE
             [
                 'SELECT a, b, c FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x WHERE a > 0 AND b <= 10',
-                $from_alias_b,
+                $from_alias_b_join_a,
                 $columns_abc,
-                $join_a,
                 $where_abc,
                 null,
                 null,
@@ -572,9 +495,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             // JOIN + GROUP BY
             [
                 'SELECT a, b, c FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x GROUP BY a, b, c HAVING c > 0',
-                $from_alias_b,
+                $from_alias_b_join_a,
                 $columns_abc,
-                $join_a,
                 null,
                 $group_by_abc,
                 null,
@@ -583,9 +505,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             // JOIN + ORDER BY
             [
                 'SELECT x, y, z FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x ORDER BY x DESC, z ASC',
-                $from_alias_a,
+                $from_alias_a_join_b,
                 $columns_xyz,
-                $join_b,
                 null,
                 null,
                 $order_by_xyz,
@@ -596,7 +517,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 'SELECT x, y, z FROM table_a AS a WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0',
                 $from_alias_a,
                 $columns_xyz,
-                null,
                 $where_xyz,
                 $group_by_xyz,
                 null,
@@ -607,7 +527,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 'SELECT x, y, z FROM table_b AS b WHERE x >= 10 AND z < 10 ORDER BY x DESC, z ASC',
                 $from_alias_b,
                 $columns_xyz,
-                null,
                 $where_xyz,
                 null,
                 $order_by_xyz,
@@ -619,7 +538,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 $from_alias_a,
                 $columns_abc,
                 null,
-                null,
                 $group_by_abc,
                 $order_by_abc,
                 null,
@@ -628,9 +546,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
                 . ' WHERE x >= 10 AND z < 10 GROUP BY a, b, c HAVING c > 0',
-                $from_alias_b,
+                $from_alias_b_join_a,
                 $columns_xyz,
-                $join_a,
                 $where_xyz,
                 $group_by_abc,
                 null,
@@ -640,9 +557,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'SELECT a, b, c FROM table_a AS a INNER JOIN table_b AS b ON a.x = b.x'
                 . ' WHERE a > 0 AND b <= 10 ORDER BY a ASC, b DESC',
-                $from_alias_a,
+                $from_alias_a_join_b,
                 $columns_abc,
-                $join_b,
                 $where_abc,
                 null,
                 $order_by_abc,
@@ -652,9 +568,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
                 . ' GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
-                $from_alias_b,
+                $from_alias_b_join_a,
                 $columns_xyz,
-                $join_a,
                 null,
                 $group_by_xyz,
                 $order_by_xyz,
@@ -666,7 +581,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 . ' GROUP BY a, b, c HAVING c > 0 ORDER BY a ASC, b DESC',
                 $from_alias_a,
                 $columns_abc,
-                null,
                 $where_abc,
                 $group_by_abc,
                 $order_by_abc,
@@ -676,9 +590,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'SELECT x, y, z FROM table_b AS b INNER JOIN table_a AS a ON a.x = b.x'
                 . ' WHERE x >= 10 AND z < 10 GROUP BY x, y, z HAVING z > 0 ORDER BY x DESC, z ASC',
-                $from_alias_b,
+                $from_alias_b_join_a,
                 $columns_xyz,
-                $join_a,
                 $where_xyz,
                 $group_by_xyz,
                 $order_by_xyz,
@@ -692,20 +605,18 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string $expected      期待値
-     * @param From   $from          コンストラクタの引数 from に渡す値
-     * @param mixed  $columns       コンストラクタの引数 columns に渡す値
-     * @param mixed  $join          メソッド setJoin の引数 join に渡す値（null以外の時のみ）
-     * @param mixed  $where         メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
-     * @param mixed  $group_by      メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
-     * @param mixed  $order_by      メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
-     * @param mixed  $filter_type   メソッド setFilter の引数 filter_type に渡す値（null以外の時のみ）
+     * @param string $expected    期待値
+     * @param From   $from        コンストラクタの引数 from に渡す値
+     * @param mixed  $columns     コンストラクタの引数 columns に渡す値
+     * @param mixed  $where       メソッド setWhere の引数 condition に渡す値（null以外の時のみ）
+     * @param mixed  $group_by    メソッド setGroupBy の引数 group_by に渡す値（null以外の時のみ）
+     * @param mixed  $order_by    メソッド setOrderBy の引数 order_by に渡す値（null以外の時のみ）
+     * @param mixed  $filter_type メソッド setFilter の引数 filter_type に渡す値（null以外の時のみ）
      */
-    public function testToString($expected, $from, $columns, $join, $where, $group_by, $order_by, $filter_type): void
+    public function testToString($expected, $from, $columns, $where, $group_by, $order_by, $filter_type): void
     {
         $select = new Select($from, $columns);
         isset($filter_type) && $select->setFilter($filter_type);
-        isset($join) && $select->setJoin($join);
         isset($where) && $select->setWhere($where);
         isset($group_by) && $select->setGroupBy($group_by);
         isset($order_by) && $select->setOrderBy($order_by);

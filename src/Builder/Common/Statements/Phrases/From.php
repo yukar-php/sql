@@ -14,15 +14,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 class From implements IPhrases, ISqlQuerySource
 {
     private $data_source;
+    private $join;
 
     /**
      * From クラスの新しいインスタンスを初期化します。
      *
      * @param IDataSource $data_source SQLクエリの対象となる表やサブクエリ
+     * @param Join        $join        問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
      */
-    public function __construct(IDataSource $data_source)
+    public function __construct(IDataSource $data_source, Join $join = null)
     {
         $this->setDataSource($data_source);
+        (isset($join) === true) && $this->setJoin($join);
     }
 
     /**
@@ -32,7 +35,7 @@ class From implements IPhrases, ISqlQuerySource
      */
     public function getPhraseString(): string
     {
-        return 'FROM %s';
+        return 'FROM %s %s';
     }
 
     /**
@@ -56,12 +59,32 @@ class From implements IPhrases, ISqlQuerySource
     }
 
     /**
+     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
+     *
+     * @return Join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     */
+    public function getJoin(): ?Join
+    {
+        return $this->join;
+    }
+
+    /**
+     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を設定します。
+     *
+     * @param Join $join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
+     */
+    public function setJoin(Join $join): void
+    {
+        $this->join = $join;
+    }
+
+    /**
      * SQLクエリの句を文字列として取得します。
      *
      * @return string SQLクエリの句
      */
     public function __toString(): string
     {
-        return sprintf($this->getPhraseString(), $this->getDataSource());
+        return rtrim(sprintf($this->getPhraseString(), $this->getDataSource(), $this->getJoin()));
     }
 }
