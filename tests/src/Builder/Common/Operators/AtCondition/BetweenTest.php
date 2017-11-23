@@ -272,7 +272,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $from_value, $to_value, $is_not): void
     {
-        $between = new Between($column, $from_value, $to_value, $is_not);
+        $between = new Between($column, $from_value, $to_value);
         ($is_not === true) && $between = new Not($between);
 
         $this->assertSame($expected, (string)$between);

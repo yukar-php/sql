@@ -183,7 +183,7 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $name, $needle, $is_not): void
     {
-        $in = new In($name, $needle, $is_not);
+        $in = new In($name, $needle);
         ($is_not === true) && $in = new Not($in);
 
         $this->assertSame($expected, (string)$in);
