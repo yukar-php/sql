@@ -77,22 +77,19 @@ class Table implements ITable
      *
      * @param IColumns $columns テーブルで定義済みの列のリスト
      *
-     * @throws \InvalidArgumentException 引数 $columns の要素が空の場合
+     * @throws \InvalidArgumentException 引数 $columns の要素が空、または、要素が文字列型の値以外の場合
      *
      * @return ITable 定義済みの列のリストを設定した状態の ITable を継承するオブジェクトのインスタンス
      */
     public function setDefinedColumns(IColumns $columns): ITable
     {
-        $column_list = $columns->getColumns();
-        $true_for_all = (new ListObject($column_list))->trueForAll(function ($v) {
-            return is_string($v);
-        });
+        $list = new ListObject($columns->getColumns());
 
-        if (empty($column_list) === true || $true_for_all === false) {
+        if ($list->getSize() < 1 || $list->trueForAll($this->getValidStringCheckClosure()) === false) {
             throw new \InvalidArgumentException();
         }
 
-        $this->column_list = $this->getQuotedList($column_list);
+        $this->column_list = $this->getQuotedList($list->toArray());
 
         return $this;
     }
@@ -112,5 +109,17 @@ class Table implements ITable
         }
 
         return $this->getQuotedString($table_name);
+    }
+
+    /**
+     * 空白文字列を除く文字列であるかどうかを判別するクロージャーを取得します。
+     *
+     * @return \Closure 空白文字列を除く文字列であるかどうかを判別するクロージャー
+     */
+    private function getValidStringCheckClosure(): \Closure
+    {
+        return function ($value): bool {
+            return (is_string($value) === true && strlen($value) > 0);
+        };
     }
 }
