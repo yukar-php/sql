@@ -404,11 +404,11 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $join_cond = (new Conditions())->addCondition(new Expression('a.x', 'b.x'));
         $from_alias_a_join_b = new From(
             $alias_a,
-            new Join($from_alias_b->getDataSource(), Join::INNER_JOIN, $join_cond)
+            new Join($from_alias_b->getQuerySourceList()[0], Join::INNER_JOIN, $join_cond)
         );
         $from_alias_b_join_a = new From(
             $alias_b,
-            new Join($from_alias_a->getDataSource(), Join::INNER_JOIN, $join_cond)
+            new Join($from_alias_a->getQuerySourceList()[0], Join::INNER_JOIN, $join_cond)
         );
         $where_abc = (new Conditions())->setConditions(
             new Expression('a', 0, Expression::SIGN_GT),

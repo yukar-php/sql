@@ -8,6 +8,7 @@ use Yukar\Sql\Builder\Common\Operators\Alias;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
 
@@ -19,8 +20,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
  */
 class FromTest extends \PHPUnit_Framework_TestCase
 {
-    private const PROP_NAME_DATA_SOURCE = 'data_source';
-    private const PROP_NAME_JOIN = 'join';
+    private const PROP_NAME_QUERY_SOURCE_LIST = 'query_source_list';
 
     /**
      * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
@@ -56,159 +56,134 @@ class FromTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPhraseString(): void
     {
-        $this->assertSame('FROM %s %s', $this->getNewInstance()->getPhraseString());
+        $this->assertSame('FROM %s', $this->getNewInstance()->getPhraseString());
     }
 
     /**
-     * メソッド testGetDataSource のデータプロバイダー
+     * メソッド testGetQuerySourceList のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetDataSource(): array
+    public function providerGetQuerySourceList(): array
     {
         $table_name = new Table('table_name');
         $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
         $sub_query_obj = new Alias(new Select(new From(new Table('table')), new Columns([ 'foo' ])), 'bar');
 
         return [
-            [ $table_name, $table_name ],
-            [ $sub_query_text, $sub_query_text ],
-            [ $sub_query_obj, $sub_query_obj ],
+            [ [ $table_name ], [ $table_name ] ],
+            [ [ $sub_query_text ], [ $sub_query_text ] ],
+            [ [ $sub_query_obj ], [ $sub_query_obj ] ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerGetDataSource
+     * @dataProvider providerGetQuerySourceList
      *
-     * @param string      $expected   期待値
-     * @param IDataSource $prop_value プロパティ data_source の値
+     * @param array            $expected   期待値
+     * @param IDataSource|Join $prop_value プロパティ query_source_list の値
      */
-    public function testGetDataSource($expected, $prop_value): void
+    public function testGetQuerySourceList($expected, $prop_value): void
     {
         $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $object->getDataSource());
+        $this->assertSame($expected, $object->getQuerySourceList());
     }
 
     /**
-     * メソッド testSetDataSource のデータプロバイダー
+     * メソッド testSetQuerySourceList のデータプロバイダー
      *
      * @return array
      */
-    public function providerSetDataSource(): array
+    public function providerSetQuerySourceList(): array
     {
-        $table_name = new Table('table_name');
-        $sub_query_text = new Alias('(SELECT foo FROM table)', 'bar');
-        $sub_query_obj = new Alias(new Select(new From(new Table('table')), new Columns([ 'foo' ])), 'bar');
+        $table_name = new Table('foo');
+        $sub_query_text = new Alias('(SELECT col FROM table)', 'bar');
+        $sub_query_obj = new Alias(new Select(new From(new Table('table')), new Columns([ 'col' ])), 'bar');
+        $inner_join = new Join(
+            new Table('abc'),
+            Join::INNER_JOIN,
+            (new Conditions())->addCondition(new Expression('foo.x', 'abc.x'))
+        );
+        $table_alias_name = new Alias(new Table('foo'), 'foobar');
 
         return [
-            [ $table_name, null, $table_name ],
-            [ $sub_query_text, null, $sub_query_text ],
-            [ $sub_query_obj, null, $sub_query_obj ],
-            [ $table_name, $sub_query_obj, $table_name ],
-            [ $sub_query_text, $table_name, $sub_query_text ],
-            [ $sub_query_obj, $sub_query_text, $sub_query_obj ],
+            [ [ $table_name ], null, [ $table_name ] ],
+            [ [ $sub_query_text ], null, [ $sub_query_text ] ],
+            [ [ $sub_query_obj ], null, [ $sub_query_obj ] ],
+            [ [ $table_name, $inner_join ], null, [ $table_name, $inner_join ] ],
+            [ [ $table_alias_name, $table_alias_name ], null, [ $table_alias_name, $table_alias_name ] ],
+            [ [ $table_name ], [ $table_alias_name, $table_alias_name ], [ $table_name ] ],
+            [ [ $sub_query_text ], [ $table_name ], [ $sub_query_text ] ],
+            [ [ $sub_query_obj ], [ $sub_query_text ], [ $sub_query_obj ] ],
+            [ [ $table_name, $inner_join ], [ $sub_query_obj ], [ $table_name, $inner_join ] ],
+            [ [ $table_alias_name, $table_alias_name ], [ $inner_join ], [ $table_alias_name, $table_alias_name ] ],
         ];
     }
 
     /**
      * 正常系テスト
      *
-     * @dataProvider providerSetDataSource
+     * @dataProvider providerSetQuerySourceList
      *
-     * @param string      $expected    期待値
-     * @param IDataSource $prop_value  プロパティ data_source の値
-     * @param IDataSource $data_source メソッド setDataSource の引数 data_source に渡す値
+     * @param array            $expected          期待値
+     * @param IDataSource|Join $prop_value        プロパティ query_source_list の値
+     * @param array            $query_source_list メソッド setQuerySourceList の引数 query_source_list に渡す値
      */
-    public function testSetDataSource($expected, $prop_value, $data_source): void
+    public function testSetQuerySourceList($expected, $prop_value, $query_source_list): void
     {
         $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
+        $reflector = $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST);
         $reflector->setValue($object, $prop_value);
-        $object->setDataSource($data_source);
+        $object->setQuerySourceList(...$query_source_list);
 
         $this->assertSame($expected, $reflector->getValue($object));
     }
 
     /**
-     * メソッド testGetJoin のデータプロバイダー
+     * メソッド testSetQuerySourceListFailure のデータプロバイダー
      *
      * @return array
      */
-    public function providerGetJoin(): array
+    public function providerSetQuerySourceListFailure(): array
     {
-        $join = (new Join(new Alias(new Table('table_name'), 'b')));
-        $join->setOnCondition(
-            (new Conditions())->addCondition(new Expression('a.column_1', 'b.column_1'))
+        $table_name = new Table('foo');
+        $inner_join = new Join(
+            new Table('abc'),
+            Join::INNER_JOIN,
+            (new Conditions())->addCondition(new Expression('foo.x', 'abc.x'))
         );
+        $into_table_name = new Into(new Table('table_name'));
 
         return [
-            [ $join, $join ],
+            [ \BadMethodCallException::class, null, [] ],
+            [ \BadMethodCallException::class, null, [ $inner_join ] ],
+            [ \BadMethodCallException::class, null, [ $inner_join, $into_table_name ] ],
+            [ \InvalidArgumentException::class, null, [ $table_name, $into_table_name ] ],
+            [ \InvalidArgumentException::class, null, [ $table_name, $into_table_name, $inner_join ] ],
+            [ \TypeError::class, null, [ new \stdClass() ] ],
         ];
     }
 
     /**
-     * 正常系テスト
+     * 異常系テスト
      *
-     * @dataProvider providerGetJoin
+     * @dataProvider providerSetQuerySourceListFailure
      *
-     * @param Join $expected   期待値
-     * @param Join $prop_value プロパティ join の値
+     * @param \Exception       $expected          期待値
+     * @param IDataSource|Join $prop_value        プロパティ query_source_list の値
+     * @param array            $query_source_list メソッド setQuerySourceList の引数 query_source_list に渡す値
      */
-    public function testGetJoin($expected, $prop_value): void
+    public function testSetQuerySourceListFailure($expected, $prop_value, $query_source_list): void
     {
+        $this->expectException($expected);
+
         $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_JOIN)->setValue($object, $prop_value);
-
-        $this->assertSame($expected, $object->getJoin());
-    }
-
-    /**
-     * メソッド testSetJoin のデータプロバイダー
-     *
-     * @return array
-     */
-    public function providerSetJoin(): array
-    {
-        $join_table = new Join(
-            new Alias(new Table('table_name'), 'b'),
-            Join::INNER_JOIN,
-            (new Conditions())->addCondition(new Expression('a.column_1', 'b.column_1'))
-        );
-        $join_query = new Join(
-            new Alias('(SELECT * FROM table_name)', 'b'),
-            Join::INNER_JOIN,
-            (new Conditions())->addCondition(new Expression('a.column_2', 'b.column_2'))
-        );
-
-        return [
-            [ $join_table, null, $join_table ],
-            [ $join_query, null, $join_query ],
-            [ $join_table, $join_query, $join_table ],
-            [ $join_query, $join_table, $join_query ],
-        ];
-    }
-
-    /**
-     * 正常系テスト
-     *
-     * @dataProvider providerSetJoin
-     *
-     * @param JOIN $expected    期待値
-     * @param mixed $prop_value プロパティ join の値
-     * @param JOIN $join        メソッド setJoin の引数 join に渡す値
-     */
-    public function testSetJoin($expected, $prop_value, $join): void
-    {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_JOIN);
-        $reflector->setValue($object, $prop_value);
-        $object->setJoin($join);
-
-        $this->assertSame($expected, $reflector->getValue($object));
+        $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST)->setValue($object, $prop_value);
+        $object->setQuerySourceList(...$query_source_list);
     }
 
     /**
@@ -234,12 +209,12 @@ class FromTest extends \PHPUnit_Framework_TestCase
         );
 
         return [
-            [ 'FROM foo', $table_name, null ],
-            [ 'FROM (SELECT col FROM foo) AS bar', $sub_query_text, null ],
-            [ 'FROM (SELECT col FROM foo) AS bar', $sub_query_obj, null ],
-            [ 'FROM foo INNER JOIN abc ON foo.x = abc.x', $table_name, $inner_join ],
-            [ 'FROM (SELECT col FROM foo) AS bar LEFT JOIN abc ON bar.x = abc.x', $sub_query_text, $left_join ],
-            [ 'FROM (SELECT col FROM foo) AS bar LEFT JOIN abc ON bar.x = abc.x', $sub_query_obj, $left_join ],
+            [ 'FROM foo', [ $table_name ] ],
+            [ 'FROM (SELECT col FROM foo) AS bar', [ $sub_query_text ] ],
+            [ 'FROM (SELECT col FROM foo) AS bar', [ $sub_query_obj ] ],
+            [ 'FROM foo INNER JOIN abc ON foo.x = abc.x', [ $table_name, $inner_join ] ],
+            [ 'FROM (SELECT col FROM foo) AS bar LEFT JOIN abc ON bar.x = abc.x', [ $sub_query_text, $left_join ] ],
+            [ 'FROM (SELECT col FROM foo) AS bar LEFT JOIN abc ON bar.x = abc.x', [ $sub_query_obj, $left_join ] ],
         ];
     }
 
@@ -248,12 +223,11 @@ class FromTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerToString
      *
-     * @param string      $expected    期待値
-     * @param IDataSource $data_source コンストラクタの引数 data_source に渡す値
-     * @param Join        $join        コンストラクタの引数 join に渡す値
+     * @param string $expected          期待値
+     * @param array  $query_source_list コンストラクタの引数 data_source に渡す値
      */
-    public function testToString($expected, $data_source, $join): void
+    public function testToString($expected, $query_source_list): void
     {
-        $this->assertSame($expected, (string)new From($data_source, $join));
+        $this->assertSame($expected, (string)new From(...$query_source_list));
     }
 }

@@ -3,6 +3,7 @@ namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
+use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
 
 /**
@@ -11,7 +12,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
  * @package Yukar\Sql\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class Join implements IPhrases
+class Join implements IPhrases, ISqlQuerySource
 {
     /** JOIN 句が「内部結合」であることを示す定数 */
     public const INNER_JOIN = 1;
