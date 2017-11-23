@@ -81,7 +81,7 @@ class GroupBy implements IPhrases
      *
      * @throws \InvalidArgumentException Having句に指定する条件のリストの要素が空の場合
      */
-    public function setHaving(ICondition $conditions)
+    public function setHaving(ICondition $conditions): void
     {
         if (empty($conditions->getConditions()) === true) {
             throw new \InvalidArgumentException();
