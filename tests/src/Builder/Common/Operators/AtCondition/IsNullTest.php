@@ -36,7 +36,7 @@ class IsNullTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString($expected, $column, $is_not): void
     {
-        $is_null = new IsNull($column, $is_not);
+        $is_null = new IsNull($column);
         ($is_not === true) && $is_null = new Not($is_null);
 
         $this->assertSame($expected, (string)$is_null);

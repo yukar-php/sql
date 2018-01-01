@@ -2,7 +2,6 @@
 namespace Yukar\Sql\Interfaces\Builder\Common\Statements;
 
 use Yukar\Sql\Builder\Common\Statements\Phrases\GroupBy;
-use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
@@ -51,22 +50,6 @@ interface ISelectQuery extends IConditionalDMLQuery
      * @return ISelectQuery 対象となる列のリストを設定した状態のオブジェクトのインスタンス
      */
     public function setColumns(IColumns $columns): ISelectQuery;
-
-    /**
-     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
-     *
-     * @return Join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
-     */
-    public function getJoin(): ?Join;
-
-    /**
-     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を設定します。
-     *
-     * @param Join $join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
-     *
-     * @return ISelectQuery 結合する表の名前またはサブクエリとその結合条件を設定した状態のオブジェクトのインスタンス
-     */
-    public function setJoin(Join $join): ISelectQuery;
 
     /**
      * 問い合わせクエリの条件式を設定します。

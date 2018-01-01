@@ -4,7 +4,6 @@ namespace Yukar\Sql\Builder\Common\Statements\Dml;
 use Yukar\Sql\Builder\Common\Objects\Columns;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Phrases\GroupBy;
-use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
 use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
@@ -19,14 +18,13 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
  */
 class Select extends BaseConditionalDMLQuery implements ISelectQuery
 {
-    private const FILTERS = [
+    protected const FILTERS = [
         self::FILTER_ALL      => 'ALL',
         self::FILTER_DISTINCT => 'DISTINCT',
     ];
 
     private $filter_type = self::FILTER_ALL;
     private $columns;
-    private $join;
     private $group_by;
     private $order_by;
 
@@ -56,6 +54,8 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
      * SQLのデータ操作言語の対象となる表やサブクエリを設定します。
      *
      * @param ISqlQuerySource $sql_query_source SQLのデータ操作言語の対象となる表やサブクエリ
+     *
+     * @throws \InvalidArgumentException 引数 sql_query_source に From クラスのインスタンスを渡さなかった場合
      */
     public function setSqlQuerySource(ISqlQuerySource $sql_query_source): void
     {
@@ -110,30 +110,6 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
     public function setColumns(IColumns $columns): ISelectQuery
     {
         $this->columns = $columns;
-
-        return $this;
-    }
-
-    /**
-     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を取得します。
-     *
-     * @return Join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
-     */
-    public function getJoin(): ?Join
-    {
-        return $this->join;
-    }
-
-    /**
-     * 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件を設定します。
-     *
-     * @param Join $join 問い合わせクエリに結合する表の名前またはサブクエリとその結合条件
-     *
-     * @return ISelectQuery 結合する表の名前またはサブクエリとその結合条件を設定した状態のオブジェクトのインスタンス
-     */
-    public function setJoin(Join $join): ISelectQuery
-    {
-        $this->join = $join;
 
         return $this;
     }
@@ -212,7 +188,7 @@ class Select extends BaseConditionalDMLQuery implements ISelectQuery
         return $this->getFormatRightTrim(
             ltrim(sprintf('%s %s', $this->getFilter(), $this->getColumns())),
             $this->getSqlQuerySource(),
-            $this->joinQuery($this->getJoin(), $this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
+            $this->joinQuery($this->getWhereString(), $this->getGroupBy(), $this->getOrderBy())
         );
     }
 }

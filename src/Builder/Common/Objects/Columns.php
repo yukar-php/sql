@@ -46,21 +46,17 @@ class Columns implements IColumns
      *
      * @param array $columns テーブルの任意の列のリスト
      *
-     * @throws \InvalidArgumentException 引数 $columns が空配列の場合
-     * @throws \DomainException          引数 $columns の配列の要素に一つ以上の許容できない型がある場合
+     * @throws \BadMethodCallException   引数 $columns が空配列の場合
+     * @throws \InvalidArgumentException 引数 $columns の配列の要素に一つ以上の許容できない型がある場合
      */
     public function setColumns(array $columns): void
     {
         $list = new ListObject($columns);
 
-        $is_acceptable_array = $list->trueForAll(function ($column) {
-            return $this->isAcceptableColumnValue($column);
-        });
-
-        if ($list->getSize() === 0) {
+        if ($list->getSize() < 1) {
+            throw new \BadMethodCallException();
+        } elseif ($list->trueForAll($this->getAcceptableColumnValueClosure()) === false) {
             throw new \InvalidArgumentException();
-        } elseif ($is_acceptable_array === false) {
-            throw new \DomainException();
         }
 
         $this->column_list = $list->toArray();
@@ -75,10 +71,7 @@ class Columns implements IColumns
     {
         $list = new ListObject($this->getColumns());
 
-        return ($list->getSize() > 0
-            && $list->trueForAll(function ($column) {
-                return (is_string($column) === true && strlen($column) > 0);
-            }) === true);
+        return ($list->getSize() > 0 && $list->trueForAll($this->getValidStringCheckClosure()) === true);
     }
 
     /**
@@ -90,10 +83,7 @@ class Columns implements IColumns
     {
         $list = new ListObject($this->getColumns());
 
-        return ($list->getSize() > 0
-            && $list->trueForAll(function ($column) {
-                return ((is_string($column) === true && strlen($column) > 0) || ($column instanceof Order));
-            }) === true);
+        return ($list->getSize() > 0 && $list->trueForAll($this->getValidOrderByValueCheckClosure()) === true);
     }
 
     /**
@@ -110,15 +100,39 @@ class Columns implements IColumns
     }
 
     /**
-     * テーブルの列のリストに含めることができる値かどうかを判別します。
+     * テーブルの列の値として扱うことができるかどうかを判別するクロージャーを取得します。
      *
-     * @param mixed $column 判別対象となる値
-     *
-     * @return bool テーブルの列のリストに含めることができる場合は true。それ以外の場合は false。
+     * @return \Closure テーブルの列の値として扱うことができるかどうかを判別するクロージャー
      */
-    private function isAcceptableColumnValue($column): bool
+    private function getAcceptableColumnValueClosure(): \Closure
     {
-        return ((is_string($column) === true && strlen($column) > 0)
-            || ($column instanceof IConditionContainable === false && $column instanceof IOperator));
+        return function ($value): bool {
+            return ((is_string($value) === true && strlen($value) > 0)
+                || ($value instanceof IConditionContainable === false && $value instanceof IOperator));
+        };
+    }
+
+    /**
+     * 空白文字列を除く文字列であるかどうかを判別するクロージャーを取得します。
+     *
+     * @return \Closure 空白文字列を除く文字列であるかどうかを判別するクロージャー
+     */
+    private function getValidStringCheckClosure(): \Closure
+    {
+        return function ($value): bool {
+            return (is_string($value) === true && strlen($value) > 0);
+        };
+    }
+
+    /**
+     * OrderBy 句に使用可能な値であるかどうかを判別するクロージャーを取得します。
+     *
+     * @return \Closure OrderBy 句に使用可能な値であるかどうかを判別するクロージャー
+     */
+    private function getValidOrderByValueCheckClosure(): \Closure
+    {
+        return function ($value): bool {
+            return ((is_string($value) === true && strlen($value) > 0) || ($value instanceof Order));
+        };
     }
 }

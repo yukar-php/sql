@@ -1,6 +1,7 @@
 <?php
 namespace Yukar\Sql\Builder\Common\Statements\Phrases;
 
+use Yukar\Linq\Collections\ListObject;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
@@ -13,16 +14,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\IPhrases;
  */
 class From implements IPhrases, ISqlQuerySource
 {
-    private $data_source;
+    private $query_source_list = [];
 
     /**
      * From クラスの新しいインスタンスを初期化します。
      *
-     * @param IDataSource $data_source SQLクエリの対象となる表やサブクエリ
+     * @param ISqlQuerySource[] ...$query_source_list SQLクエリの対象となる表やサブクエリ、または Join句（複数指定可）
      */
-    public function __construct(IDataSource $data_source)
+    public function __construct(ISqlQuerySource ...$query_source_list)
     {
-        $this->setDataSource($data_source);
+        $this->setQuerySourceList(...$query_source_list);
     }
 
     /**
@@ -36,23 +37,34 @@ class From implements IPhrases, ISqlQuerySource
     }
 
     /**
-     * SQLクエリの対象となる表やサブクエリを取得します。
+     * SQLクエリの対象となる表やサブクエリのリストを取得します。
      *
-     * @return IDataSource SQLクエリの対象となる表やサブクエリ
+     * @return array SQLクエリの対象となる表やサブクエリ、または Join句（複数指定可）のリスト
      */
-    public function getDataSource(): IDataSource
+    public function getQuerySourceList(): array
     {
-        return $this->data_source;
+        return $this->query_source_list;
     }
 
     /**
      * SQLクエリの対象となる表やサブクエリを設定します。
      *
-     * @param IDataSource $data_source SQLクエリの対象となる表やサブクエリ
+     * @param ISqlQuerySource[] ...$query_source_list SQLクエリの対象となる表やサブクエリ、または Join句（複数指定可）
+     *
+     * @throws \BadMethodCallException   引数にSQLクエリの対象となる表やサブクエリが一つ以上指定されていない場合
+     * @throws \InvalidArgumentException 引数に表やサブクエリ、または Join句として指定できないオブジェクトが含まれる場合
      */
-    public function setDataSource(IDataSource $data_source): void
+    public function setQuerySourceList(ISqlQuerySource ...$query_source_list): void
     {
-        $this->data_source = $data_source;
+        $list = new ListObject($query_source_list);
+
+        if ($list->count($this->getContainsDataSourceClosure()) < 1) {
+            throw new \BadMethodCallException();
+        } elseif ($list->trueForAll($this->getAcceptableQuerySourceClosure()) === false) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->query_source_list = $list->toArray();
     }
 
     /**
@@ -62,6 +74,51 @@ class From implements IPhrases, ISqlQuerySource
      */
     public function __toString(): string
     {
-        return sprintf($this->getPhraseString(), $this->getDataSource());
+        return sprintf($this->getPhraseString(), $this->getQuerySourceString());
+    }
+
+    /**
+     * From 句に必要な表、サブクエリが一つ以上含まれているかどうかを判定するクロージャを取得します。
+     *
+     * @return \Closure From 句に必要な表、サブクエリが一つ以上含まれているかどうかを判定するクロージャ
+     */
+    private function getContainsDataSourceClosure(): \Closure
+    {
+        return function ($item): bool {
+            return ($item instanceof IDataSource === true);
+        };
+    }
+
+    /**
+     * From 句に含めることができる表、サブクエリ、または Join 句であるかどうかを判定するクロージャを取得します。
+     *
+     * @return \Closure From 句に含めることができる表、サブクエリ、または Join 句であるかどうかを判定するクロージャ
+     */
+    private function getAcceptableQuerySourceClosure(): \Closure
+    {
+        return function ($item): bool {
+            return ($item instanceof IDataSource === true || $item instanceof Join === true);
+        };
+    }
+
+    /**
+     * SQLクエリの対象となる表やサブクエリのリストを SQL として実行可能な文字列として取得します。
+     *
+     * @return string SQLクエリの対象となる表やサブクエリのリストの SQL として実行可能な文字列
+     */
+    private function getQuerySourceString(): string
+    {
+        $table_list = [];
+        $join_list = [];
+
+        foreach ($this->getQuerySourceList() as $item) {
+            if ($item instanceof Join === true) {
+                $join_list[] = $item;
+            } else {
+                $table_list[] = $item;
+            }
+        }
+
+        return trim(sprintf('%s %s', implode(', ', $table_list), implode(' ', $join_list)));
     }
 }
