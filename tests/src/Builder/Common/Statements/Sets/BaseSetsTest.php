@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Sets\BaseSets;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * 抽象クラス BaseSets の単体テスト
@@ -13,40 +14,20 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
-class BaseSetsTest extends \PHPUnit_Framework_TestCase
+class BaseSetsTest extends CustomizedTestCase
 {
     private const PROP_NAME_IS_ALL = 'is_all';
     private const PROP_NAME_FIRST_QUERY = 'first_query';
     private const PROP_NAME_SECOND_QUERY = 'second_query';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return BaseSets コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): BaseSets
+    protected function getTargetClassName(): string
     {
-        /** @var BaseSets $instance */
-        $instance = (new \ReflectionClass($this->getMockForAbstractClass(BaseSets::class)))
-            ->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return BaseSets::class;
     }
 
     /**
@@ -54,7 +35,7 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSetsFormat()
     {
-        $instance = $this->getNewInstance();
+        $instance = $this->getNewAbstractInstance();
         $this->assertSame('%s ' . strtoupper(get_class($instance)) . ' %s', $instance->getSetsFormat());
     }
 
@@ -81,8 +62,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetIsAll($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_IS_ALL)->setValue($object, $prop_value);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_IS_ALL)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getIsAll());
     }
@@ -111,8 +93,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetIsAll($expected, $prop_value, $is_all): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_IS_ALL);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_IS_ALL);
         $reflector->setValue($object, $prop_value);
         $object->setIsAll($is_all);
 
@@ -143,8 +126,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFirstQuery($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_FIRST_QUERY)->setValue($object, $prop_value);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_FIRST_QUERY)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getFirstQuery());
     }
@@ -174,8 +158,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFirstQuery($expected, $prop_value, $query): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_FIRST_QUERY);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_FIRST_QUERY);
         $reflector->setValue($object, $prop_value);
         $object->setFirstQuery($query);
 
@@ -206,8 +191,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSecondQuery($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_SECOND_QUERY)->setValue($object, $prop_value);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_SECOND_QUERY)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getSecondQuery());
     }
@@ -237,8 +223,9 @@ class BaseSetsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSecondQuery($expected, $prop_value, $query): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_SECOND_QUERY);
+        /** @var BaseSets $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_SECOND_QUERY);
         $reflector->setValue($object, $prop_value);
         $object->setSecondQuery($query);
 

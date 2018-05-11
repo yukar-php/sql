@@ -8,6 +8,7 @@ use Yukar\Sql\Builder\Common\Operators\Order;
 use Yukar\Sql\Builder\Common\Statements\Phrases\GroupBy;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス GroupBy の単体テスト
@@ -15,38 +16,19 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class GroupByTest extends \PHPUnit_Framework_TestCase
+class GroupByTest extends CustomizedTestCase
 {
     private const PROP_NAME_GROUP_BY_LIST = 'group_by_list';
     private const PROP_NAME_HAVING_COND = 'having_cond';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return GroupBy コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): GroupBy
+    protected function getTargetClassName(): string
     {
-        /** @var GroupBy $instance */
-        $instance = (new \ReflectionClass(GroupBy::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return GroupBy::class;
     }
 
     /**
@@ -79,6 +61,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGroupBy($expected, $prop_value): void
     {
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST)->setValue($object, $prop_value);
 
@@ -109,6 +92,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGroupBy($expected, $prop_value, $group_by): void
     {
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
@@ -152,6 +136,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY_LIST);
         $reflector->setValue($object, $prop_value);
@@ -187,6 +172,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHaving($expected, $prop_value): void
     {
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
 
@@ -221,6 +207,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetHaving($expected, $prop_value, $having): void
     {
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_HAVING_COND);
         $reflector->setValue($object, $prop_value);
@@ -257,6 +244,7 @@ class GroupByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var GroupBy $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_HAVING_COND)->setValue($object, $prop_value);
         $object->setHaving($having);

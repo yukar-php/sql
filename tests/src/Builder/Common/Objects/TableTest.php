@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Common\Objects\Columns;
 use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
 use Yukar\Sql\Builder\Common\Objects\Table;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Table の単体テスト
@@ -12,13 +13,25 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
  * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
-class TableTest extends \PHPUnit_Framework_TestCase
+class TableTest extends CustomizedTestCase
 {
     private const PROP_NAME_TABLE_NAME = 'table_name';
     private const PROP_NAME_COLUMN_LIST = 'column_list';
 
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Table::class;
+    }
+
+    /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     *
+     * @throws \ReflectionException
      */
     public static function tearDownAfterClass(): void
     {
@@ -26,35 +39,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $property = $object->getProperty('quote_type');
         $property->setAccessible(true);
         $property->setValue($object, null);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
-     *
-     * @return Table コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getNewInstance(): Table
-    {
-        /** @var Table $instance */
-        $instance = (new \ReflectionClass(Table::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**
@@ -110,6 +94,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetTableName($expected, $prop_value, $table_name): void
     {
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TABLE_NAME);
         $reflector->setValue($object, $prop_value);
@@ -144,6 +129,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TABLE_NAME)->setValue($object, $prop_value);
         $object->setTableName($table_name);
@@ -171,6 +157,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefinedColumns($expected, $prop_value): void
     {
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
@@ -202,6 +189,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->getDefinedColumns();
@@ -231,6 +219,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDefinedColumns($expected, $prop_value, $columns): void
     {
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
@@ -265,6 +254,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Table $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setDefinedColumns($columns);

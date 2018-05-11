@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
 use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス DelimitedIdentifier の単体テスト
@@ -9,34 +10,32 @@ use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
  * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
-class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
+class DelimitedIdentifierTest extends CustomizedTestCase
 {
     private const STATIC_PROP_NAME_INSTANCE = 'instance';
     private const PROP_NAME_QUOTE_TYPE = 'quote_type';
 
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return DelimitedIdentifier::class;
+    }
+
+    /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     *
+     * @throws \ReflectionException
      */
     public static function tearDownAfterClass()
     {
         $object = new \ReflectionClass(DelimitedIdentifier::class);
         $property = $object->getProperty(self::STATIC_PROP_NAME_INSTANCE);
         $property->setAccessible(true);
-
         $property->setValue($object, null);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
-     *
-     * @return DelimitedIdentifier コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getNewInstance(): DelimitedIdentifier
-    {
-        /** @var DelimitedIdentifier $instance */
-        $instance = (new \ReflectionClass(DelimitedIdentifier::class))->newInstanceWithoutConstructor();
-
-        return $instance;
     }
 
     /**
@@ -46,25 +45,16 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
      *
      * @return \ReflectionClass 単体テスト対象となるクラスのリフレクションオブジェクト
      */
-    private function getReflection(DelimitedIdentifier $target = null): \ReflectionClass
+    private function getReflection(DelimitedIdentifier $target = null): ?\ReflectionClass
     {
-        return new \ReflectionClass(isset($target) ? $target : DelimitedIdentifier::class);
-    }
+        try {
+            $reflection = $this->getReflectionClass(isset($target) ? $target : DelimitedIdentifier::class);
+        } catch (\ReflectionException $e) {
+            $this->fail($e->getMessage());
+            $reflection = null;
+        }
 
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param \ReflectionClass $object        単体テスト対象となるクラスのインスタンス
-     * @param string           $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty(\ReflectionClass $object, string $property_name): \ReflectionProperty
-    {
-        $property = $object->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return $reflection;
     }
 
     /**
@@ -171,7 +161,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     {
         $this->resetProperties();
         $object = $this->getNewInstance();
-        $this->getProperty($this->getReflection($object), self::PROP_NAME_QUOTE_TYPE)->setValue($object, $prop_value);
+        $this->getProperty($object, self::PROP_NAME_QUOTE_TYPE)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getQuoteType());
     }
@@ -206,7 +196,7 @@ class DelimitedIdentifierTest extends \PHPUnit_Framework_TestCase
     {
         $this->resetProperties();
         $object = $this->getNewInstance();
-        $reflector = $this->getProperty($this->getReflection($object), self::PROP_NAME_QUOTE_TYPE);
+        $reflector = $this->getProperty($object, self::PROP_NAME_QUOTE_TYPE);
         $reflector->setValue($object, $prop_value);
         $object->setQuoteType($quote_type);
 

@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Between;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Between の単体テスト
@@ -10,38 +11,19 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class BetweenTest extends \PHPUnit_Framework_TestCase
+class BetweenTest extends CustomizedTestCase
 {
     private const PROP_NAME_FROM_VALUE = 'from_value';
     private const PROP_NAME_TO_VALUE = 'to_value';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Between コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Between
+    protected function getTargetClassName(): string
     {
-        /** @var Between $instance */
-        $instance = (new \ReflectionClass(Between::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Between::class;
     }
 
     /**
@@ -67,6 +49,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFromValue($expected, $prop_value): void
     {
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM_VALUE)->setValue($object, $prop_value);
 
@@ -99,6 +82,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFromValue($expected, $prop_value, $from_value): void
     {
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FROM_VALUE);
         $reflector->setValue($object, $prop_value);
@@ -139,6 +123,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM_VALUE)->setValue($object, $prop_value);
         $object->setFromValue($from_value);
@@ -167,6 +152,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetToValue($expected, $prop_value): void
     {
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TO_VALUE)->setValue($object, $prop_value);
 
@@ -199,6 +185,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetToValue($expected, $prop_value, $from_value): void
     {
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_TO_VALUE);
         $reflector->setValue($object, $prop_value);
@@ -239,6 +226,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Between $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_TO_VALUE)->setValue($object, $prop_value);
         $object->setToValue($from_value);

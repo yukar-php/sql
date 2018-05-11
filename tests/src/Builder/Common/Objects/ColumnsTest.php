@@ -7,6 +7,7 @@ use Yukar\Sql\Builder\Common\Operators\Alias;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Between;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Common\Operators\Order;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Columns の単体テスト
@@ -14,12 +15,24 @@ use Yukar\Sql\Builder\Common\Operators\Order;
  * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
-class ColumnsTest extends \PHPUnit_Framework_TestCase
+class ColumnsTest extends CustomizedTestCase
 {
     private const PROP_NAME_COLUMN_LIST = 'column_list';
 
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Columns::class;
+    }
+
+    /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     *
+     * @throws \ReflectionException
      */
     public static function tearDownAfterClass(): void
     {
@@ -27,35 +40,6 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
         $property = $object->getProperty('quote_type');
         $property->setAccessible(true);
         $property->setValue($object, null);
-    }
-
-    /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
-     *
-     * @return Columns コンストラクタを通さずに作成した新しいインスタンス
-     */
-    private function getNewInstance(): Columns
-    {
-        /** @var Columns $instance */
-        $instance = (new \ReflectionClass(Columns::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
     }
 
     /**
@@ -83,6 +67,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumns($expected, $base_list): void
     {
+        /** @var Columns $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $base_list);
 
@@ -114,6 +99,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumns($expected, $prop_value, $set_list): void
     {
+        /** @var Columns $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_LIST);
         $reflector->setValue($object, $prop_value);
@@ -151,6 +137,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Columns $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
         $object->setColumns($set_list);
@@ -182,6 +169,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasOnlyStringItems($expected, $prop_value): void
     {
+        /** @var Columns $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 
@@ -214,6 +202,7 @@ class ColumnsTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasOnlyOrderByItems($expected, $prop_value): void
     {
+        /** @var Columns $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_LIST)->setValue($object, $prop_value);
 

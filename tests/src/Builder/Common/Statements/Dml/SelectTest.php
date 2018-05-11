@@ -16,6 +16,7 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Select の単体テスト
@@ -23,7 +24,7 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
-class SelectTest extends \PHPUnit_Framework_TestCase
+class SelectTest extends CustomizedTestCase
 {
     private const PROP_NAME_FILTER_TYPE = 'filter_type';
     private const PROP_NAME_COLUMNS = 'columns';
@@ -31,32 +32,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     private const PROP_NAME_ORDER_BY = 'order_by';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Select コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Select
+    protected function getTargetClassName(): string
     {
-        /** @var Select $instance */
-        $instance = (new \ReflectionClass(Select::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Select::class;
     }
 
     /**
@@ -117,6 +99,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFilter($expected, $prop_value): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FILTER_TYPE)->setValue($object, $prop_value);
 
@@ -147,6 +130,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFilter($expected, $prop_value, $filter_type): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FILTER_TYPE);
         $reflector->setValue($object, $prop_value);
@@ -179,6 +163,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumns($expected, $prop_value): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
 
@@ -214,6 +199,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumns($expected, $prop_value, $columns): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMNS);
         $reflector->setValue($object, $prop_value);
@@ -274,6 +260,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetGroupBy($expected, $prop_value): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_GROUP_BY)->setValue($object, $prop_value);
 
@@ -312,6 +299,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetGroupBy($expected, $prop_value, $group_by): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_GROUP_BY);
         $reflector->setValue($object, $prop_value);
@@ -344,6 +332,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrderBy($expected, $prop_value): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY)->setValue($object, $prop_value);
 
@@ -379,6 +368,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOrderBy($expected, $prop_value, $order_by): void
     {
+        /** @var Select $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_BY);
         $reflector->setValue($object, $prop_value);

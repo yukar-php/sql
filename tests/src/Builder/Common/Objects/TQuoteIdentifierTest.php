@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
 use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
 use Yukar\Sql\Builder\Common\Objects\TQuoteIdentifier;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * トレイト TQuoteIdentifier の単体テスト
@@ -10,7 +11,7 @@ use Yukar\Sql\Builder\Common\Objects\TQuoteIdentifier;
  * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
-class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
+class TQuoteIdentifierTest extends CustomizedTestCase
 {
     private const PROP_NAME_DELIMITED_IDENTIFIER = 'delimited_identifier';
     private const METHOD_NAME_IS_PREPARED_QUOTE = 'isPreparedQuote';
@@ -19,7 +20,19 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
     private const METHOD_NAME_GET_MULTI_QUOTED_LIST = 'getMultiQuotedList';
 
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return TQuoteIdentifier::class;
+    }
+
+    /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     *
+     * @throws \ReflectionException
      */
     public static function tearDownAfterClass(): void
     {
@@ -27,48 +40,6 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         $property = $object->getProperty('quote_type');
         $property->setAccessible(true);
         $property->setValue($object, null);
-    }
-
-    /**
-     * 単体テスト対象となるトレイトのモックオブジェクトを取得します。
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject 単体テスト対象となるトレイトのモックオブジェクト
-     */
-    private function getMockInstance(): \PHPUnit_Framework_MockObject_MockObject
-    {
-        return $this->getMockForTrait(TQuoteIdentifier::class);
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のメソッドのリフレクションインスタンスを取得します。
-     *
-     * @param object $object      単体テスト対象となるクラスのインスタンス
-     * @param string $method_name リフレクションを取得するメソッドの名前
-     *
-     * @return \ReflectionMethod 指定した名前のメソッドのリフレクションを持つインスタンス
-     */
-    private function getMethod($object, string $method_name): \ReflectionMethod
-    {
-        $method = (new \ReflectionClass($object))->getParentClass()->getMethod($method_name);
-        $method->setAccessible(true);
-
-        return $method;
     }
 
     /**
@@ -99,8 +70,8 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         DelimitedIdentifier::init($prop_value);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER)
+        $object = $this->getNewTraitInstance();
+        $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER)
             ->setValue($object, DelimitedIdentifier::get());
 
         $this->assertSame(DelimitedIdentifier::get(), $object->getDelimitedIdentifier());
@@ -137,8 +108,8 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         DelimitedIdentifier::init($prop_value ?? DelimitedIdentifier::NONE_QUOTES_TYPE);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
+        $object = $this->getNewTraitInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
         $reflector->setValue($object, DelimitedIdentifier::get());
 
         DelimitedIdentifier::init($set_value);
@@ -177,9 +148,9 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $prop_reflector = $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
-        $method_reflector = $this->getMethod($object, self::METHOD_NAME_IS_PREPARED_QUOTE);
+        $object = $this->getNewTraitInstance();
+        $prop_reflector = $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
+        $method_reflector = $this->getParentMethod($object, self::METHOD_NAME_IS_PREPARED_QUOTE);
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
@@ -216,9 +187,9 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $prop_reflector = $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
-        $method_reflector = $this->getMethod($object, self::METHOD_NAME_GET_QUOTED_STRING);
+        $object = $this->getNewTraitInstance();
+        $prop_reflector = $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
+        $method_reflector = $this->getParentMethod($object, self::METHOD_NAME_GET_QUOTED_STRING);
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
@@ -257,9 +228,9 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $prop_reflector = $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
-        $method_reflector = $this->getMethod($object, self::METHOD_NAME_GET_QUOTED_LIST);
+        $object = $this->getNewTraitInstance();
+        $prop_reflector = $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
+        $method_reflector = $this->getParentMethod($object, self::METHOD_NAME_GET_QUOTED_LIST);
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 
@@ -299,9 +270,9 @@ class TQuoteIdentifierTest extends \PHPUnit_Framework_TestCase
         isset($prop_value) && DelimitedIdentifier::init($prop_value);
 
         /** @var TQuoteIdentifier $object */
-        $object = $this->getMockInstance();
-        $prop_reflector = $this->getProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
-        $method_reflector = $this->getMethod($object, self::METHOD_NAME_GET_MULTI_QUOTED_LIST);
+        $object = $this->getNewTraitInstance();
+        $prop_reflector = $this->getParentProperty($object, self::PROP_NAME_DELIMITED_IDENTIFIER);
+        $method_reflector = $this->getParentMethod($object, self::METHOD_NAME_GET_MULTI_QUOTED_LIST);
 
         isset($prop_value) && $prop_reflector->setValue($object, DelimitedIdentifier::get());
 

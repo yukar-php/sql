@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Operators\Alias;
 use Yukar\Sql\Builder\Common\Operators\Order;
 use Yukar\Sql\Builder\Common\Statements\Phrases\OrderBy;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス OrderBy の単体テスト
@@ -13,37 +14,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class OrderByTest extends \PHPUnit_Framework_TestCase
+class OrderByTest extends CustomizedTestCase
 {
     private const PROP_NAME_ORDER_BY_LIST = 'order_by_list';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return OrderBy コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): OrderBy
+    protected function getTargetClassName(): string
     {
-        /** @var OrderBy $instance */
-        $instance =  (new \ReflectionClass(OrderBy::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return OrderBy::class;
     }
 
     /**
@@ -76,6 +58,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrderBy($expected, $prop_value): void
     {
+        /** @var OrderBy $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST)->setValue($object, $prop_value);
 
@@ -106,6 +89,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOrderBy($expected, $prop_value, $order_by): void
     {
+        /** @var OrderBy $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST);
         $reflector->setValue($object, $prop_value);
@@ -146,6 +130,7 @@ class OrderByTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var OrderBy $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_BY_LIST)->setValue($object, $prop_value);
         $object->setOrderBy($order_by);

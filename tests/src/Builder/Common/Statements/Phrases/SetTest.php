@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
 use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Set の単体テスト
@@ -10,37 +11,18 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class SetTest extends \PHPUnit_Framework_TestCase
+class SetTest extends CustomizedTestCase
 {
     private const PROP_NAME_DICTIONARY = 'dictionary';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Set コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Set
+    protected function getTargetClassName(): string
     {
-        /** @var Set $instance */
-        $instance = (new \ReflectionClass(Set::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Set::class;
     }
 
     /**
@@ -75,6 +57,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDictionary($expected, $prop_value): void
     {
+        /** @var Set $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DICTIONARY)->setValue($object, $prop_value);
 
@@ -108,6 +91,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDictionary($expected, $prop_value, $dictionary): void
     {
+        /** @var Set $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DICTIONARY);
         $reflector->setValue($object, $prop_value);
@@ -142,6 +126,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Set $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DICTIONARY)->setValue($object, $prop_value);
         $object->setDictionary($dictionary);

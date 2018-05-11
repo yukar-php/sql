@@ -5,6 +5,7 @@ use Yukar\Sql\Builder\Common\Objects\Conditions;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
 use Yukar\Sql\Builder\Common\Statements\Dml\BaseConditionalDMLQuery;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * 抽象クラス BaseConditionalDMLQuery の単体テスト
@@ -12,56 +13,20 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
-class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
+class BaseConditionalDMLQueryTest extends CustomizedTestCase
 {
     private const PROP_NAME_WHERE = 'where';
     private const METHOD_NAME_SET_WHERE_CONDITION = 'setWhereCondition';
     private const METHOD_NAME_GET_WHERE_STRING = 'getWhereString';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return BaseConditionalDMLQuery コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): BaseConditionalDMLQuery
+    protected function getTargetClassName(): string
     {
-        /** @var BaseConditionalDMLQuery $instance */
-        $instance = (new \ReflectionClass($this->getMockForAbstractClass(BaseConditionalDMLQuery::class)))
-            ->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のメソッドのリフレクションインスタンスを取得します。
-     *
-     * @param object $object      単体テスト対象となるクラスのインスタンス
-     * @param string $method_name リフレクションを取得するメソッドの名前
-     *
-     * @return \ReflectionMethod 指定した名前のメソッドのリフレクションを持つインスタンス
-     */
-    private function getMethod($object, string $method_name): \ReflectionMethod
-    {
-        $method = (new \ReflectionClass($object))->getParentClass()->getMethod($method_name);
-        $method->setAccessible(true);
-
-        return $method;
+        return BaseConditionalDMLQuery::class;
     }
 
     /**
@@ -92,8 +57,9 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWhere($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
+        /** @var BaseConditionalDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getWhere());
     }
@@ -130,10 +96,11 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetWhereCondition($expected, $prop_value, $where): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_WHERE);
+        /** @var BaseConditionalDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_WHERE);
         $reflector->setValue($object, $prop_value);
-        $method = $this->getMethod($object, self::METHOD_NAME_SET_WHERE_CONDITION);
+        $method = $this->getParentMethod($object, self::METHOD_NAME_SET_WHERE_CONDITION);
         $method->invoke($object, $where);
 
         $this->assertSame($expected, $reflector->getValue($object));
@@ -164,9 +131,10 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
-        $method = $this->getMethod($object, self::METHOD_NAME_SET_WHERE_CONDITION);
+        /** @var BaseConditionalDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
+        $method = $this->getParentMethod($object, self::METHOD_NAME_SET_WHERE_CONDITION);
         $method->invoke($object, $where);
     }
 
@@ -198,9 +166,13 @@ class BaseConditionalDMLQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWhereString($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
+        /** @var BaseConditionalDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_WHERE)->setValue($object, $prop_value);
 
-        $this->assertSame($expected, $this->getMethod($object, self::METHOD_NAME_GET_WHERE_STRING)->invoke($object));
+        $this->assertSame(
+            $expected,
+            $this->getParentMethod($object, self::METHOD_NAME_GET_WHERE_STRING)->invoke($object)
+        );
     }
 }

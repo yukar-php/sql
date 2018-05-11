@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
 use Yukar\Sql\Builder\Common\Functions\Min;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Min の単体テスト
@@ -9,8 +10,18 @@ use Yukar\Sql\Builder\Common\Functions\Min;
  * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
-class MinTest extends \PHPUnit_Framework_TestCase
+class MinTest extends CustomizedTestCase
 {
+    /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Min::class;
+    }
+
     /**
      * メソッド testToString のデータプロバイダー
      *

@@ -7,6 +7,7 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\In;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
 use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス In の単体テスト
@@ -14,37 +15,18 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class InTest extends \PHPUnit_Framework_TestCase
+class InTest extends CustomizedTestCase
 {
     private const PROP_NAME_NEEDLE = 'needle';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return In コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): In
+    protected function getTargetClassName(): string
     {
-        /** @var In $instance */
-        $instance = (new \ReflectionClass(In::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return In::class;
     }
 
     /**
@@ -71,6 +53,7 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetNeedle($expected, $prop_value): void
     {
+        /** @var In $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
 
@@ -104,6 +87,7 @@ class InTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetNeedle($expected, $prop_value, $needle): void
     {
+        /** @var In $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_NEEDLE);
         $reflector->setValue($object, $prop_value);
@@ -143,6 +127,7 @@ class InTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var In $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_NEEDLE)->setValue($object, $prop_value);
         $object->setNeedle($needle);

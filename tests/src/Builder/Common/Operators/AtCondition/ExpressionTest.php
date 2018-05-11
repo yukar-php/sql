@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Expression の単体テスト
@@ -9,37 +10,18 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Expression;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class ExpressionTest extends \PHPUnit_Framework_TestCase
+class ExpressionTest extends CustomizedTestCase
 {
     private const PROP_NAME_VALUE = 'value';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Expression コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Expression
+    protected function getTargetClassName(): string
     {
-        /** @var Expression $instance */
-        $instance = (new \ReflectionClass(Expression::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Expression::class;
     }
 
     /**
@@ -64,6 +46,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValue($expected, $prop_value): void
     {
+        /** @var Expression $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
 
@@ -104,6 +87,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValue($expected, $prop_value, $value): void
     {
+        /** @var Expression $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUE);
         $reflector->setValue($object, $prop_value);
@@ -138,6 +122,7 @@ class ExpressionTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Expression $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUE)->setValue($object, $prop_value);
         $object->setValue($value);

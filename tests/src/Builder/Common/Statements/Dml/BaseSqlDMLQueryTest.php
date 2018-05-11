@@ -7,6 +7,7 @@ use Yukar\Sql\Builder\Common\Statements\Dml\BaseSqlDMLQuery;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * 抽象クラス BaseSqlDMLQuery の単体テスト
@@ -14,38 +15,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
-class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
+class BaseSqlDMLQueryTest extends CustomizedTestCase
 {
     private const PROP_NAME_SQL_QUERY_SOURCE = 'sql_query_source';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return BaseSqlDMLQuery コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): BaseSqlDMLQuery
+    protected function getTargetClassName(): string
     {
-        /** @var BaseSqlDMLQuery $instance */
-        $instance = (new \ReflectionClass($this->getMockForAbstractClass(BaseSqlDMLQuery::class)))
-            ->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return BaseSqlDMLQuery::class;
     }
 
     /**
@@ -78,8 +59,9 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSqlQuerySource($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE)->setValue($object, $prop_value);
+        /** @var BaseSqlDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getSqlQuerySource());
     }
@@ -119,8 +101,9 @@ class BaseSqlDMLQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetSqlQuerySource($expected, $prop_value, $sql_query_source): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE);
+        /** @var BaseSqlDMLQuery $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_SQL_QUERY_SOURCE);
         $reflector->setValue($object, $prop_value);
         $object->setSqlQuerySource($sql_query_source);
 

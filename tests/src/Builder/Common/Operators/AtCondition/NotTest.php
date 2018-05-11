@@ -11,6 +11,7 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
 use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Not の単体テスト
@@ -18,37 +19,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Operators\IDeniableOperator;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class NotTest extends \PHPUnit_Framework_TestCase
+class NotTest extends CustomizedTestCase
 {
     private const PROP_NAME_DENIABLE_OPERATOR = 'deniable_operator';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Not コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Not
+    protected function getTargetClassName(): string
     {
-        /** @var Not $instance */
-        $instance = (new \ReflectionClass(Not::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Not::class;
     }
 
     /**
@@ -134,6 +116,7 @@ class NotTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDeniableOperator($expected, $prop_value): void
     {
+        /** @var Not $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DENIABLE_OPERATOR)->setValue($object, $prop_value);
 
@@ -173,6 +156,7 @@ class NotTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDeniableOperator($expected, $prop_value, $deniable_operator): void
     {
+        /** @var Not $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DENIABLE_OPERATOR);
         $reflector->setValue($object, $prop_value);

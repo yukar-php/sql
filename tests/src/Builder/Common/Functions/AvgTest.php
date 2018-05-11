@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
 use Yukar\Sql\Builder\Common\Functions\Avg;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Avg の単体テスト
@@ -9,8 +10,18 @@ use Yukar\Sql\Builder\Common\Functions\Avg;
  * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
-class AvgTest extends \PHPUnit_Framework_TestCase
+class AvgTest extends CustomizedTestCase
 {
+    /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Avg::class;
+    }
+
     /**
      * メソッド testToString のデータプロバイダー
      *

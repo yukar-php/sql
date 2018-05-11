@@ -16,6 +16,7 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Set;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Update の単体テスト
@@ -23,38 +24,19 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends CustomizedTestCase
 {
     private const PROP_NAME_UPDATE_SETS = 'update_sets';
     private const PROP_NAME_FROM = 'from';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Update コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Update
+    protected function getTargetClassName(): string
     {
-        /** @var Update $instance */
-        $instance = (new \ReflectionClass(Update::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Update::class;
     }
 
     /**
@@ -117,6 +99,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUpdateSets($expected, $prop_value): void
     {
+        /** @var Update $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_UPDATE_SETS)->setValue($object, $prop_value);
 
@@ -152,6 +135,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetUpdateSets($expected, $prop_value, $update_sets): void
     {
+        /** @var Update $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_UPDATE_SETS);
         $reflector->setValue($object, $prop_value);
@@ -211,6 +195,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFrom($expected, $prop_value): void
     {
+        /** @var Update $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_FROM)->setValue($object, $prop_value);
 
@@ -246,6 +231,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetFrom($expected, $prop_value, $from): void
     {
+        /** @var Update $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_FROM);
         $reflector->setValue($object, $prop_value);

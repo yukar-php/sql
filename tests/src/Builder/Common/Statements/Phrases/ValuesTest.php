@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Statements\Phrases;
 
 use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Values の単体テスト
@@ -9,37 +10,18 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\Values;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class ValuesTest extends \PHPUnit_Framework_TestCase
+class ValuesTest extends CustomizedTestCase
 {
     private const PROP_NAME_VALUES = 'values';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Values コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Values
+    protected function getTargetClassName(): string
     {
-        /** @var Values $instance */
-        $instance = (new \ReflectionClass(Values::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Values::class;
     }
 
     /**
@@ -73,6 +55,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetValues($expected, $prop_value): void
     {
+        /** @var Values $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUES)->setValue($object, $prop_value);
 
@@ -108,6 +91,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetValues($expected, $prop_value, $values): void
     {
+        /** @var Values $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_VALUES);
         $reflector->setValue($object, $prop_value);
@@ -163,6 +147,7 @@ class ValuesTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Values $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_VALUES)->setValue($object, $prop_value);
         $object->setValues($values);

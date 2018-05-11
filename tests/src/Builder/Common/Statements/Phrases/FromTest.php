@@ -11,6 +11,7 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス From の単体テスト
@@ -18,37 +19,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\IDataSource;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class FromTest extends \PHPUnit_Framework_TestCase
+class FromTest extends CustomizedTestCase
 {
     private const PROP_NAME_QUERY_SOURCE_LIST = 'query_source_list';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return From コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): From
+    protected function getTargetClassName(): string
     {
-        /** @var From $instance */
-        $instance = (new \ReflectionClass(From::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return From::class;
     }
 
     /**
@@ -87,6 +69,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetQuerySourceList($expected, $prop_value): void
     {
+        /** @var From $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST)->setValue($object, $prop_value);
 
@@ -135,6 +118,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetQuerySourceList($expected, $prop_value, $query_source_list): void
     {
+        /** @var From $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST);
         $reflector->setValue($object, $prop_value);
@@ -181,6 +165,7 @@ class FromTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var From $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_QUERY_SOURCE_LIST)->setValue($object, $prop_value);
         $object->setQuerySourceList(...$query_source_list);

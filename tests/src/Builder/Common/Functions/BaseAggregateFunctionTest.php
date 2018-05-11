@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
 use Yukar\Sql\Builder\Common\Functions\BaseAggregateFunction;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * 抽象クラス BaseAggregateFunction の単体テスト
@@ -9,38 +10,18 @@ use Yukar\Sql\Builder\Common\Functions\BaseAggregateFunction;
  * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
-class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
+class BaseAggregateFunctionTest extends CustomizedTestCase
 {
     private const PROP_NAME_COLUMN = 'column';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return BaseAggregateFunction コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): BaseAggregateFunction
+    protected function getTargetClassName(): string
     {
-        /** @var BaseAggregateFunction $instance */
-        $instance = (new \ReflectionClass($this->getMockForAbstractClass(BaseAggregateFunction::class)))
-            ->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return BaseAggregateFunction::class;
     }
 
     /**
@@ -48,7 +29,8 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFunctionName(): void
     {
-        $instance = $this->getNewInstance();
+        /** @var BaseAggregateFunction $instance */
+        $instance = $this->getNewAbstractInstance();
         $this->assertSame(strtoupper(get_class($instance)), $instance->getFunctionName());
     }
 
@@ -57,7 +39,7 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFunctionFormat(): void
     {
-        $this->assertSame('%s(%s)', $this->getNewInstance()->getFunctionFormat());
+        $this->assertSame('%s(%s)', $this->getNewAbstractInstance()->getFunctionFormat());
     }
 
     /**
@@ -82,8 +64,9 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumn($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
+        /** @var BaseAggregateFunction $instance */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getColumn());
     }
@@ -112,8 +95,9 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumn($expected, $prop_value, $column): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN);
+        /** @var BaseAggregateFunction $instance */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_COLUMN);
         $reflector->setValue($object, $prop_value);
         $object->setColumn($column);
 
@@ -146,8 +130,9 @@ class BaseAggregateFunctionTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
+        /** @var BaseAggregateFunction $instance */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_COLUMN)->setValue($object, $prop_value);
         $object->setColumn($column);
     }
 }

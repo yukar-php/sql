@@ -6,6 +6,7 @@ use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Sets\Except;
 use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Except の単体テスト
@@ -13,8 +14,18 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Sets
  * @author hiroki sugawara
  */
-class ExceptTest extends \PHPUnit_Framework_TestCase
+class ExceptTest extends CustomizedTestCase
 {
+    /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Except::class;
+    }
+
     /**
      * メソッド testToString のデータプロバイダー
      *

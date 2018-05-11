@@ -13,6 +13,7 @@ use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Delete の単体テスト
@@ -20,19 +21,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ISqlQuerySource;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Dml
  * @author hiroki sugawara
  */
-class DeleteTest extends \PHPUnit_Framework_TestCase
+class DeleteTest extends CustomizedTestCase
 {
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Delete コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Delete
+    protected function getTargetClassName(): string
     {
-        /** @var Delete $instance */
-        $instance = (new \ReflectionClass(Delete::class))->newInstanceWithoutConstructor();
-
-        return $instance;
+        return Delete::class;
     }
 
     /**

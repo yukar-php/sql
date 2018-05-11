@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Functions;
 
 use Yukar\Sql\Builder\Common\Functions\Count;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Count の単体テスト
@@ -9,8 +10,18 @@ use Yukar\Sql\Builder\Common\Functions\Count;
  * @package Yukar\Sql\Tests\Builder\Common\Functions
  * @author hiroki sugawara
  */
-class CountTest extends \PHPUnit_Framework_TestCase
+class CountTest extends CustomizedTestCase
 {
+    /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Count::class;
+    }
+
     /**
      * メソッド testToString のデータプロバイダー
      *

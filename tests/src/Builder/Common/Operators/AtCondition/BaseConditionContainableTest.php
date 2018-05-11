@@ -2,6 +2,7 @@
 namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\BaseConditionContainable;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * 抽象クラス BaseConditionContainable の単体テスト
@@ -9,38 +10,18 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\BaseConditionContainable;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
+class BaseConditionContainableTest extends CustomizedTestCase
 {
     private const PROP_NAME_NAME = 'name';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return BaseConditionContainable コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): BaseConditionContainable
+    protected function getTargetClassName(): string
     {
-        /** @var BaseConditionContainable $instance */
-        $instance = (new \ReflectionClass($this->getMockForAbstractClass(BaseConditionContainable::class)))
-            ->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getParentClass()->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return BaseConditionContainable::class;
     }
 
     /**
@@ -48,7 +29,7 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOperatorFormat(): void
     {
-        $this->assertSame('%s %s %s', $this->getNewInstance()->getOperatorFormat());
+        $this->assertSame('%s %s %s', $this->getNewAbstractInstance()->getOperatorFormat());
     }
 
     /**
@@ -73,8 +54,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetName($expected, $prop_value): void
     {
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
+        /** @var BaseConditionContainable $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
 
         $this->assertSame($expected, $object->getName());
     }
@@ -103,8 +85,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetName($expected, $prop_value, $name): void
     {
-        $object = $this->getNewInstance();
-        $reflector = $this->getProperty($object, self::PROP_NAME_NAME);
+        /** @var BaseConditionContainable $object */
+        $object = $this->getNewAbstractInstance();
+        $reflector = $this->getParentProperty($object, self::PROP_NAME_NAME);
         $reflector->setValue($object, $prop_value);
         $object->setName($name);
 
@@ -137,8 +120,9 @@ class BaseConditionContainableTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
-        $object = $this->getNewInstance();
-        $this->getProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
+        /** @var BaseConditionContainable $object */
+        $object = $this->getNewAbstractInstance();
+        $this->getParentProperty($object, self::PROP_NAME_NAME)->setValue($object, $prop_value);
         $object->setName($name);
     }
 }

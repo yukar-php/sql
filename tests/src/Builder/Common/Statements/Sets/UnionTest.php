@@ -16,6 +16,16 @@ use Yukar\Sql\Interfaces\Builder\Common\Statements\ISelectQuery;
 class UnionTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return Union::class;
+    }
+
+    /**
      * メソッド testToString のデータプロバイダー
      *
      * @return array

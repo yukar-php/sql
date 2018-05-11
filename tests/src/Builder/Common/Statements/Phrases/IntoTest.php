@@ -8,6 +8,7 @@ use Yukar\Sql\Builder\Common\Operators\Order;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Into;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\IColumns;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Into の単体テスト
@@ -15,38 +16,19 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ITable;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class IntoTest extends \PHPUnit_Framework_TestCase
+class IntoTest extends CustomizedTestCase
 {
     private const PROP_NAME_DATA_SOURCE = 'data_source';
     private const PROP_NAME_COLUMNS = 'columns';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Into コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Into
+    protected function getTargetClassName(): string
     {
-        /** @var Into $instance */
-        $instance = (new \ReflectionClass(Into::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Into::class;
     }
 
     /**
@@ -81,6 +63,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDataSource($expected, $prop_value): void
     {
+        /** @var Into $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
 
@@ -114,6 +97,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDataSource($expected, $prop_value, $data_source): void
     {
+        /** @var Into $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
         $reflector->setValue($object, $prop_value);
@@ -147,6 +131,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumns($expected, $prop_value): void
     {
+        /** @var Into $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
 
@@ -178,6 +163,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumns($expected, $prop_value, $columns): void
     {
+        /** @var Into $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMNS);
         $reflector->setValue($object, $prop_value);
@@ -221,6 +207,7 @@ class IntoTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Into $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMNS)->setValue($object, $prop_value);
         $object->setColumns($columns);

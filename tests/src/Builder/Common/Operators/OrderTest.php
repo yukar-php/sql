@@ -2,44 +2,26 @@
 namespace Yukar\Sql\Tests\Builder\Common\Operators;
 
 use Yukar\Sql\Builder\Common\Operators\Order;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Order の単体テスト
  *
  * @author hiroki sugawara
  */
-class OrderTest extends \PHPUnit_Framework_TestCase
+class OrderTest extends CustomizedTestCase
 {
     const PROP_NAME_COLUMN_NAME = 'column_name';
     const PROP_NAME_ORDER_TYPE = 'order_type';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Order コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Order
+    protected function getTargetClassName(): string
     {
-        /** @var Order $instance */
-        $instance = (new \ReflectionClass(Order::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Order::class;
     }
 
     /**
@@ -73,6 +55,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetColumnName($expected, $prop_value): void
     {
+        /** @var Order $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
 
@@ -103,6 +86,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetColumnName($expected, $prop_value, $column_name): void
     {
+        /** @var Order $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_COLUMN_NAME);
         $reflector->setValue($object, $prop_value);
@@ -137,6 +121,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Order $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_COLUMN_NAME)->setValue($object, $prop_value);
         $object->setColumnName($column_name);
@@ -166,6 +151,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOrderType($expected, $prop_value): void
     {
+        /** @var Order $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ORDER_TYPE)->setValue($object, $prop_value);
 
@@ -205,6 +191,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOrderType($expected, $prop_value, $order_type): void
     {
+        /** @var Order $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ORDER_TYPE);
         $reflector->setValue($object, $prop_value);

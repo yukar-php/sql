@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Common\Objects;
 
 use Yukar\Sql\Builder\Common\Objects\DelimitedIdentifier;
 use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス SetValuesHash の単体テスト
@@ -10,10 +11,22 @@ use Yukar\Sql\Builder\Common\Objects\SetValuesHash;
  * @package Yukar\Sql\Tests\Builder\Common\Objects
  * @author hiroki sugawara
  */
-class SetValuesHashTest extends \PHPUnit_Framework_TestCase
+class SetValuesHashTest extends CustomizedTestCase
 {
     /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return SetValuesHash::class;
+    }
+
+    /**
      * 単体テスト対象となるクラスのテストが全て終わった時に最後に実行します。
+     *
+     * @throws \ReflectionException
      */
     public static function tearDownAfterClass(): void
     {

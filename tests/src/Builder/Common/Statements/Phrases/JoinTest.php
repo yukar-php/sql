@@ -9,6 +9,7 @@ use Yukar\Sql\Builder\Common\Statements\Dml\Select;
 use Yukar\Sql\Builder\Common\Statements\Phrases\From;
 use Yukar\Sql\Builder\Common\Statements\Phrases\Join;
 use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス Join の単体テスト
@@ -16,39 +17,20 @@ use Yukar\Sql\Interfaces\Builder\Common\Objects\ICondition;
  * @package Yukar\Sql\Tests\Builder\Common\Statements\Phrases
  * @author hiroki sugawara
  */
-class JoinTest extends \PHPUnit_Framework_TestCase
+class JoinTest extends CustomizedTestCase
 {
     private const PROP_NAME_DATA_SOURCE = 'data_source';
     private const PROP_NAME_JOIN_TYPE = 'join_type';
     private const PROP_NAME_ON_CONDITION = 'on_condition';
 
     /**
-     * コンストラクタを通さずに作成した単体テスト対象となるクラスの新しいインスタンスを取得します。
+     * テスト対象となるクラスの名前を取得します。
      *
-     * @return Join コンストラクタを通さずに作成した新しいインスタンス
+     * @return string テスト対象となるクラスの名前
      */
-    private function getNewInstance(): Join
+    protected function getTargetClassName(): string
     {
-        /** @var Join $instance */
-        $instance = (new \ReflectionClass(Join::class))->newInstanceWithoutConstructor();
-
-        return $instance;
-    }
-
-    /**
-     * 単体テスト対象となるクラスの指定した名前のプロパティのリクレクションインスタンスを取得します。
-     *
-     * @param object $object        単体テスト対象となるクラスのインスタンス
-     * @param string $property_name リフレクションを取得するプロパティの名前
-     *
-     * @return \ReflectionProperty 指定した名前のプロパティのリフレクションを持つインスタンス
-     */
-    private function getProperty($object, string $property_name): \ReflectionProperty
-    {
-        $property = (new \ReflectionClass($object))->getProperty($property_name);
-        $property->setAccessible(true);
-
-        return $property;
+        return Join::class;
     }
 
     /**
@@ -90,6 +72,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDataSource($expected, $prop_value): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
 
@@ -133,6 +116,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDataSource($expected, $prop_value, $table_source): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_DATA_SOURCE);
         $reflector->setValue($object, $prop_value);
@@ -173,6 +157,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_DATA_SOURCE)->setValue($object, $prop_value);
         $object->setDataSource($table_source);
@@ -203,6 +188,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJoinType($expected, $prop_value): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_JOIN_TYPE)->setValue($object, $prop_value);
 
@@ -243,6 +229,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetJoinType($expected, $prop_value, $join_type): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_JOIN_TYPE);
         $reflector->setValue($object, $prop_value);
@@ -276,6 +263,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetOnCondition($expected, $prop_value): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ON_CONDITION)->setValue($object, $prop_value);
 
@@ -321,6 +309,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetOnCondition($expected, $prop_value, $on_condition): void
     {
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $reflector = $this->getProperty($object, self::PROP_NAME_ON_CONDITION);
         $reflector->setValue($object, $prop_value);
@@ -364,6 +353,7 @@ class JoinTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException($expected);
 
+        /** @var Join $object */
         $object = $this->getNewInstance();
         $this->getProperty($object, self::PROP_NAME_ON_CONDITION)->setValue($object, $prop_value);
         $object->setOnCondition($on_condition);

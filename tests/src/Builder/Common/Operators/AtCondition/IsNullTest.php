@@ -3,6 +3,7 @@ namespace Yukar\Sql\Tests\Builder\Common\Operators\AtCondition;
 
 use Yukar\Sql\Builder\Common\Operators\AtCondition\IsNull;
 use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
+use Yukar\Sql\Tests\CustomizedTestCase;
 
 /**
  * クラス IsNull の単体テスト
@@ -10,8 +11,18 @@ use Yukar\Sql\Builder\Common\Operators\AtCondition\Not;
  * @package Yukar\Sql\Tests\Builder\Common\Operators\AtCondition
  * @author hiroki sugawara
  */
-class IsNullTest extends \PHPUnit_Framework_TestCase
+class IsNullTest extends CustomizedTestCase
 {
+    /**
+     * テスト対象となるクラスの名前を取得します。
+     *
+     * @return string テスト対象となるクラスの名前
+     */
+    protected function getTargetClassName(): string
+    {
+        return IsNull::class;
+    }
+
     /**
      * メソッド testToString のデータプロバイダー
      *
